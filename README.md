@@ -57,7 +57,7 @@ and finally, you can render the gui, here's short demo
 static bool example = false;
 if (g_zgui->begin_window("zgui example window", zgui::vec2{ 500, 350 }, g::Tahoma))
 {
-  g_zgui.checkbox("sample checkbox", &example);
+  g_zgui->checkbox("sample checkbox", &example);
 }
 g_zgui->end_window();
 ```
