@@ -3,7 +3,7 @@
 <img width="258" src="resources/zgui.png" alt="hex-en logo">
 </div>
 <h5 align="center" color="#f62f6d">
-<br>Simple immediate mode gui wrapper.
+<br>Simple immediate mode gui framework.
 </h5>
 <div align=center>
 
@@ -12,7 +12,7 @@
 </div>
 
 ## General
-Simple, two header immediate mode gui wrapper designed for people
+Simple, two header immediate mode gui framework designed for people
 that begins their journey with game hacking (but not only).
 
 #### Preview:

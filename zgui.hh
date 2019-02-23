@@ -9,7 +9,7 @@
 // zgui by zxvnme (https://github.com/zxvnme)
 #define ZGUI_VER "1.0.0" // the number after second dot is snapshot version.
 // -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-// zgui is an simple wrapper created to help people with GUI rendering during their game hacking (but not only) adventure.
+// zgui is an simple framework created to help people with GUI rendering during their game hacking (but not only) adventure.
 // here is quick presentation of features that zgui has:
 // - easy to use immediate mode rendering (all you need is to include zgui header and source files to your project).
 // - simple and aesthetic design.
