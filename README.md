@@ -15,11 +15,21 @@
 Simple, two header immediate mode gui framework designed for people
 that begins their journey with game hacking (but not only).
 
-#### Preview:
+Advantages of zgui:
+- Dependency freedom
+- Universality *(yes, it will work on all renderers!)*
+- Simple design
+- Documentation
+- Easy to use
+
+Important info:
+- zgui is written on `C++17`
+
+##### Preview:
 <img src="https://i.imgur.com/rHzQiLd.gif" width="500" height="350" />
 
 
-### How to use & example
+## How to use & example
 The core thing that you need to do is to wrap some rendering functions.
 
 At first, you should specify window name from where the input will be read from (top of `zgui.cc`)
