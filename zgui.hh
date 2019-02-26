@@ -7,9 +7,9 @@
 #include <vector>
 
 // zgui by zxvnme (https://github.com/zxvnme)
-#define ZGUI_VER "1.0.0" // the number after second dot is snapshot version.
+#define ZGUI_VER "1.0.1" // the number after second dot is snapshot version.
 // -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-// zgui is an simple framework created to help people with GUI rendering during their game hacking (but not only) adventure.
+// zgui is an simple wrapper created to help people with GUI rendering during their game hacking (but not only) journey.
 // here is quick presentation of features that zgui has:
 // - easy to use immediate mode rendering (all you need is to include zgui header and source files to your project).
 // - simple and aesthetic design.
@@ -32,6 +32,8 @@
 // checkbox(std::string name, bool* value);										- function that creates checkbox.
 // toggle_button(std::string name, vec2 size, bool* value);						- function that creates toggle button.
 // button(std::string name, vec2 size);											- function that creates button.
+// clickable_text(std::string text);											- function that creates text that can be clicked and eventually perform an action.
+// text(std::string text);														- function that creates text.
 // dummy();																		- function that pushes cursor_pos.x to make empty space between our controls.
 // -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 class zgui {
@@ -45,7 +47,7 @@ public:
 	using text_t = void(*)(int, int, color, int, bool, const char*, ...);
 	using get_text_size_t = void(*)(unsigned long, const wchar_t*, int&, int&);
 	using get_frametime = void(*)(float&);
-
+	
 private:
 	struct stylecolors_t {
 		color window_border_inner_fill = color{ 60, 60, 60, 255 };
@@ -123,6 +125,8 @@ public:
 	void checkbox(std::string name, bool* value);
 	void toggle_button(std::string name, vec2 size, bool* value);
 	bool button(std::string name, vec2 size);
+	bool clickable_text(std::string text);
+	void text(std::string text);
 	void dummy();
 
 	void next_column(int pusher_x = 174, int pusher_y = 14);
