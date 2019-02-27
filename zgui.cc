@@ -79,7 +79,7 @@ bool zgui::key_released(int key)
 	return key_state[key] == false && prev_key_state[key] == true;
 }
 
-bool zgui::begin_window(std::string title, zgui::vec2 default_size, unsigned long font)
+bool zgui::begin_window(std::string title, zgui::vec2 default_size, unsigned long font, int flags)
 {
 	context.window.font = font;
 
@@ -118,7 +118,9 @@ bool zgui::begin_window(std::string title, zgui::vec2 default_size, unsigned lon
 
 	if (context.window.opened || context.window.alpha > 0)
 	{
-		if (this->mouse_in_region(context.window.position.x - 6, context.window.position.y - 10, context.window.size.x + 12, 16) && this->key_pressed(VK_LBUTTON) && !context.window.dragging)
+		if ((flags & zgui_window_flags_no_titlebar ? this->mouse_in_region(context.window.position.x + 9, context.window.position.y + 14, context.window.size.x - 18, 14)
+												  : this->mouse_in_region(context.window.position.x - 6, context.window.position.y - 10, context.window.size.x + 12, 16)) 
+												  && this->key_pressed(VK_LBUTTON) && !context.window.dragging)
 		{
 			context.window.dragging = true;
 		}
@@ -137,16 +139,20 @@ bool zgui::begin_window(std::string title, zgui::vec2 default_size, unsigned lon
 		if (context.window.size.x < 1 && context.window.size.y < 1)
 			context.window.size = default_size;
 
-		functions.draw_filled_rect(context.window.position.x - 6, context.window.position.y - 10, context.window.size.x + 12, context.window.size.y + 16, this->global_colors.window_border_inner_fill);
-		functions.draw_filled_rect(context.window.position.x - 5, context.window.position.y - 9, context.window.size.x + 10, context.window.size.y + 14, this->global_colors.window_border_color);
-		functions.draw_filled_rect(context.window.position.x - 4, context.window.position.y - 8, context.window.size.x + 8, context.window.size.y + 12, this->global_colors.window_border_fill);
-		functions.draw_filled_rect(context.window.position.x, context.window.position.y + 7, context.window.size.x, context.window.size.y - 7, this->global_colors.window_border_color);
-		functions.draw_filled_rect(context.window.position.x + 1, context.window.position.y + 8, context.window.size.x - 2, context.window.size.y - 9, this->global_colors.window_border_inner_fill);
-		functions.draw_filled_rect(context.window.position.x + 8, context.window.position.y + 15, context.window.size.x - 16, context.window.size.y - 23, this->global_colors.window_border_color);
-
 		functions.draw_filled_rect(context.window.position.x + 9, context.window.position.y + 16, context.window.size.x - 18, context.window.size.y - 25, this->global_colors.window_background);
 
-		functions.draw_text(context.window.position.x + context.window.size.x * 0.5, context.window.position.y + (context.window.size.y * 0.010) - 10, this->global_colors.color_text, context.window.font, true, title.c_str());
+		if (!(flags & zgui_window_flags_no_border))
+		{
+			functions.draw_filled_rect(context.window.position.x - 6, context.window.position.y - 10, context.window.size.x + 12, context.window.size.y + 16, this->global_colors.window_border_inner_fill);
+			functions.draw_filled_rect(context.window.position.x - 5, context.window.position.y - 9, context.window.size.x + 10, context.window.size.y + 14, this->global_colors.window_border_color);
+			functions.draw_filled_rect(context.window.position.x - 4, context.window.position.y - 8, context.window.size.x + 8, context.window.size.y + 12, this->global_colors.window_border_fill);
+			functions.draw_filled_rect(context.window.position.x, context.window.position.y + 7, context.window.size.x, context.window.size.y - 7, this->global_colors.window_border_color);
+			functions.draw_filled_rect(context.window.position.x + 1, context.window.position.y + 8, context.window.size.x - 2, context.window.size.y - 9, this->global_colors.window_border_inner_fill);
+			functions.draw_filled_rect(context.window.position.x + 8, context.window.position.y + 15, context.window.size.x - 16, context.window.size.y - 23, this->global_colors.window_border_color);
+		}
+
+		if(!(flags & zgui_window_flags_no_titlebar))
+			functions.draw_text(context.window.position.x + context.window.size.x * 0.5, context.window.position.y + (context.window.size.y * 0.010) - 10, this->global_colors.color_text, context.window.font, true, title.c_str());
 
 		this->push_cursor_pos(BASE_POS);
 	}
@@ -186,8 +192,8 @@ void zgui::end_groupbox()
 
 void zgui::checkbox(std::string name, bool* value)
 {
-	int control_height = 8;
-	int control_width = 8;
+	const auto control_height = 8;
+	const auto control_width = 8;
 
 	vec2 cursor_pos = this->pop_cursor_pos();
 	vec2 draw_pos = vec2{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
@@ -266,8 +272,8 @@ bool zgui::button(std::string name, vec2 size)
 
 void zgui::slider_int(std::string name, int min, int max, int* value)
 {
-	int control_width = 120;
-	int control_height = 10;
+	const auto control_width = 120;
+	const auto control_height = 10;
 
 	vec2 cursor_pos = this->pop_cursor_pos();
 	vec2 draw_pos = vec2{ context.window.position.x + cursor_pos.x + 8, context.window.position.y + cursor_pos.y };
@@ -334,8 +340,8 @@ void zgui::slider_int(std::string name, int min, int max, int* value)
 
 void zgui::combobox(std::string name, std::vector<std::string>items, int* value)
 {
-	int control_width = 70;
-	int control_height = 20;
+	const auto control_width = 70;
+	const auto control_height = 20;
 
 	*value = std::clamp(*value, 0, (int)items.size() - 1);
 

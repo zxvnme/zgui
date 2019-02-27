@@ -7,7 +7,7 @@
 #include <vector>
 
 // zgui by zxvnme (https://github.com/zxvnme)
-#define ZGUI_VER "1.0.1" // the number after second dot is snapshot version.
+#define ZGUI_VER "1.0.2" // the number after second dot is snapshot version.
 // -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // zgui is an simple framework created to help people with GUI rendering during their game hacking (but not only) journey.
 // here is quick presentation of features that zgui has:
@@ -16,25 +16,25 @@
 // - extensible code.
 // ... and function documentation:
 // -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-// get_functions()																- function that is used to get our wrapped ones.
-// set_functions(functions_t& functions)										- function that is used to set our wrapped drawing functions.
+// get_functions()																			- function that is used to get our wrapped ones.
+// set_functions(functions_t& functions)													- function that is used to set our wrapped drawing functions.
 //
-// begin_window(std::string title, vec2 default_size, unsigned long font);      - function that begins our window. (you need to call end_window(); after it!)
-// end_window();																- function that ends our window.
+// begin_window(std::string title, vec2 default_size, unsigned long font, int flags);		- function that begins our window. (you need to call end_window(); after it!)
+// end_window();																			- function that ends our window.
 //
-// begin_groupbox(std::string name, vec2 size);									- function that begins our groupbox with desired size. (you need to call end_groupbox(); after it!)
-// end_groupbox();																- function that ends our groupbox.
+// begin_groupbox(std::string name, vec2 size);												- function that begins our groupbox with desired size. (you need to call end_groupbox(); after it!)
+// end_groupbox();																			- function that ends our groupbox.
 //
-// slider_int(std::string name, int min, int max, int* value);					- function that creates slider with an int type of value.
+// slider_int(std::string name, int min, int max, int* value);								- function that creates slider with an int type of value.
 //
-// combobox(std::string name, std::vector<std::string> items, int* value);		- function that creates combobox.
+// combobox(std::string name, std::vector<std::string> items, int* value);					- function that creates combobox.
 //
-// checkbox(std::string name, bool* value);										- function that creates checkbox.
-// toggle_button(std::string name, vec2 size, bool* value);						- function that creates toggle button.
-// button(std::string name, vec2 size);											- function that creates button.
-// clickable_text(std::string text);											- function that creates text that can be clicked and eventually perform an action.
-// text(std::string text);														- function that creates text.
-// dummy();																		- function that pushes cursor_pos.x to make empty space between our controls.
+// checkbox(std::string name, bool* value);													- function that creates checkbox.
+// toggle_button(std::string name, vec2 size, bool* value);									- function that creates toggle button.
+// button(std::string name, vec2 size);														- function that creates button.
+// clickable_text(std::string text);														- function that creates text that can be clicked and eventually perform an action.
+// text(std::string text);																	- function that creates text.
+// dummy();																					- function that pushes cursor_pos.x to make empty space between our controls.
 // -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 class zgui {
 public:
@@ -49,6 +49,12 @@ public:
 	using get_frametime = void(*)(float&);
 	
 private:
+	enum zgui_window_flags_ {
+		zgui_window_flags_none = 0,
+		zgui_window_flags_no_border = 1 << 0,
+		zgui_window_flags_no_titlebar = 1 << 1,
+	};
+
 	struct stylecolors_t {
 		color window_border_inner_fill = color{ 60, 60, 60, 255 };
 		color window_border_fill = color{ 40, 40, 40, 255 };
@@ -112,7 +118,7 @@ public:
 	functions_t& get_functions();
 	void set_functions(functions_t& functions);
 
-	bool begin_window(std::string title, vec2 default_size, unsigned long font);
+	bool begin_window(std::string title, vec2 default_size, unsigned long font, int flags = 0);
 	void end_window();
 
 	void begin_groupbox(std::string name, vec2 size);
