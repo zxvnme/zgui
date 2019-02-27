@@ -65,7 +65,7 @@ g_zgui->set_functions(draw_functions);
 and finally, you can render the gui, here's short demo
 ```cpp
 static bool example = false;
-if (g_zgui->begin_window("zgui example window", zgui::vec2{ 500, 350 }, g::Tahoma))
+if (g_zgui->begin_window("zgui example window", zgui::vec2{ 500, 350 }, g::Tahoma, zgui_window_flags_none))
 {
   g_zgui->checkbox("sample checkbox", &example);
 }
