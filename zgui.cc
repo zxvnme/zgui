@@ -444,9 +444,6 @@ void zgui::text(std::string text)
 	std::wstring text_wide = std::wstring(text.begin(), text.end());
 	functions.get_text_size(context.window.font, text_wide.c_str(), text_width, text_tall);
 
-	bool active = context.window.blocking == std::hash<std::string>()(text);
-	bool hovered = this->mouse_in_region(draw_pos.x, draw_pos.y, text_width, text_tall);
-
 	functions.draw_text(draw_pos.x, draw_pos.y, this->global_colors.color_text, context.window.font, false, text.c_str());
 
 	this->push_cursor_pos(vec2{ cursor_pos.x + text_width + ITEM_SPACING, cursor_pos.y });
