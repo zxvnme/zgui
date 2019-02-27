@@ -38,8 +38,15 @@
 // -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 class zgui {
 public:
+  enum zgui_window_flags_ {
+		zgui_window_flags_none = 0,
+		zgui_window_flags_no_border = 1 << 0,
+		zgui_window_flags_no_titlebar = 1 << 1,
+	};
+
 	struct vec2 { float x, y; };
 	struct color { int r, g, b, a; };
+  
 
 	using line_t = void(*)(int, int, int, int, color);
 	using rect_t = void(*)(int, int, int, int, color);
@@ -49,12 +56,6 @@ public:
 	using get_frametime = void(*)(float&);
 	
 private:
-	enum zgui_window_flags_ {
-		zgui_window_flags_none = 0,
-		zgui_window_flags_no_border = 1 << 0,
-		zgui_window_flags_no_titlebar = 1 << 1,
-	};
-
 	struct stylecolors_t {
 		color window_border_inner_fill = color{ 60, 60, 60, 255 };
 		color window_border_fill = color{ 40, 40, 40, 255 };
