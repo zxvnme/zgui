@@ -202,7 +202,7 @@ void zgui::checkbox(std::string name, bool* value)
 	functions.draw_filled_rect(draw_pos.x + 1, draw_pos.y + 1, control_width - 2, control_height - 2, *value ? this->global_colors.control_active_or_clicked : this->global_colors.control_idle);
 
 	int text_wide, text_tall;
-    std::wstring text{ name.begin(), name.end() };
+	std::wstring text{ name.begin(), name.end() };
 	functions.get_text_size(context.window.font, text.c_str(), text_wide, text_tall);
 
 	functions.draw_text(draw_pos.x + 14, draw_pos.y - 2, this->global_colors.color_text, context.window.font, false, name.c_str());
@@ -223,7 +223,7 @@ void zgui::toggle_button(std::string name, vec2 size, bool* value)
 	functions.draw_filled_rect(draw_pos.x + 1, draw_pos.y + 1, size.x - 2, size.y - 2, *value ? this->global_colors.control_active_or_clicked : this->global_colors.control_idle);
 
 	int text_wide, text_tall;
-    std::wstring text{ name.begin(), name.end() };
+	std::wstring text{ name.begin(), name.end() };
 	functions.get_text_size(context.window.font, text.c_str(), text_wide, text_tall);
 
 	functions.draw_text(draw_pos.x + size.x / 2 - text_wide / 2, draw_pos.y + size.y / 2 - text_tall / 2, this->global_colors.color_text, context.window.font, false, name.c_str());
@@ -247,7 +247,7 @@ bool zgui::button(std::string name, vec2 size)
 	functions.draw_filled_rect(draw_pos.x + 1, draw_pos.y + 1, size.x - 2, size.y - 2, active ? this->global_colors.control_active_or_clicked : this->global_colors.control_idle);
 
 	int text_wide, text_tall;
-    std::wstring text{ name.begin(), name.end() };
+	std::wstring text{ name.begin(), name.end() };
 	functions.get_text_size(context.window.font, text.c_str(), text_wide, text_tall);
 
 	functions.draw_text(draw_pos.x + size.x / 2 - text_wide / 2, draw_pos.y + size.y / 2 - text_tall / 2, this->global_colors.color_text, context.window.font, false, name.c_str());
@@ -283,7 +283,7 @@ void zgui::slider_int(std::string name, int min, int max, int* value)
 	if (!inlined)
 	{
 		int text_wide, text_tall;
-        std::wstring text{ name.begin(), name.end() };
+		std::wstring text{ name.begin(), name.end() };
 		functions.get_text_size(context.window.font, text.c_str(), text_wide, text_tall);
 
 		functions.draw_text(draw_pos.x, draw_pos.y - 4, this->global_colors.color_text, context.window.font, false, name.c_str());
@@ -300,7 +300,7 @@ void zgui::slider_int(std::string name, int min, int max, int* value)
 
 	int text_wide, text_tall;
 	std::string value_str = std::to_string(*value);
-    std::wstring text{ value_str.begin(), value_str.end() };
+	std::wstring text{ value_str.begin(), value_str.end() };
 	functions.get_text_size(context.window.font, text.c_str(), text_wide, text_tall);
 
 	int text_x = dynamic_width - text_wide;
@@ -353,7 +353,7 @@ void zgui::combobox(std::string name, std::vector<std::string>items, int* value)
 	if (!inlined)
 	{
 		int text_wide, text_tall;
-        std::wstring text{ name.begin(), name.end() };
+		std::wstring text{ name.begin(), name.end() };
 		functions.get_text_size(context.window.font, text.c_str(), text_wide, text_tall);
 
 		functions.draw_text(draw_pos.x, draw_pos.y - 4, this->global_colors.color_text, context.window.font, false, name.c_str());
@@ -409,7 +409,7 @@ bool zgui::clickable_text(std::string text)
 	vec2 draw_pos{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
 
 	int text_width, text_tall;
-    std::wstring text_wide{ text.begin(), text.end() };
+	std::wstring text_wide{ text.begin(), text.end() };
 	functions.get_text_size(context.window.font, text_wide.c_str(), text_width, text_tall);
 
 	bool active = context.window.blocking == std::hash<std::string>()(text);
@@ -441,7 +441,7 @@ void zgui::text(std::string text)
 	vec2 draw_pos{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
 
 	int text_width, text_tall;
-    std::wstring text_wide{ text.begin(), text.end() };
+	std::wstring text_wide{ text.begin(), text.end() };
 	functions.get_text_size(context.window.font, text_wide.c_str(), text_width, text_tall);
 
 	functions.draw_text(draw_pos.x, draw_pos.y, this->global_colors.color_text, context.window.font, false, text.c_str());
