@@ -368,7 +368,7 @@ void zgui::combobox(std::string name, std::vector<std::string>items, int* value)
 	functions.draw_filled_rect(draw_pos.x + 1, draw_pos.y + 1, control_width - 2, control_height - 2, this->global_colors.control_idle);
 
 	functions.draw_text(draw_pos.x + 4, draw_pos.y + 4, this->global_colors.color_text, context.window.font, false, items.at(*value).c_str());
-	functions.draw_text(draw_pos.x + 60, draw_pos.y + 4, this->global_colors.color_text, context.window.font, false, "+");
+	functions.draw_text(draw_pos.x + control_width - 10, draw_pos.y + 4, this->global_colors.color_text, context.window.font, false, "+");
 	
 	if (context.window.blocking == std::hash<std::string>()(name))
 	{
