@@ -44,6 +44,7 @@ public:
 		zgui_window_flags_no_titlebar = 1 << 1,
 	};
 
+	struct multi_item { std::string name; bool *value; };
 	struct vec2 { float x, y; };
 	struct color { int r, g, b, a; };
   
@@ -126,9 +127,12 @@ public:
 	void end_groupbox();
 
 	void slider_int(std::string name, int min, int max, int* value);
-
+	void slider_float(std::string name, float min, float max, float* value);
+	
 	void combobox(std::string name, std::vector<std::string> items, int* value);
 
+	void multi_combobox(std::string name,std::vector<multi_item> items);
+	
 	void checkbox(std::string name, bool* value);
 	void toggle_button(std::string name, vec2 size, bool* value);
 	bool button(std::string name, vec2 size);
