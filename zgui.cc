@@ -542,4 +542,86 @@ void zgui::slider_float(std::string name, float min, float max, float* value)
 	this->push_cursor_pos(vec2{ cursor_pos.x + control_width + ITEM_SPACING, cursor_pos.y });
 	this->push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + control_height / 2 + ITEM_SPACING + (inlined ? 0 : 12) });
 }
+void zgui::multi_combobox(std::string name, std::vector<multi_item> items)
+{
+	const auto control_width = 70;
+	const auto control_height = 20;
+
+
+	vec2 cursor_pos = this->pop_cursor_pos();
+	vec2 draw_pos{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
+
+	auto inlined = name.empty();
+
+	if (!inlined)
+	{
+		int text_wide, text_tall;
+		std::wstring text{ name.begin(), name.end() };
+		functions.get_text_size(context.window.font, text.c_str(), text_wide, text_tall);
+
+		functions.draw_text(draw_pos.x, draw_pos.y - 4, this->global_colors.color_text, context.window.font, false, name.c_str());
+
+		draw_pos.y += text_tall;
+	}
+
+	auto hovered = this->mouse_in_region(draw_pos.x, draw_pos.y, control_width, control_height);
+
+	functions.draw_filled_rect(draw_pos.x, draw_pos.y, control_width, control_height, this->global_colors.control_outline);
+	functions.draw_filled_rect(draw_pos.x + 1, draw_pos.y + 1, control_width - 2, control_height - 2, this->global_colors.control_idle);
+
+	functions.draw_text(draw_pos.x + 60, draw_pos.y + 4, this->global_colors.color_text, context.window.font, false, "+");
+	std::string value_str;
+	int text_wide, text_tall;
+	for (auto &item_t : items) {
+		if (*item_t.value) {
+			if (value_str.length() > 0)
+				value_str += ", ";
+
+			value_str += item_t.name;
+		}
+	}
+	std::wstring text = std::wstring(value_str.begin(), value_str.end());
+	functions.get_text_size(context.window.font, text.c_str(), text_wide, text_tall);
+	if(text_wide > 60)
+		value_str.resize(7);
+	if(!value_str.length())
+		value_str += "None";
+	
+	functions.draw_text(draw_pos.x + 4, draw_pos.y + 4, this->global_colors.color_text, context.window.font, false, value_str.c_str());
+	
+	if (context.window.blocking == std::hash<std::string>()(name))
+	{
+		this->push_cursor_pos(vec2{ cursor_pos.x + control_width + ITEM_SPACING, cursor_pos.y });
+		this->push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + control_height / 2 + ITEM_SPACING + (inlined ? 0 : 12) + 20 * items.size() });
+	}
+	else
+	{
+		this->push_cursor_pos(vec2{ cursor_pos.x + control_width + ITEM_SPACING, cursor_pos.y });
+		this->push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + control_height / 2 + ITEM_SPACING + (inlined ? 0 : 12) });
+	}
+
+	if (hovered && this->key_pressed(VK_LBUTTON) && context.window.blocking == 0)
+	{
+		context.window.blocking = std::hash<std::string>()(name);
+	}
+	else if (context.window.blocking == std::hash<std::string>()(name))
+	{
+		for (int i = 1; i <= items.size(); i++)
+		{
+			bool hovered = this->mouse_in_region(draw_pos.x, draw_pos.y + (control_height - 1) * i, control_width, control_height);
+
+			if (hovered && this->key_pressed(VK_LBUTTON))
+			{
+				context.window.blocking = 0;
+				*items[i - 1].value = !*items[i - 1].value;
+			}
+
+			functions.draw_filled_rect(draw_pos.x, draw_pos.y + 19 * i, control_width, control_height, this->global_colors.control_outline);
+			functions.draw_filled_rect(draw_pos.x + 1, draw_pos.y + (19 * i) + 1, control_width - 2, control_height - 2, *items[i - 1].value ? this->global_colors.control_active_or_clicked : this->global_colors.control_idle);
+			functions.draw_filled_rect(draw_pos.x + 1, draw_pos.y + (19 * i) + 1, control_width - 2, control_height - 2, hovered ? this->global_colors.color_combo_bg : this->global_colors.control_idle);
+			
+			functions.draw_text(draw_pos.x + 3, draw_pos.y + (control_height - 1) * i + 4, this->global_colors.color_text, context.window.font, false, i*items[i - 1].name.c_str());
+		}
+	}
+}
 
