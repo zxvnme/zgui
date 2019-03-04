@@ -6,40 +6,60 @@
 #include <algorithm>
 #include <vector>
 
-// zgui by zxvnme (https://github.com/zxvnme)
-#define ZGUI_VER "1.0.2" // the number after second dot is snapshot version.
-// -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-// zgui is an simple framework created to help people with GUI rendering during their game hacking (but not only) journey.
-// here is quick presentation of features that zgui has:
-// - easy to use immediate mode rendering (all you need is to include zgui header and source files to your project).
-// - simple and aesthetic design.
-// - extensible code.
-// ... and function documentation:
-// -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-// get_functions()																			- function that is used to get our wrapped ones.
-// set_functions(functions_t& functions)													- function that is used to set our wrapped drawing functions.
-//
-// begin_window(std::string title, vec2 default_size, unsigned long font, int flags);		- function that begins our window. (you need to call end_window(); after it!)
-// end_window();																			- function that ends our window.
-//
-// begin_groupbox(std::string name, vec2 size);												- function that begins our groupbox with desired size. (you need to call end_groupbox(); after it!)
-// end_groupbox();																			- function that ends our groupbox.
-//
-// slider_int(std::string name, int min, int max, int* value);								- function that creates slider with an int type of value.
-//
-// slider_float(std::string name, float min, float max, float* value);								- function that creates slider with an float type of value.
-//
-// combobox(std::string name, std::vector<std::string> items, int* value);					- function that creates combobox.
-//
-// multi_combobox(std::string name, std::vector<multi_item> items)						- function that creates multi comboxes.
-//
-// checkbox(std::string name, bool* value);													- function that creates checkbox.
-// toggle_button(std::string name, vec2 size, bool* value);									- function that creates toggle button.
-// button(std::string name, vec2 size);														- function that creates button.
-// clickable_text(std::string text);														- function that creates text that can be clicked and eventually perform an action.
-// text(std::string text);																	- function that creates text.
-// dummy();																					- function that pushes cursor_pos.x to make empty space between our controls.
-// -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// zgui by zxvnme (https://github.com/zxvnme) and all the community contributors
+#define ZGUI_VER "1.1.0" // the number after second dot is snapshot version.
+/* ================================================================================================
+ * 
+ * zgui is an simple framework created to help people with GUI rendering during their game hacking (but not only) journey.
+ * here is quick presentation of features that zgui has:
+ *	- easy to use immediate mode rendering (all you need is to include zgui header and source files to your project).
+ *	- simple and aesthetic design.
+ *	- extensible code.
+ *	... and function documentation in section below:
+ *	
+ *  ================================================================================================
+ *  
+ *  get_functions()
+ *  -- function that is used to get our wrapped ones.
+ *  set_functions(functions_t& functions)
+ *  -- function that is used to set our wrapped drawing functions.
+ *  
+ *  begin_window(std::string title, vec2 default_size, unsigned long font, int flags);
+ *  end_window();	
+ *  -- functions used to create and end window.
+ *  
+ *  begin_groupbox(std::string name, vec2 size);
+ *  end_groupbox();
+ *  -- functions uses to create our groupbox with desired size and end it.
+ *  
+ *  slider_int(std::string name, int min, int max, int* value);
+ *  slider_float(std::string name, float min, float max, float* value);
+ *  -- functions used to create sliders with value type described in function name.
+ *  
+ *  combobox(std::string name, std::vector<std::string> items, int* value);
+ *  multi_combobox(std::string name, std::vector<multi_item> items)
+ *  -- functions used for creating combo boxes.
+ *  
+ *  checkbox(std::string name, bool* value);
+ *  -- function that creates checkbox.
+ *  
+ *  toggle_button(std::string name, vec2 size, bool* value);
+ *  -- function that creates toggle button.
+ *  
+ *  button(std::string name, vec2 size);
+ *  -- function that creates button.
+ *  
+ *  clickable_text(std::string text);
+ *  -- function that creates text that can be clicked and eventually perform an action.
+ *  
+ *  text(std::string text);
+ *  -- function that creates text.
+ *  
+ *  dummy();
+ *  -- function that pushes cursor_pos.x to make empty space between our controls.
+ *  
+ *  ================================================================================================
+*/
 class zgui {
 public:
   enum zgui_window_flags_ {
@@ -134,7 +154,6 @@ public:
 	void slider_float(std::string name, float min, float max, float* value);
 	
 	void combobox(std::string name, std::vector<std::string> items, int* value);
-
 	void multi_combobox(std::string name,std::vector<multi_item> items);
 	
 	void checkbox(std::string name, bool* value);
