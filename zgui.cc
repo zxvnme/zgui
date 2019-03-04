@@ -126,8 +126,8 @@ bool zgui::begin_window(std::string title, zgui::vec2 default_size, unsigned lon
 		}
 		else if (this->key_down(VK_LBUTTON) && context.window.dragging)
 		{
-			vec2 mouse_delta = vec2{ mouse_pos.x - previous_mouse_pos.x, mouse_pos.y - previous_mouse_pos.y };
-			vec2 new_position = vec2{ context.window.position.x + mouse_delta.x, context.window.position.y + mouse_delta.y };
+			vec2 mouse_delta{ mouse_pos.x - previous_mouse_pos.x, mouse_pos.y - previous_mouse_pos.y };
+			vec2 new_position{ context.window.position.x + mouse_delta.x, context.window.position.y + mouse_delta.y };
 
 			context.window.position = new_position;
 		}
@@ -171,7 +171,7 @@ void zgui::end_window()
 void zgui::begin_groupbox(std::string name, vec2 size)
 {
 	vec2 cursor_pos = this->pop_cursor_pos();
-	vec2 draw_pos = vec2{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
+	vec2 draw_pos{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
 
 	functions.draw_rect(draw_pos.x - 1, draw_pos.y - 1, size.x + 2, size.y + 2, this->global_colors.control_outline);
 	functions.draw_filled_rect(draw_pos.x, draw_pos.y, size.x, size.y, this->global_colors.color_groupbox_bg);
@@ -196,13 +196,13 @@ void zgui::checkbox(std::string name, bool* value)
 	const auto control_width = 8;
 
 	vec2 cursor_pos = this->pop_cursor_pos();
-	vec2 draw_pos = vec2{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
+	vec2 draw_pos{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
 
 	functions.draw_filled_rect(draw_pos.x, draw_pos.y, control_width, control_height, this->global_colors.control_outline);
 	functions.draw_filled_rect(draw_pos.x + 1, draw_pos.y + 1, control_width - 2, control_height - 2, *value ? this->global_colors.control_active_or_clicked : this->global_colors.control_idle);
 
 	int text_wide, text_tall;
-	std::wstring text = std::wstring(name.begin(), name.end());
+	std::wstring text{ name.begin(), name.end() };
 	functions.get_text_size(context.window.font, text.c_str(), text_wide, text_tall);
 
 	functions.draw_text(draw_pos.x + 14, draw_pos.y - 2, this->global_colors.color_text, context.window.font, false, name.c_str());
@@ -217,13 +217,13 @@ void zgui::checkbox(std::string name, bool* value)
 void zgui::toggle_button(std::string name, vec2 size, bool* value)
 {
 	vec2 cursor_pos = this->pop_cursor_pos();
-	vec2 draw_pos = vec2{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
+	vec2 draw_pos{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
 
 	functions.draw_filled_rect(draw_pos.x, draw_pos.y, size.x, size.y, this->global_colors.control_outline);
 	functions.draw_filled_rect(draw_pos.x + 1, draw_pos.y + 1, size.x - 2, size.y - 2, *value ? this->global_colors.control_active_or_clicked : this->global_colors.control_idle);
 
 	int text_wide, text_tall;
-	std::wstring text = std::wstring(name.begin(), name.end());
+	std::wstring text{ name.begin(), name.end() };
 	functions.get_text_size(context.window.font, text.c_str(), text_wide, text_tall);
 
 	functions.draw_text(draw_pos.x + size.x / 2 - text_wide / 2, draw_pos.y + size.y / 2 - text_tall / 2, this->global_colors.color_text, context.window.font, false, name.c_str());
@@ -238,7 +238,7 @@ void zgui::toggle_button(std::string name, vec2 size, bool* value)
 bool zgui::button(std::string name, vec2 size)
 {
 	vec2 cursor_pos = this->pop_cursor_pos();
-	vec2 draw_pos = vec2{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
+	vec2 draw_pos{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
 
 	bool active = context.window.blocking == std::hash<std::string>()(name);
 	bool hovered = this->mouse_in_region(draw_pos.x, draw_pos.y, size.x, size.y);
@@ -247,7 +247,7 @@ bool zgui::button(std::string name, vec2 size)
 	functions.draw_filled_rect(draw_pos.x + 1, draw_pos.y + 1, size.x - 2, size.y - 2, active ? this->global_colors.control_active_or_clicked : this->global_colors.control_idle);
 
 	int text_wide, text_tall;
-	std::wstring text = std::wstring(name.begin(), name.end());
+	std::wstring text{ name.begin(), name.end() };
 	functions.get_text_size(context.window.font, text.c_str(), text_wide, text_tall);
 
 	functions.draw_text(draw_pos.x + size.x / 2 - text_wide / 2, draw_pos.y + size.y / 2 - text_tall / 2, this->global_colors.color_text, context.window.font, false, name.c_str());
@@ -276,14 +276,14 @@ void zgui::slider_int(std::string name, int min, int max, int* value)
 	const auto control_height = 10;
 
 	vec2 cursor_pos = this->pop_cursor_pos();
-	vec2 draw_pos = vec2{ context.window.position.x + cursor_pos.x + 8, context.window.position.y + cursor_pos.y };
+	vec2 draw_pos{ context.window.position.x + cursor_pos.x + 8, context.window.position.y + cursor_pos.y };
 
 	bool inlined = name.empty();
 
 	if (!inlined)
 	{
 		int text_wide, text_tall;
-		std::wstring text = std::wstring(name.begin(), name.end());
+		std::wstring text{ name.begin(), name.end() };
 		functions.get_text_size(context.window.font, text.c_str(), text_wide, text_tall);
 
 		functions.draw_text(draw_pos.x, draw_pos.y - 4, this->global_colors.color_text, context.window.font, false, name.c_str());
@@ -300,7 +300,7 @@ void zgui::slider_int(std::string name, int min, int max, int* value)
 
 	int text_wide, text_tall;
 	std::string value_str = std::to_string(*value);
-	std::wstring text = std::wstring(value_str.begin(), value_str.end());
+	std::wstring text{ value_str.begin(), value_str.end() };
 	functions.get_text_size(context.window.font, text.c_str(), text_wide, text_tall);
 
 	int text_x = dynamic_width - text_wide;
@@ -346,14 +346,14 @@ void zgui::combobox(std::string name, std::vector<std::string>items, int* value)
 	*value = std::clamp(*value, 0, (int)items.size() - 1);
 
 	vec2 cursor_pos = this->pop_cursor_pos();
-	vec2 draw_pos = vec2{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
+	vec2 draw_pos{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
 
 	bool inlined = name.empty();
 
 	if (!inlined)
 	{
 		int text_wide, text_tall;
-		std::wstring text = std::wstring(name.begin(), name.end());
+		std::wstring text{ name.begin(), name.end() };
 		functions.get_text_size(context.window.font, text.c_str(), text_wide, text_tall);
 
 		functions.draw_text(draw_pos.x, draw_pos.y - 4, this->global_colors.color_text, context.window.font, false, name.c_str());
@@ -406,10 +406,10 @@ void zgui::combobox(std::string name, std::vector<std::string>items, int* value)
 bool zgui::clickable_text(std::string text)
 {
 	vec2 cursor_pos = this->pop_cursor_pos();
-	vec2 draw_pos = vec2{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
+	vec2 draw_pos{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
 
 	int text_width, text_tall;
-	std::wstring text_wide = std::wstring(text.begin(), text.end());
+	std::wstring text_wide{ text.begin(), text.end() };
 	functions.get_text_size(context.window.font, text_wide.c_str(), text_width, text_tall);
 
 	bool active = context.window.blocking == std::hash<std::string>()(text);
@@ -438,10 +438,10 @@ bool zgui::clickable_text(std::string text)
 void zgui::text(std::string text)
 {
 	vec2 cursor_pos = this->pop_cursor_pos();
-	vec2 draw_pos = vec2{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
+	vec2 draw_pos{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
 
 	int text_width, text_tall;
-	std::wstring text_wide = std::wstring(text.begin(), text.end());
+	std::wstring text_wide{ text.begin(), text.end() };
 	functions.get_text_size(context.window.font, text_wide.c_str(), text_width, text_tall);
 
 	functions.draw_text(draw_pos.x, draw_pos.y, this->global_colors.color_text, context.window.font, false, text.c_str());
@@ -459,7 +459,7 @@ void zgui::dummy()
 void zgui::next_column(int pusher_x, int pusher_y)
 {
 	vec2 cursor_pos = this->pop_cursor_pos();
-	vec2 new_cursor_pos = { cursor_pos.x + pusher_x, BASE_POS.y + pusher_y};
+	vec2 new_cursor_pos{ cursor_pos.x + pusher_x, BASE_POS.y + pusher_y};
 
 	if (context.window.next_cursor_pos.y != 0)
 		new_cursor_pos.y += 14;

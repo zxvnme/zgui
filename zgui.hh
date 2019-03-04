@@ -57,20 +57,20 @@ public:
 	
 private:
 	struct stylecolors_t {
-		color window_border_inner_fill = color{ 60, 60, 60, 255 };
-		color window_border_fill = color{ 40, 40, 40, 255 };
-		color window_border_color = color{ 10, 10, 10, 255 };
-		color window_background = color{ 40, 40, 40, 255 };
+		color window_border_inner_fill{ 60, 60, 60, 255 };
+		color window_border_fill{ 40, 40, 40, 255 };
+		color window_border_color{ 10, 10, 10, 255 };
+		color window_background{ 40, 40, 40, 255 };
 
-		color control_outline = color{ 23, 23, 30, 255 };
-		color control_active_or_clicked = color{ 108, 92, 231, 255 };
-		color control_idle = color{ 62, 62, 72, 255 };
+		color control_outline{ 23, 23, 30, 255 };
+		color control_active_or_clicked{ 108, 92, 231, 255 };
+		color control_idle{ 62, 62, 72, 255 };
 
-		color color_groupbox_bg = color{ 50, 50, 50, 255 };
-		color color_text = color{ 203, 203, 203, 255 };
-		color color_text_dark = color{ 99, 110, 114, 255 };
-		color color_slider = color{ 108, 92, 231, 255 };
-		color color_combo_bg = color{ 108, 92, 231, 255 };
+		color color_groupbox_bg{ 50, 50, 50, 255 };
+		color color_text{ 203, 203, 203, 255 };
+		color color_text_dark{ 99, 110, 114, 255 };
+		color color_slider{ 108, 92, 231, 255 };
+		color color_combo_bg{ 108, 92, 231, 255 };
 	} global_colors;
 
 	struct gui_window_context_t {
