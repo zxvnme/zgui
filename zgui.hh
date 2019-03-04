@@ -27,7 +27,11 @@
 //
 // slider_int(std::string name, int min, int max, int* value);								- function that creates slider with an int type of value.
 //
+// slider_float(std::string name, float min, float max, float* value);								- function that creates slider with an float type of value.
+//
 // combobox(std::string name, std::vector<std::string> items, int* value);					- function that creates combobox.
+//
+// multi_combobox(std::string name, std::vector<multi_item> items)						- function that creates multi comboxes.
 //
 // checkbox(std::string name, bool* value);													- function that creates checkbox.
 // toggle_button(std::string name, vec2 size, bool* value);									- function that creates toggle button.
