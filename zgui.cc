@@ -583,7 +583,10 @@ void zgui::multi_combobox(std::string name, std::vector<multi_item> items)
 	std::wstring text = std::wstring(value_str.begin(), value_str.end());
 	functions.get_text_size(context.window.font, text.c_str(), text_wide, text_tall);
 	if(text_wide > 60)
+	{
 		value_str.resize(7);
+		value_str += ",...";
+	}
 	if(!value_str.length())
 		value_str += "None";
 	
