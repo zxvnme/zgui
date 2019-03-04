@@ -504,7 +504,9 @@ void zgui::slider_float(std::string name, float min, float max, float* value)
 	functions.draw_filled_rect(draw_pos.x + 1, draw_pos.y + 1, dynamic_width, 10 - 2, this->global_colors.color_slider);
 
 	int text_wide, text_tall;
-	std::string value_str = std::to_string(*value);
+	std::stringstream ss;
+	ss << std::fixed << std::setprecision(2) << *value;
+	std::string value_str = ss.str();
 	std::wstring text{ value_str.begin(), value_str.end() };
 	functions.get_text_size(context.window.font, text.c_str(), text_wide, text_tall);
 
