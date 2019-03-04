@@ -13,7 +13,7 @@
 
 ## General
 Simple, two header immediate mode gui framework designed for people
-that begins their journey with game hacking (but not only).
+that begin their journey with game hacking (but not only).
 
 Advantages of zgui:
 - Dependency freedom
@@ -35,7 +35,7 @@ The core thing that you need to do is to wrap some rendering functions.
 At first, you should specify window name from where the input will be read from (top of `zgui.cc`)
 
 ```cpp
-#define INPUT_WINDOW "Window name"
+constexpr std::string_view INPUT_WINDOW{ "" };
 ```
 
 In top of `hooks.cc` (whatever) create some proxy functions.

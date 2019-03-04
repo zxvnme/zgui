@@ -51,7 +51,9 @@ zgui::vec2 zgui::pop_cursor_pos()
 
 void zgui::poll_input()
 {
-	static_assert(INPUT_WINDOW.length(), "No window from where input should be read from specified (see defines on the top of zgui.cc file). Comment this if you are aware of this and its not an error.");
+	static_assert(INPUT_WINDOW.length(),
+		"No window from where input should be read from specified (see defines on the top of zgui.cc file). Comment this if you are aware of this and its not an error."
+	);
 
 	for (int i = 0; i < 256; i++) {
 		prev_key_state[i] = key_state[i];
