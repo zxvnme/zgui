@@ -475,3 +475,71 @@ void zgui::same_line(float x_axis)
 	if (x_axis != -1)
 		this->push_cursor_pos(vec2{ BASE_POS.x + x_axis, cursor_pos.x });
 }
+void zgui::slider_float(std::string name, float min, float max, float* value)
+{
+	const auto control_width = 120;
+	const auto control_height = 10;
+
+	vec2 cursor_pos = this->pop_cursor_pos();
+	vec2 draw_pos{ context.window.position.x + cursor_pos.x + 8, context.window.position.y + cursor_pos.y };
+
+	bool inlined = name.empty();
+
+	if (!inlined)
+	{
+		int text_wide, text_tall;
+		std::wstring text{ name.begin(), name.end() };
+		functions.get_text_size(context.window.font, text.c_str(), text_wide, text_tall);
+
+		functions.draw_text(draw_pos.x, draw_pos.y - 4, this->global_colors.color_text, context.window.font, false, name.c_str());
+
+		draw_pos.y += text_tall;
+	}
+
+	bool hovered = this->mouse_in_region(draw_pos.x, draw_pos.y, control_width, control_height);
+	auto dynamic_width = (*value - min) / (max - min) * 118.0f;
+
+	functions.draw_filled_rect(draw_pos.x, draw_pos.y, control_width, control_height, this->global_colors.control_outline);
+	functions.draw_filled_rect(draw_pos.x + 1, draw_pos.y + 1, control_width - 2, control_height - 2, this->global_colors.control_idle);
+	functions.draw_filled_rect(draw_pos.x + 1, draw_pos.y + 1, dynamic_width, 10 - 2, this->global_colors.color_slider);
+
+	int text_wide, text_tall;
+	std::string value_str = std::to_string(*value);
+	std::wstring text{ value_str.begin(), value_str.end() };
+	functions.get_text_size(context.window.font, text.c_str(), text_wide, text_tall);
+
+	int text_x = dynamic_width - text_wide;
+
+	if (text_x < 0)
+		text_x = 0;
+
+	functions.draw_text(draw_pos.x + text_x, draw_pos.y, this->global_colors.color_text, context.window.font, false, value_str.c_str());
+
+	functions.draw_text(draw_pos.x - (control_height - 2), draw_pos.y - 2, this->global_colors.color_text_dark, context.window.font, false, "-");
+	functions.draw_text(draw_pos.x + (control_width + 4), draw_pos.y - 2, this->global_colors.color_text_dark, context.window.font, false, "+");
+	
+	if(context.window.blocking == 0 && this->mouse_in_region(draw_pos.x - (control_height - 2), draw_pos.y, 8, 10) && this->key_pressed(VK_LBUTTON))
+		*value = std::clamp(*value - 1, min, max);
+	else if (context.window.blocking == 0 && this->mouse_in_region(draw_pos.x + control_width, draw_pos.y, 8, 10) && this->key_pressed(VK_LBUTTON))
+		*value = std::clamp(*value + 1, min, max);
+
+	if (hovered && this->key_pressed(VK_LBUTTON) && context.window.blocking == 0)
+	{
+		context.window.blocking = std::hash<std::string>()(name);
+	}
+	else if (this->key_down(VK_LBUTTON) && context.window.blocking == std::hash<std::string>()(name))
+	{
+		float value_unmapped = std::clamp(mouse_pos.x - draw_pos.x, 0.0f, 120.f);
+		auto value_mapped = static_cast<float>((value_unmapped / 120.f) * (max - min) + min);
+
+		*value = value_mapped;
+	}
+	else if (!this->key_down(VK_LBUTTON) && context.window.blocking == std::hash<std::string>()(name))
+	{
+		context.window.blocking = 0;
+	}
+
+	this->push_cursor_pos(vec2{ cursor_pos.x + control_width + ITEM_SPACING, cursor_pos.y });
+	this->push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + control_height / 2 + ITEM_SPACING + (inlined ? 0 : 12) });
+}
+
