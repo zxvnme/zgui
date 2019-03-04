@@ -1,3 +1,5 @@
+#include <string_view>
+
 #include "zgui.hh"
 
 // zgui by zxvnme (https://github.com/zxvnme)
@@ -9,7 +11,7 @@
 // spacing between controls.
 #define ITEM_SPACING 16
 // name of window where input will be read from
-#define INPUT_WINDOW ""
+constexpr std::string_view INPUT_WINDOW{ "" };
 // virtual key that will trigger our gui open.
 #define MENU_TOGGLE_KEY VK_INSERT
 //
@@ -49,8 +51,7 @@ zgui::vec2 zgui::pop_cursor_pos()
 
 void zgui::poll_input()
 {
-	if (strlen(INPUT_WINDOW) == 0)
-		throw "No window from where input should be read from specified (see defines on the top of zgui.cc file). Comment this if you are aware of this and its not an error.";
+	static_assert(INPUT_WINDOW.length(), "No window from where input should be read from specified (see defines on the top of zgui.cc file). Comment this if you are aware of this and its not an error.");
 
 	for (int i = 0; i < 256; i++) {
 		prev_key_state[i] = key_state[i];
@@ -59,7 +60,7 @@ void zgui::poll_input()
 
 	POINT mouse_pos;
 	GetCursorPos(&mouse_pos);
-	ScreenToClient(FindWindow(0, INPUT_WINDOW), &mouse_pos);
+	ScreenToClient(FindWindow(0, INPUT_WINDOW.data()), &mouse_pos);
 	this->previous_mouse_pos = this->mouse_pos;
 	this->mouse_pos = vec2{ static_cast<float>(mouse_pos.x), static_cast<float>(mouse_pos.y) };
 }
