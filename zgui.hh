@@ -32,21 +32,21 @@
  *  end_groupbox();
  *  -- functions uses to create our groupbox with desired size and end it.
  *
- *  slider_int(std::string name, int min, int max, int* value);
- *  slider_float(std::string name, float min, float max, float* value);
+ *  slider_int(std::string id, int min, int max, int* value);
+ *  slider_float(std::string id, float min, float max, float* value);
  *  -- functions used to create sliders with value type described in function name.
  *
- *  combobox(std::string name, std::vector<std::string> items, int* value);
- *  multi_combobox(std::string name, std::vector<multi_item> items)
+ *  combobox(std::string id, std::vector<std::string> items, int* value);
+ *  multi_combobox(std::string id, std::vector<multi_item> items)
  *  -- functions used for creating combo boxes.
  *
- *  checkbox(std::string name, bool* value);
+ *  checkbox(std::string id, bool* value);
  *  -- function that creates checkbox.
  *
- *  toggle_button(std::string name, vec2 size, bool* value);
+ *  toggle_button(std::string id, vec2 size, bool* value);
  *  -- function that creates toggle button.
  *
- *  button(std::string name, vec2 size);
+ *  button(std::string id, vec2 size);
  *  -- function that creates button.
  *
  *  clickable_text(std::string text);
@@ -60,7 +60,7 @@
  *  
  *  same_line(float x_axis = -1);
  *  backup_line();
- *  -- functions used for inline controls positioning.
+ *  -- functions used for inline controls positioning. NOTE: there can be only one item between these two functions called.
  *
  *  ================================================================================================
 */
