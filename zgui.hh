@@ -5,6 +5,7 @@
 #include <string>
 #include <algorithm>
 #include <vector>
+#include <cctype>
 
 // zgui by zxvnme (https://github.com/zxvnme) and all the community contributors
 #define ZGUI_VER "1.1.2" // the number after second dot is snapshot version.
@@ -58,6 +59,9 @@
  * 	text_input(std::string id, std::string* value, int max_length);
  *	-- function that allows us to get to get input from the keyboard.
  *
+ *	key_bind(std::string id, int* value);
+ *	-- function used for creating key binds.
+ *
  *  dummy();
  *  -- function that pushes cursor_pos.x to make empty space between our controls.
  *  
@@ -88,6 +92,31 @@ public:
 	using get_frametime = void(*)(float&);
 
 private:
+	std::vector<std::string> keys_list = 
+	{ "Error", "Left Mouse", "Right Mouse", "Break", "Middle Mouse", "Mouse 4", "Mouse 5",
+	"Error", "Backspace", "TAB", "Error", "Error", "Error", "ENTER", "Error", "Error", "SHIFT",
+	"CTRL", "ALT","PAUSE","CAPS LOCK", "Error", "Error", "Error", "Error", "Error", "Error",
+	"ESC", "Error", "Error", "Error", "Error", "SPACEBAR","PG UP", "PG DOWN", "END", "HOME", "Left",
+	"Up", "Right", "Down", "Error", "Print", "Error", "Print Screen", "Insert","Delete", "Error", "0", "1",
+	"2", "3", "4", "5", "6", "7", "8", "9", "Error", "Error", "Error", "Error", "Error", "Error",
+	"Error", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U",
+	"V", "W", "X","Y", "Z", "Left Windows", "Right Windows", "Error", "Error", "Error", "NUM 0", "NUM 1",
+	"NUM 2", "NUM 3", "NUM 4", "NUM 5", "NUM 6","NUM 7", "NUM 8", "NUM 9", "*", "+", "_", "-", ".", "/", "F1", "F2", "F3",
+	"F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12","F13", "F14", "F15", "F16", "F17", "F18", "F19", "F20", "F21",
+	"F22", "F23", "F24", "Error", "Error", "Error", "Error", "Error","Error", "Error", "Error",
+	"NUM LOCK", "SCROLL LOCK", "Error", "Error", "Error", "Error", "Error", "Error", "Error",
+	"Error", "Error","Error", "Error", "Error", "Error", "Error", "LSHIFT", "RSHIFT", "LCONTROL",
+	"RCONTROL", "LMENU", "RMENU", "Error","Error", "Error","Error", "Error", "Error", "Error",
+	"Error", "Error", "Error", "Next Track", "Previous Track", "Stop", "Play/Pause", "Error", "Error",
+	"Error", "Error", "Error", "Error", ";", "+", ",", "-", ".", "/?", "~", "Error", "Error",
+	"Error", "Error","Error", "Error", "Error", "Error", "Error", "Error", "Error",
+	"Error", "Error", "Error", "Error", "Error", "Error", "Error", "Error","Error",
+	"Error", "Error", "Error", "Error", "Error", "Error", "[{", "\\|", "}]", "'\"", "Error",
+	"Error", "Error", "Error","Error", "Error", "Error", "Error", "Error", "Error",
+	"Error", "Error", "Error", "Error", "Error", "Error", "Error", "Error", "Error",
+	"Error", "Error", "Error", "Error", "Error", "Error", "Error", "Error", "Error",
+	"Error", "Error" };
+
 	struct stylecolors_t {
 		color window_border_inner_fill{ 60, 60, 60, 255 };
 		color window_border_fill{ 40, 40, 40, 255 };
@@ -168,6 +197,8 @@ public:
 	bool button(std::string id, vec2 size);
 	
 	void text_input(std::string id, std::string* value, int max_length = 18);
+	
+	void key_bind(std::string id, int* value);
 	
 	bool clickable_text(std::string id);
 	void text(std::string id);

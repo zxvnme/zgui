@@ -657,6 +657,62 @@ void zgui::text_input(std::string id, std::string* value, int max_length)
 	}
 }
 
+void zgui::key_bind(std::string id, int* value)
+{
+	std::vector<std::string> id_split = split_str(id, '#');
+	
+	const int control_width = 70;
+	const int control_height = 20;
+	
+	*value = std::clamp(*value, 0, 255);
+	
+	vec2 cursor_pos = this->pop_cursor_pos();
+	vec2 draw_pos{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
+	
+	bool inlined = id_split[0].empty();
+	
+	if (!inlined)
+	{
+		int text_wide, text_tall;
+		std::wstring text{ id_split[0].begin(), id_split[0].end() };
+		functions.get_text_size(context.window.font, text.c_str(), text_wide, text_tall);
+		
+		functions.draw_text(draw_pos.x, draw_pos.y - 4, this->global_colors.color_text, context.window.font, false, id_split[0].c_str());
+		
+		draw_pos.y += text_tall;
+	}
+	
+	bool active = context.window.blocking == std::hash<std::string>()(id);
+	bool hovered = this->mouse_in_region(draw_pos.x, draw_pos.y, control_width, control_height);
+	
+	functions.draw_filled_rect(draw_pos.x, draw_pos.y, control_width, control_height, this->global_colors.control_outline);
+	functions.draw_filled_rect(draw_pos.x + 1, draw_pos.y + 1, control_width - 2, control_height - 2, active ? this->global_colors.control_active_or_clicked : this->global_colors.control_idle);
+
+	functions.draw_text(draw_pos.x + 4, draw_pos.y + 4, this->global_colors.color_text, context.window.font, false, keys_list[*value].c_str());
+
+	this->push_cursor_pos(vec2{ cursor_pos.x + control_width + ITEM_SPACING, cursor_pos.y });
+	this->push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + control_height / 2 + ITEM_SPACING + (inlined ? 0 : 12) });
+
+	if (hovered && this->key_pressed(VK_LBUTTON) && !active)
+	{
+		context.window.blocking = std::hash<std::string>()(id);
+	}
+		else if (active)
+	{
+		for (int i = 0; i < 256; i++)
+		{
+			if (key_state[i])
+			{
+				if (keys_list[i] != "Error")
+				{
+					*value = i;
+				}
+				context.window.blocking = 0;
+			}
+		}
+	}
+}
+
 bool zgui::clickable_text(std::string id)
 {
 	std::vector<std::string> id_split = split_str(id, '#');
