@@ -1,12 +1,9 @@
 #pragma once
 
-#include <Windows.h>
 #include <stack>
 #include <string>
-#include <algorithm>
 #include <vector>
 #include <cctype>
-
 // zgui by zxvnme (https://github.com/zxvnme) and all the community contributors
 #define ZGUI_VER "1.1.2" // the number after second dot is snapshot version.
 /* ================================================================================================
@@ -178,7 +175,6 @@ private:
 
 public:
 	functions_t& get_functions();
-	void set_functions(functions_t& functions);
 
 	bool begin_window(const std::string& title, vec2 default_size, unsigned long font, int flags = 0);
 	void end_window();
