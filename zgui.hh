@@ -7,7 +7,7 @@
 #include <vector>
 
 // zgui by zxvnme (https://github.com/zxvnme) and all the community contributors
-#define ZGUI_VER "1.1.1" // the number after second dot is snapshot version.
+#define ZGUI_VER "1.1.2" // the number after second dot is snapshot version.
 /* ================================================================================================
  *
  * zgui is an simple framework created to help people with GUI rendering during their game hacking (but not only) journey.
@@ -154,17 +154,18 @@ public:
 	void begin_groupbox(std::string name, vec2 size);
 	void end_groupbox();
 
-	void slider_int(std::string name, int min, int max, int* value);
-	void slider_float(std::string name, float min, float max, float* value);
+	void slider_int(std::string id, int min, int max, int* value);
+	void slider_float(std::string id, float min, float max, float* value);
 
-	void combobox(std::string name, std::vector<std::string> items, int* value);
-	void multi_combobox(std::string name, std::vector<multi_item> items);
+	void combobox(std::string id, std::vector<std::string> items, int* value);
+	void multi_combobox(std::string id, std::vector<multi_item> items);
 
-	void checkbox(std::string name, bool* value);
-	void toggle_button(std::string name, vec2 size, bool* value);
-	bool button(std::string name, vec2 size);
-	bool clickable_text(std::string text);
-	void text(std::string text);
+	void checkbox(std::string id, bool* value);
+	void toggle_button(std::string id, vec2 size, bool* value);
+	bool button(std::string id, vec2 size);
+
+	bool clickable_text(std::string id);
+	void text(std::string id);
 	void dummy();
 
 	void next_column(int pusher_x = 174, int pusher_y = 14);
