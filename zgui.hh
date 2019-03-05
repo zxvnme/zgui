@@ -7,7 +7,7 @@
 #include <vector>
 
 // zgui by zxvnme (https://github.com/zxvnme) and all the community contributors
-#define ZGUI_VER "1.1.0" // the number after second dot is snapshot version.
+#define ZGUI_VER "1.1.1" // the number after second dot is snapshot version.
 /* ================================================================================================
  *
  * zgui is an simple framework created to help people with GUI rendering during their game hacking (but not only) journey.
@@ -57,6 +57,10 @@
  *
  *  dummy();
  *  -- function that pushes cursor_pos.x to make empty space between our controls.
+ *  
+ *  same_line(float x_axis = -1);
+ *  backup_line();
+ *  -- functions used for inline controls positioning.
  *
  *  ================================================================================================
 */
@@ -164,7 +168,9 @@ public:
 	void dummy();
 
 	void next_column(int pusher_x = 174, int pusher_y = 14);
+
 	void same_line(float x_axis = -1);
+	void backup_line();
 };
 
 extern zgui* g_zgui;
