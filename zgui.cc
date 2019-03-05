@@ -34,11 +34,6 @@ std::vector<std::string> split_str(const std::string &str, char separator) {
 	return output;
 }
 
-void zgui::set_functions(functions_t& functions)
-{
-	this->functions = functions;
-}
-
 zgui::functions_t& zgui::get_functions()
 {
 	return this->functions;

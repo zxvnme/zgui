@@ -21,8 +21,6 @@
  *
  *  get_functions()
  *  -- function that is used to get our wrapped ones.
- *  set_functions(functions_t& functions)
- *  -- function that is used to set our wrapped drawing functions.
  *
  *  begin_window(std::string title, vec2 default_size, unsigned long font, int flags);
  *  end_window();
@@ -146,7 +144,6 @@ private:
 
 public:
 	functions_t& get_functions();
-	void set_functions(functions_t& functions);
 
 	bool begin_window(const std::string& title, vec2 default_size, unsigned long font, int flags = 0);
 	void end_window();
