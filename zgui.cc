@@ -1,4 +1,9 @@
+#include <algorithm>
+#include <iomanip>
+#include <sstream>
 #include <string_view>
+#include <Windows.h>
+
 #include "zgui.hh"
 
 // zgui by zxvnme (https://github.com/zxvnme)
@@ -19,24 +24,16 @@ constexpr std::string_view INPUT_WINDOW{ "" };
 
 zgui* g_zgui = new zgui();
 
-std::vector<std::string> split_str(const std::string &str, char separator) {
+std::vector<std::string> split_str(const std::string& str, char separator)
+{
 	std::vector<std::string> output;
-	std::string::size_type prev_pos = 0, pos = 0;
+	std::string substring;
+	std::istringstream stream{ str };
 
-	while ((pos = str.find(separator, pos)) != std::string::npos) {
-		std::string substring(str.substr(prev_pos, pos - prev_pos));
+	while (std::getline(stream, substring, separator))
 		output.push_back(substring);
 
-		prev_pos = pos++;
-	}
-
-	output.push_back(str.substr(prev_pos, pos - prev_pos));
 	return output;
-}
-
-void zgui::set_functions(functions_t& functions)
-{
-	this->functions = functions;
 }
 
 zgui::functions_t& zgui::get_functions()
