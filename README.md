@@ -26,7 +26,7 @@ Important info:
 - zgui is written on `C++17`
 
 ##### Preview:
-<img src="https://i.imgur.com/rHzQiLd.gif" width="500" height="350" />
+<img src="https://i.imgur.com/Y9KWXLf.gif" width="500" height="350" />
 
 
 ## How to use & example
