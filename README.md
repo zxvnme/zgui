@@ -47,7 +47,7 @@ void rect(int x, int y, int x2, int y2, Color c) { g_pSurface->OutlinedRect(x, y
 void filled_rect(int x, int y, int x2, int y2, Color c) { g_pSurface->FilledRect(x, y, x2, y2, c); }
 void text(int x, int y, Color color, int font, bool center, const char* _input, ...) { g_pSurface->DrawT(x, y, color, font, center, _input); }
 void get_text_size(unsigned long font, const wchar_t* text, int& wide, int& tall) { g_pSurface->GetTextSize(font, text, wide, tall); }
-void get_frametime(float& frametime) { frametime = g_pGlobalVars->frametime; };
+float get_frametime() { return g_pGlobalVars->frametime; }
 ```
 then in your hooks initialize function
 ```cpp

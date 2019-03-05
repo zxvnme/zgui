@@ -78,7 +78,7 @@ public:
 	using filled_rect_t = void(*)(int, int, int, int, color);
 	using text_t = void(*)(int, int, color, int, bool, const char*, ...);
 	using get_text_size_t = void(*)(unsigned long, const wchar_t*, int&, int&);
-	using get_frametime = void(*)(float&);
+	using get_frametime = float(*)();
 
 private:
 	struct stylecolors_t {
