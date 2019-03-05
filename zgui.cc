@@ -101,8 +101,7 @@ bool zgui::begin_window(const std::string& title, vec2 default_size, unsigned lo
 	if (this->key_pressed(MENU_TOGGLE_KEY))
 		context.window.opened = !context.window.opened;
 
-	float frametime;
-	functions.get_frametime(frametime);
+	float frametime = functions.get_frametime();
 
 	int fade_factor = ((1.0f / (150.0f / 1000.0f)) * frametime) * 255;
 
