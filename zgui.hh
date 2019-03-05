@@ -55,6 +55,9 @@
  *  text(std::string text);
  *  -- function that creates text.
  *
+ * 	input_text(std::string id, std::string* value);
+ *	-- function 
+ *
  *  dummy();
  *  -- function that pushes cursor_pos.x to make empty space between our controls.
  *  
@@ -163,7 +166,9 @@ public:
 	void checkbox(std::string id, bool* value);
 	void toggle_button(std::string id, vec2 size, bool* value);
 	bool button(std::string id, vec2 size);
-
+	
+	void input_text(std::string id, std::string* value);
+	
 	bool clickable_text(std::string id);
 	void text(std::string id);
 	void dummy();
