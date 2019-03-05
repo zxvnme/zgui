@@ -1,9 +1,7 @@
 #pragma once
 
-#include <Windows.h>
 #include <stack>
 #include <string>
-#include <algorithm>
 #include <vector>
 
 // zgui by zxvnme (https://github.com/zxvnme) and all the community contributors

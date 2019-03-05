@@ -1,4 +1,9 @@
+#include <algorithm>
+#include <iomanip>
+#include <sstream>
 #include <string_view>
+#include <Windows.h>
+
 #include "zgui.hh"
 
 // zgui by zxvnme (https://github.com/zxvnme)
