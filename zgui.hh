@@ -5,7 +5,7 @@
 #include <vector>
 
 // zgui by zxvnme (https://github.com/zxvnme) and all the community contributors
-#define ZGUI_VER "1.1.2" // the number after second dot is snapshot version.
+#define ZGUI_VER "1.1.9" // the number after second dot is snapshot version.
 /* ================================================================================================
  *
  * zgui is an simple framework created to help people with GUI rendering during their game hacking (but not only) journey.
@@ -45,6 +45,12 @@
  *  button(std::string id, vec2 size);
  *  -- function that creates button.
  *
+ *  key_bind(std::string id, int* value);
+ *  -- function that creates key binder.
+ *  
+ *  text_input(std::string id, std::string* value, int max_length = 18);
+ *  -- functions that creates text input box.
+ *
  *  clickable_text(std::string text);
  *  -- function that creates text that can be clicked and eventually perform an action.
  *
@@ -53,7 +59,7 @@
  *
  *  dummy();
  *  -- function that pushes cursor_pos.x to make empty space between our controls.
- *  
+ *
  *  same_line(float x_axis = -1);
  *  backup_line();
  *  -- functions used for inline controls positioning. NOTE: there can be only one item between these two functions called.
@@ -158,6 +164,9 @@ public:
 	void checkbox(std::string id, bool* value);
 	void toggle_button(std::string id, vec2 size, bool* value);
 	bool button(std::string id, vec2 size);
+
+	void key_bind(std::string id, int* value);
+	void text_input(std::string id, std::string* value, int max_length = 18);
 
 	bool clickable_text(std::string id);
 	void text(std::string id);

@@ -2,10 +2,10 @@
 #include <iomanip>
 #include <sstream>
 #include <string_view>
+#include <cctype>
 #include <Windows.h>
 
 #include "zgui.hh"
-
 // zgui by zxvnme (https://github.com/zxvnme)
 // heres defines that are designed to be modified by your preferences.
 // see zgui.hh for complete documentation.
@@ -35,6 +35,64 @@ std::vector<std::string> split_str(const std::string& str, char separator)
 
 	return output;
 }
+
+std::vector<std::string> keys_list =
+{ "Error", "Left Mouse", "Right Mouse", "Break", "Middle Mouse", "Mouse 4", "Mouse 5",
+"Error", "Backspace", "TAB", "Error", "Error", "Error", "ENTER", "Error", "Error", "SHIFT",
+"CTRL", "ALT","PAUSE","CAPS LOCK", "Error", "Error", "Error", "Error", "Error", "Error",
+"Error", "Error", "Error", "Error", "Error", "SPACEBAR","PG UP", "PG DOWN", "END", "HOME", "Left",
+"Up", "Right", "Down", "Error", "Print", "Error", "Print Screen", "Insert","Delete", "Error", "0", "1",
+"2", "3", "4", "5", "6", "7", "8", "9", "Error", "Error", "Error", "Error", "Error", "Error",
+"Error", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U",
+"V", "W", "X","Y", "Z", "Left Windows", "Right Windows", "Error", "Error", "Error", "NUM 0", "NUM 1",
+"NUM 2", "NUM 3", "NUM 4", "NUM 5", "NUM 6","NUM 7", "NUM 8", "NUM 9", "*", "+", "_", "-", ".", "/", "F1", "F2", "F3",
+"F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12","F13", "F14", "F15", "F16", "F17", "F18", "F19", "F20", "F21",
+"F22", "F23", "F24", "Error", "Error", "Error", "Error", "Error","Error", "Error", "Error",
+"NUM LOCK", "SCROLL LOCK", "Error", "Error", "Error", "Error", "Error", "Error", "Error",
+"Error", "Error","Error", "Error", "Error", "Error", "Error", "LSHIFT", "RSHIFT", "LCONTROL",
+"RCONTROL", "LMENU", "RMENU", "Error","Error", "Error","Error", "Error", "Error", "Error",
+"Error", "Error", "Error", "Next Track", "Previous Track", "Stop", "Play/Pause", "Error", "Error",
+"Error", "Error", "Error", "Error", ";", "+", ",", "-", ".", "/?", "~", "Error", "Error",
+"Error", "Error","Error", "Error", "Error", "Error", "Error", "Error", "Error",
+"Error", "Error", "Error", "Error", "Error", "Error", "Error", "Error","Error",
+"Error", "Error", "Error", "Error", "Error", "Error", "[{", "\\|", "}]", "'\"", "Error",
+"Error", "Error", "Error","Error", "Error", "Error", "Error", "Error", "Error",
+"Error", "Error", "Error", "Error", "Error", "Error", "Error", "Error", "Error",
+"Error", "Error", "Error", "Error", "Error", "Error", "Error", "Error", "Error",
+"Error", "Error"
+};
+
+struct key_code_info {
+	int vk;
+
+	char regular;
+	char shift;
+};
+
+static key_code_info special_characters[22] = {
+	{ 48,  '0',  ')' },
+	{ 49,  '1',  '!' },
+	{ 50,  '2',  '@' },
+	{ 51,  '3',  '#' },
+	{ 52,  '4',  '$' },
+	{ 53,  '5',  '%' },
+	{ 54,  '6',  '^' },
+	{ 55,  '7',  '&' },
+	{ 56,  '8',  '*' },
+	{ 57,  '9',  '(' },
+	{ 32,  ' ',  ' ' },
+	{ 192, '`',  '~' },
+	{ 189, '-',  '_' },
+	{ 187, '=',  '+' },
+	{ 219, '[',  '{' },
+	{ 220, '\\', '|' },
+	{ 221, ']',  '}' },
+	{ 186, ';',  ':' },
+	{ 222, '\'', '"' },
+	{ 188, ',',  '<' },
+	{ 190, '.',  '>' },
+	{ 191, '/',  '?' }
+};
 
 zgui::functions_t& zgui::get_functions()
 {
@@ -151,7 +209,7 @@ bool zgui::begin_window(const std::string& title, vec2 default_size, unsigned lo
 		if (context.window.size.x < 1 && context.window.size.y < 1)
 			context.window.size = default_size;
 
-		
+
 
 		if (!(flags & zgui_window_flags_no_border))
 		{
@@ -284,6 +342,138 @@ bool zgui::button(std::string id, vec2 size)
 	}
 
 	return result;
+}
+
+void zgui::key_bind(std::string id, int* value)
+{
+	std::vector<std::string> id_split = split_str(id, '#');
+
+	const int control_width = 80;
+	const int control_height = 20;
+
+	*value = std::clamp(*value, 0, 255);
+
+	vec2 cursor_pos = this->pop_cursor_pos();
+	vec2 draw_pos{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
+
+	bool inlined = id_split[0].empty();
+
+	if (!inlined)
+	{
+		int text_wide, text_tall;
+		std::wstring text{ id_split[0].begin(), id_split[0].end() };
+		functions.get_text_size(context.window.font, text.c_str(), text_wide, text_tall);
+
+		functions.draw_text(draw_pos.x, draw_pos.y - 4, this->global_colors.color_text, context.window.font, false, id_split[0].c_str());
+
+		draw_pos.y += text_tall;
+	}
+
+	bool active = context.window.blocking == std::hash<std::string>()(id);
+	bool hovered = this->mouse_in_region(draw_pos.x, draw_pos.y, control_width, control_height);
+
+	functions.draw_filled_rect(draw_pos.x, draw_pos.y, control_width, control_height, this->global_colors.control_outline);
+	functions.draw_filled_rect(draw_pos.x + 1, draw_pos.y + 1, control_width - 2, control_height - 2, active ? this->global_colors.control_active_or_clicked : this->global_colors.control_idle);
+
+	functions.draw_text(draw_pos.x + 4, draw_pos.y + 4, this->global_colors.color_text, context.window.font, false, active ? "Press any key" : keys_list[*value].c_str());
+
+	this->push_cursor_pos(vec2{ cursor_pos.x + control_width + ITEM_SPACING, cursor_pos.y });
+	this->push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + control_height / 2 + ITEM_SPACING + (inlined ? 0 : 12) });
+
+
+	if (hovered && this->key_pressed(VK_LBUTTON) && context.window.blocking == 0)
+	{
+		context.window.blocking = std::hash<std::string>()(id);
+	}
+	else if (active)
+	{
+		for (int i = 0; i < 256; i++)
+		{
+			if (this->key_pressed(i))
+			{
+				if (keys_list[i] != "Error")
+					*value = i;
+
+				context.window.blocking = 0;
+			}
+		}
+	}
+}
+
+void zgui::text_input(std::string id, std::string* value, int max_length)
+{
+	std::vector<std::string> id_split = split_str(id, '#');
+
+	const int control_width = 80;
+	const int control_height = 20;
+
+	vec2 cursor_pos = this->pop_cursor_pos();
+	vec2 draw_pos{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
+
+	bool inlined = id_split[0].empty();
+
+	if (!inlined)
+	{
+		int text_wide, text_tall;
+		std::wstring text{ id_split[0].begin(), id_split[0].end() };
+		functions.get_text_size(context.window.font, text.c_str(), text_wide, text_tall);
+
+		functions.draw_text(draw_pos.x, draw_pos.y - 4, this->global_colors.color_text, context.window.font, false, id_split[0].c_str());
+
+		draw_pos.y += text_tall;
+	}
+
+	bool active = context.window.blocking == std::hash<std::string>()(id);
+	bool hovered = this->mouse_in_region(draw_pos.x, draw_pos.y, control_width, control_height);
+
+	functions.draw_filled_rect(draw_pos.x, draw_pos.y, control_width, control_height, this->global_colors.control_outline);
+	functions.draw_filled_rect(draw_pos.x + 1, draw_pos.y + 1, control_width - 2, control_height - 2, active ? this->global_colors.control_active_or_clicked : this->global_colors.control_idle);
+
+	functions.draw_text(draw_pos.x + 4, draw_pos.y + 4, this->global_colors.color_text, context.window.font, false, value->c_str());
+
+	this->push_cursor_pos(vec2{ cursor_pos.x + control_width + ITEM_SPACING, cursor_pos.y });
+	this->push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + control_height / 2 + ITEM_SPACING + (inlined ? 0 : 12) });
+
+	if (hovered && this->key_pressed(VK_LBUTTON) && !active)
+	{
+		context.window.blocking = std::hash<std::string>()(id);
+	}
+	else if (active)
+	{
+		if (this->key_pressed(VK_ESCAPE) || this->key_pressed(VK_RETURN) || (!hovered && this->key_pressed(VK_LBUTTON)))
+		{
+			context.window.blocking = 0;
+		}
+		else if (this->key_pressed(VK_BACK) && !value->empty())
+		{
+			value->pop_back();
+		}
+		else if (value->length() < max_length)
+		{
+			for (int i = 32; i <= 222; i++)
+			{
+				if ((i > 32 && i < 48) || (i > 57 && i < 65) || (i > 90 && i < 186))
+					continue;
+
+				if (i > 57 && i <= 90)
+				{
+					if (this->key_pressed(i))
+						*value += this->key_down(VK_SHIFT) ? (char)i : (char)(i + 32);
+				}
+				else
+				{
+					if (this->key_pressed(i))
+					{
+						for (int j = 0; j < sizeof(special_characters); j++)
+						{
+							if (special_characters[j].vk == i)
+								*value += this->key_down(VK_SHIFT) ? special_characters[j].shift : special_characters[j].regular;
+						}
+					}
+				}
+			}
+		}
+	}
 }
 
 void zgui::slider_int(std::string id, int min, int max, int* value)
