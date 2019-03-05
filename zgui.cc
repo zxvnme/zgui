@@ -1,9 +1,4 @@
-#include <algorithm>
-#include <iomanip>
-#include <sstream>
 #include <string_view>
-#include <Windows.h>
-
 #include "zgui.hh"
 
 // zgui by zxvnme (https://github.com/zxvnme)
@@ -24,16 +19,24 @@ constexpr std::string_view INPUT_WINDOW{ "" };
 
 zgui* g_zgui = new zgui();
 
-std::vector<std::string> split_str(const std::string& str, char separator)
-{
+std::vector<std::string> split_str(const std::string &str, char separator) {
 	std::vector<std::string> output;
-	std::string substring;
-	std::istringstream stream{ str };
+	std::string::size_type prev_pos = 0, pos = 0;
 
-	while (std::getline(stream, substring, separator))
+	while ((pos = str.find(separator, pos)) != std::string::npos) {
+		std::string substring(str.substr(prev_pos, pos - prev_pos));
 		output.push_back(substring);
 
+		prev_pos = pos++;
+	}
+
+	output.push_back(str.substr(prev_pos, pos - prev_pos));
 	return output;
+}
+
+void zgui::set_functions(functions_t& functions)
+{
+	this->functions = functions;
 }
 
 zgui::functions_t& zgui::get_functions()
@@ -582,6 +585,74 @@ void zgui::multi_combobox(std::string id, std::vector<multi_item> items)
 			functions.draw_filled_rect(draw_pos.x + 1, draw_pos.y + (19 * i) + 1, control_width - 2, control_height - 2, *items[i - 1].value || hovered ? this->global_colors.control_active_or_clicked : this->global_colors.control_idle);
 
 			functions.draw_text(draw_pos.x + 3, draw_pos.y + (control_height - 1) * i + 4, this->global_colors.color_text, context.window.font, false, items[i - 1].name.c_str());
+		}
+	}
+}
+
+void zgui::text_input(std::string id, std::string* value, int max_length)
+{
+	std::vector<std::string> id_split = split_str(id, '#');
+	
+	const int control_width = 70;
+	const int control_height = 20;
+	
+	vec2 cursor_pos = this->pop_cursor_pos();
+	vec2 draw_pos{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
+	
+	bool inlined = id_split[0].empty();
+	
+	if (!inlined)
+	{
+		int text_wide, text_tall;
+		std::wstring text{ id_split[0].begin(), id_split[0].end() };
+		functions.get_text_size(context.window.font, text.c_str(), text_wide, text_tall);
+		
+		functions.draw_text(draw_pos.x, draw_pos.y - 4, this->global_colors.color_text, context.window.font, false, id_split[0].c_str());
+		
+		draw_pos.y += text_tall;
+	}
+	
+	bool active = context.window.blocking == std::hash<std::string>()(id);
+	bool hovered = this->mouse_in_region(draw_pos.x, draw_pos.y, control_width, control_height);
+	
+	functions.draw_filled_rect(draw_pos.x, draw_pos.y, control_width, control_height, this->global_colors.control_outline);
+	functions.draw_filled_rect(draw_pos.x + 1, draw_pos.y + 1, control_width - 2, control_height - 2, active ? this->global_colors.control_active_or_clicked : this->global_colors.control_idle);
+
+	functions.draw_text(draw_pos.x + 4, draw_pos.y + 4, this->global_colors.color_text, context.window.font, false, value->c_str());
+
+	this->push_cursor_pos(vec2{ cursor_pos.x + control_width + ITEM_SPACING, cursor_pos.y });
+	this->push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + control_height / 2 + ITEM_SPACING + (inlined ? 0 : 12) });
+
+	if (hovered && this->key_pressed(VK_LBUTTON) && !active)
+	{
+		context.window.blocking = std::hash<std::string>()(id);
+	}
+	else if (active)
+	{
+		for (int i = 0; i < 256; i++) {
+			if (key_state[i]) {
+				switch (i)
+				{
+				case VK_BACK:  
+					if (value->size() > 0)
+						value->pop_back();
+					break;
+				case VK_LBUTTON:
+					if (!hovered)
+						context.window.blocking = 0;
+					break;
+				case VK_ESCAPE:
+					context.window.blocking = 0;
+					break;
+				case VK_SPACE:
+					*value += " ";
+					break;
+				default:
+					if(std::isprint(i) && value->size() <= max_length)
+						*value += std::tolower(MapVirtualKey(i, MAPVK_VK_TO_CHAR));
+				break;
+				}
+			}
 		}
 	}
 }

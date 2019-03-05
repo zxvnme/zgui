@@ -1,7 +1,9 @@
 #pragma once
 
+#include <Windows.h>
 #include <stack>
 #include <string>
+#include <algorithm>
 #include <vector>
 
 // zgui by zxvnme (https://github.com/zxvnme) and all the community contributors
@@ -19,6 +21,8 @@
  *
  *  get_functions()
  *  -- function that is used to get our wrapped ones.
+ *  set_functions(functions_t& functions)
+ *  -- function that is used to set our wrapped drawing functions.
  *
  *  begin_window(std::string title, vec2 default_size, unsigned long font, int flags);
  *  end_window();
@@ -50,6 +54,9 @@
  *
  *  text(std::string text);
  *  -- function that creates text.
+ *
+ * 	text_input(std::string id, std::string* value, int max_length);
+ *	-- function that allows us to get to get input from the keyboard.
  *
  *  dummy();
  *  -- function that pushes cursor_pos.x to make empty space between our controls.
@@ -142,6 +149,7 @@ private:
 
 public:
 	functions_t& get_functions();
+	void set_functions(functions_t& functions);
 
 	bool begin_window(const std::string& title, vec2 default_size, unsigned long font, int flags = 0);
 	void end_window();
@@ -158,7 +166,9 @@ public:
 	void checkbox(std::string id, bool* value);
 	void toggle_button(std::string id, vec2 size, bool* value);
 	bool button(std::string id, vec2 size);
-
+	
+	void text_input(std::string id, std::string* value, int max_length = 18);
+	
 	bool clickable_text(std::string id);
 	void text(std::string id);
 	void dummy();
