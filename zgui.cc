@@ -11,15 +11,15 @@
 // see zgui.hh for complete documentation.
 // -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // base position that first control will be created.
-#define BASE_POS vec2 {16, 23}
+constexpr zgui::vec2 BASE_POS{ 16, 23 };
 // spacing between controls.
-#define ITEM_SPACING 16
+constexpr int ITEM_SPACING{ 16 };
 // name of window where input will be read from
 constexpr std::string_view INPUT_WINDOW{ "" };
 // virtual key that will trigger our gui open.
-#define MENU_TOGGLE_KEY VK_INSERT
+constexpr int MENU_TOGGLE_KEY{ VK_INSERT };
 //
-#define ZERO_VEC vec2 {0, 0}
+constexpr zgui::vec2 ZERO_VEC{ 0, 0 };
 
 
 zgui* g_zgui = new zgui();
