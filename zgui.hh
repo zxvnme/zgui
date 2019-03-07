@@ -1,11 +1,12 @@
 #pragma once
 
 #include <stack>
-#include <string>
 #include <vector>
+#include <string>
+#include <string_view>
 
 // zgui by zxvnme (https://github.com/zxvnme) and all the community contributors
-#define ZGUI_VER "1.1.9" // the number after second dot is snapshot version.
+#define ZGUI_VER "1.2.0" // the number after second dot is snapshot version.
 /* ================================================================================================
  *
  * zgui is an simple framework created to help people with GUI rendering during their game hacking (but not only) journey.
@@ -20,41 +21,41 @@
  *  get_functions()
  *  -- function that is used to get our wrapped ones.
  *
- *  begin_window(std::string title, vec2 default_size, unsigned long font, int flags);
+ *  begin_window(std::string_view title, vec2 default_size, unsigned long font, int flags);
  *  end_window();
  *  -- functions used to create and end window.
  *
- *  begin_groupbox(std::string name, vec2 size);
+ *  begin_groupbox(std::string_view name, vec2 size);
  *  end_groupbox();
  *  -- functions uses to create our groupbox with desired size and end it.
  *
- *  slider_int(std::string id, int min, int max, int* value);
- *  slider_float(std::string id, float min, float max, float* value);
+ *  slider_int(std::string_view id, int min, int max, int* value);
+ *  slider_float(std::string_view id, float min, float max, float* value);
  *  -- functions used to create sliders with value type described in function name.
  *
- *  combobox(std::string id, std::vector<std::string> items, int* value);
+ *  combobox(std::string_view id, std::vector<std::string> items, int* value);
  *  multi_combobox(std::string id, std::vector<multi_item> items)
  *  -- functions used for creating combo boxes.
  *
- *  checkbox(std::string id, bool* value);
+ *  checkbox(std::string_view id, bool* value);
  *  -- function that creates checkbox.
  *
- *  toggle_button(std::string id, vec2 size, bool* value);
+ *  toggle_button(std::string_view id, vec2 size, bool* value);
  *  -- function that creates toggle button.
  *
- *  button(std::string id, vec2 size);
+ *  button(std::string_view id, vec2 size);
  *  -- function that creates button.
  *
- *  key_bind(std::string id, int* value);
+ *  key_bind(std::string_view id, int* value);
  *  -- function that creates key binder.
  *  
- *  text_input(std::string id, std::string* value, int max_length = 18);
+ *  text_input(std::string_view id, std::string* value, int max_length = 18);
  *  -- functions that creates text input box.
  *
- *  clickable_text(std::string text);
+ *  clickable_text(std::string_view text);
  *  -- function that creates text that can be clicked and eventually perform an action.
  *
- *  text(std::string text);
+ *  text(std::string_view text);
  *  -- function that creates text.
  *
  *  dummy();
@@ -66,6 +67,7 @@
  *
  *  ================================================================================================
 */
+
 class zgui {
 public:
 	enum zgui_window_flags_ {
@@ -107,7 +109,7 @@ private:
 	struct gui_window_context_t {
 		size_t blocking;
 		std::stack<vec2> cursor_pos;
-		std::string title;
+		std::string title; // Currently unused.
 		vec2 position, size;
 		vec2 next_cursor_pos;
 		bool dragging;
@@ -149,27 +151,27 @@ private:
 public:
 	functions_t& get_functions();
 
-	bool begin_window(const std::string& title, vec2 default_size, unsigned long font, int flags = 0);
+	bool begin_window(std::string_view title, vec2 default_size, unsigned long font, int flags = 0);
 	void end_window();
 
-	void begin_groupbox(std::string name, vec2 size);
+	void begin_groupbox(std::string_view title, vec2 size);
 	void end_groupbox();
 
-	void slider_int(std::string id, int min, int max, int* value);
-	void slider_float(std::string id, float min, float max, float* value);
+	void slider_int(std::string_view id, int min, int max, int* value);
+	void slider_float(std::string_view id, float min, float max, float* value);
 
-	void combobox(std::string id, std::vector<std::string> items, int* value);
-	void multi_combobox(std::string id, std::vector<multi_item> items);
+	void combobox(std::string_view, std::vector<std::string> items, int* value);
+	void multi_combobox(std::string_view id, std::vector<multi_item> items);
 
-	void checkbox(std::string id, bool* value);
-	void toggle_button(std::string id, vec2 size, bool* value);
-	bool button(std::string id, vec2 size);
+	void checkbox(std::string_view id, bool* value);
+	void toggle_button(std::string_view id, vec2 size, bool* value);
+	bool button(std::string_view id, vec2 size);
 
-	void key_bind(std::string id, int* value);
-	void text_input(std::string id, std::string* value, int max_length = 18);
+	void key_bind(std::string_view id, int* value);
+	void text_input(std::string_view id, std::string* value, int max_length = 16);
 
-	bool clickable_text(std::string id);
-	void text(std::string id);
+	bool clickable_text(std::string_view id);
+	void text(std::string_view id);
 	void dummy();
 
 	void next_column(int pusher_x = 174, int pusher_y = 14);
