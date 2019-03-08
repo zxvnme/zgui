@@ -190,7 +190,7 @@ bool zgui::begin_window(std::string_view title, vec2 default_size, unsigned long
 
 	if (context.window.opened || context.window.alpha > 0)
 	{
-		if ((flags & zgui_window_flags_no_titlebar ? this->mouse_in_region(context.window.position.x + 9, context.window.position.y + 14, context.window.size.x - 18, 14)
+		if ((flags & zgui_window_flags_no_border ? this->mouse_in_region(context.window.position.x + 9, context.window.position.y + 14, context.window.size.x - 18, 14)
 			: this->mouse_in_region(context.window.position.x - 6, context.window.position.y - 10, context.window.size.x + 12, 16))
 			&& this->key_pressed(VK_LBUTTON) && !context.window.dragging)
 		{
