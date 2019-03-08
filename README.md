@@ -1,31 +1,30 @@
 <div align="center">
 <br>
-<img width="258" src="resources/zgui.png" alt="hex-en logo">
+<img width="258" src="resources/zgui.png" alt="zgui logo">
 </div>
-<h5 align="center" color="#f62f6d">
+
+<h4 align="center" color="#f62f6d">
 <br>Simple immediate mode gui framework.
-</h5>
+</h4>
+
 <div align=center>
 
 [![forthebadge](https://forthebadge.com/images/badges/made-with-c-plus-plus.svg)](https://forthebadge.com)
 [![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
 </div>
 
-## General
-Simple, two header immediate mode gui framework designed for people
-that begin their journey with game hacking (but not only).
 
-Advantages of zgui:
-- Dependency-free
-- Universality *(yes, it will work on all renderers!)*
-- Simple design
-- Documentation
-- Easy to use
+#
 
-Important info:
-- zgui is written on `C++17`
+Simple, two file immediate mode gui framework written in **C++17** that is aimed to people
+who begin their journey with game hacking (but not only).
+It's main aspect is **universality** (it will work on all APIs; DirectX, OpenGL etc.) and fact that it is fully **dependency free**. Because of that zgui is really **easy to use** and it has simple but aesthetic UI that can be extended or modified easily too.
 
-##### Preview:
+All functions of framework are described in header file.
+Guide how to embed it in your project & example code  is on the bottom of README.
+
+See gif below for preview.
+
 <img src="https://i.imgur.com/Y9KWXLf.gif" width="500" height="350" />
 
 
@@ -69,7 +68,9 @@ if (g_zgui->begin_window("zgui example window", zgui::vec2{ 500, 350 }, g::Tahom
   g_zgui->checkbox("sample checkbox#example", &example);
   //  value before hash is visible ^
   g_zgui->slider_int("#sample_slider", 0, 40, &example_int);
-  //                  ^ value after hash is "hidden" 
+  //                  ^ value after hash is hidden"
+  //
+  // Hashing is demystyfied in zgui.hh
 }
 g_zgui->end_window();
 ```
