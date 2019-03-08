@@ -148,20 +148,19 @@ bool zgui::key_released(int key)
 	return key_state[key] == false && prev_key_state[key] == true;
 }
 
-bool zgui::begin_window(std::string_view title, vec2 default_size, unsigned long font, int flags)
+bool zgui::begin_window(std::string_view title, const vec2 default_size, const unsigned long font, const int flags)
 {
 	context.window.font = font;
 
 	if (this->key_pressed(MENU_TOGGLE_KEY))
 		context.window.opened = !context.window.opened;
 
-	if(!(flags & zgui_window_flags_no_ontoggle_animation))
+	if (!(flags & zgui_window_flags_no_ontoggle_animation))
 	{
-		float frametime = functions.get_frametime();
+		const float frametime = functions.get_frametime();
+		const int fade_factor = ((1.0f / (150.0f / 1000.0f)) * frametime) * 255;
 
-		int fade_factor = ((1.0f / (150.0f / 1000.0f)) * frametime) * 255;
-
-		int prev_alpha = context.window.alpha;
+		const int prev_alpha = context.window.alpha;
 
 		if (context.window.opened && context.window.alpha < 255)
 			context.window.alpha = std::clamp(context.window.alpha + fade_factor, 0, 255);
@@ -198,8 +197,8 @@ bool zgui::begin_window(std::string_view title, vec2 default_size, unsigned long
 		}
 		else if (this->key_down(VK_LBUTTON) && context.window.dragging)
 		{
-			vec2 mouse_delta{ mouse_pos.x - previous_mouse_pos.x, mouse_pos.y - previous_mouse_pos.y };
-			vec2 new_position{ context.window.position.x + mouse_delta.x, context.window.position.y + mouse_delta.y };
+			const vec2 mouse_delta{ mouse_pos.x - previous_mouse_pos.x, mouse_pos.y - previous_mouse_pos.y };
+			const vec2 new_position{ context.window.position.x + mouse_delta.x, context.window.position.y + mouse_delta.y };
 
 			context.window.position = new_position;
 		}

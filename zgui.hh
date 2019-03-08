@@ -6,7 +6,7 @@
 #include <string_view>
 
 // zgui by zxvnme (https://github.com/zxvnme) and all the community contributors
-#define ZGUI_VER "1.2.1" // the number after second dot is snapshot version.
+#define ZGUI_VER "1.2.2" // the number after second dot is snapshot version.
 /* ================================================================================================
  *
  * zgui is an simple framework created to help people with GUI rendering during their game hacking (but not only) journey.

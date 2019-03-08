@@ -13,7 +13,6 @@
 [![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
 </div>
 
-
 #
 
 Simple, two file immediate mode gui framework written in **C++17** that is aimed to people
