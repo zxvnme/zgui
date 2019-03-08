@@ -155,32 +155,35 @@ bool zgui::begin_window(std::string_view title, vec2 default_size, unsigned long
 	if (this->key_pressed(MENU_TOGGLE_KEY))
 		context.window.opened = !context.window.opened;
 
-	float frametime = functions.get_frametime();
-
-	int fade_factor = ((1.0f / (150.0f / 1000.0f)) * frametime) * 255;
-
-	int prev_alpha = context.window.alpha;
-
-	if (context.window.opened && context.window.alpha < 255)
-		context.window.alpha = std::clamp(context.window.alpha + fade_factor, 0, 255);
-	else if (!context.window.opened && context.window.alpha > 0)
-		context.window.alpha = std::clamp(context.window.alpha - fade_factor, 0, 255);
-
-	if (context.window.alpha != prev_alpha)
+	if(!(flags & zgui_window_flags_no_ontoggle_animation))
 	{
-		this->global_colors.window_border_inner_fill = color{ 60, 60, 60, context.window.alpha };
-		this->global_colors.window_border_fill = color{ 40, 40, 40, context.window.alpha };
-		this->global_colors.window_border_color = color{ 10, 10, 10, context.window.alpha };
-		this->global_colors.window_background = color{ 40, 40, 40, context.window.alpha };
+		float frametime = functions.get_frametime();
 
-		this->global_colors.control_outline = color{ 23, 23, 30, context.window.alpha };
-		this->global_colors.control_active_or_clicked = color{ 108, 92, 231, context.window.alpha };
-		this->global_colors.control_idle = color{ 62, 62, 72, context.window.alpha };
+		int fade_factor = ((1.0f / (150.0f / 1000.0f)) * frametime) * 255;
 
-		this->global_colors.color_groupbox_bg = color{ 50, 50, 50, context.window.alpha };
-		this->global_colors.color_text = color{ 203, 203, 203, context.window.alpha };
-		this->global_colors.color_text_dark = color{ 99, 110, 114, context.window.alpha };
-		this->global_colors.color_slider = color{ 108, 92, 231, context.window.alpha };
+		int prev_alpha = context.window.alpha;
+
+		if (context.window.opened && context.window.alpha < 255)
+			context.window.alpha = std::clamp(context.window.alpha + fade_factor, 0, 255);
+		else if (!context.window.opened && context.window.alpha > 0)
+			context.window.alpha = std::clamp(context.window.alpha - fade_factor, 0, 255);
+
+		if (context.window.alpha != prev_alpha)
+		{
+			this->global_colors.window_border_inner_fill = color{ 60, 60, 60, context.window.alpha };
+			this->global_colors.window_border_fill = color{ 40, 40, 40, context.window.alpha };
+			this->global_colors.window_border_color = color{ 10, 10, 10, context.window.alpha };
+			this->global_colors.window_background = color{ 40, 40, 40, context.window.alpha };
+
+			this->global_colors.control_outline = color{ 23, 23, 30, context.window.alpha };
+			this->global_colors.control_active_or_clicked = color{ 108, 92, 231, context.window.alpha };
+			this->global_colors.control_idle = color{ 62, 62, 72, context.window.alpha };
+
+			this->global_colors.color_groupbox_bg = color{ 50, 50, 50, context.window.alpha };
+			this->global_colors.color_text = color{ 203, 203, 203, context.window.alpha };
+			this->global_colors.color_text_dark = color{ 99, 110, 114, context.window.alpha };
+			this->global_colors.color_slider = color{ 108, 92, 231, context.window.alpha };
+		}
 	}
 
 	this->poll_input();
