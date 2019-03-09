@@ -64,9 +64,9 @@ static bool example = false;
 static int example_int = 10;
 if (g_zgui->begin_window("zgui example window", zgui::vec2{ 500, 350 }, g::Tahoma, zgui_window_flags_none))
 {
-  g_zgui->checkbox("sample checkbox#example", &example);
+  g_zgui->checkbox("sample checkbox#example", example);
   //  value before hash is visible ^
-  g_zgui->slider_int("#sample_slider", 0, 40, &example_int);
+  g_zgui->slider_int("#sample_slider", 0, 40, example_int);
   //                  ^ value after hash is hidden"
   //
   // Hashing is demystyfied in zgui.hh

@@ -171,18 +171,18 @@ public:
 	void begin_groupbox(std::string_view title, vec2 size);
 	void end_groupbox();
 
-	void slider_int(std::string_view id, int min, int max, int* value);
-	void slider_float(std::string_view id, float min, float max, float* value);
+	void slider_int(std::string_view id, int min, int max, int& value);
+	void slider_float(std::string_view id, float min, float max, float& value);
 
-	void combobox(std::string_view, std::vector<std::string> items, int* value);
+	void combobox(std::string_view, std::vector<std::string> items, int& value);
 	void multi_combobox(std::string_view id, std::vector<multi_item> items);
 
-	void checkbox(std::string_view id, bool* value);
-	void toggle_button(std::string_view id, vec2 size, bool* value);
+	void checkbox(std::string_view id, bool& value);
+	void toggle_button(std::string_view id, vec2 size, bool& value);
 	bool button(std::string_view id, vec2 size);
 
-	void key_bind(std::string_view id, int* value);
-	void text_input(std::string_view id, std::string* value, int max_length = 16);
+	void key_bind(std::string_view id, int& value);
+	void text_input(std::string_view id, std::string& value, int max_length = 16);
 
 	bool clickable_text(std::string_view id);
 	void text(std::string_view id);
