@@ -157,15 +157,10 @@ bool zgui::begin_window(std::string_view title, const vec2 default_size, const u
 
 	if (!(flags & zgui_window_flags_no_ontoggle_animation))
 	{
-		const float frametime = functions.get_frametime();
-		const int fade_factor = ((1.0f / (150.0f / 1000.0f)) * frametime) * 255;
-
 		const int prev_alpha = context.window.alpha;
 
-		if (context.window.opened && context.window.alpha < 255)
-			context.window.alpha = std::clamp(context.window.alpha + fade_factor, 0, 255);
-		else if (!context.window.opened && context.window.alpha > 0)
-			context.window.alpha = std::clamp(context.window.alpha - fade_factor, 0, 255);
+		const int fade_factor = static_cast<int>(1.0f / 0.15f * functions.get_frametime() * 255);
+		context.window.alpha = std::clamp(context.window.alpha + (context.window.opened ? fade_factor : -fade_factor), 0, 255);
 
 		if (context.window.alpha != prev_alpha)
 		{
