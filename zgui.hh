@@ -6,7 +6,7 @@
 #include <string_view>
 
 // zgui by zxvnme (https://github.com/zxvnme) and all the community contributors
-#define ZGUI_VER "1.2.2" // the number after second dot is snapshot version.
+#define ZGUI_VER "1.2.3" // the number after second dot is snapshot version.
 /* ================================================================================================
  *
  * zgui is an simple framework created to help people with GUI rendering during their game hacking (but not only) journey.
@@ -48,7 +48,7 @@
  *
  *  key_bind(std::string_view id, int* value);
  *  -- function that creates key binder.
- *  
+ *
  *  text_input(std::string_view id, std::string* value, int max_length = 18);
  *  -- functions that creates text input box.
  *
@@ -67,15 +67,15 @@
  *
  *  ================================================================================================
  *  the '#' thing in control name is separator that splits our name to two elements; actual displayed name & the one that is "hidden"
- *  
+ *
  *  example:
- *    g_zgui->button("button", vec2{ 120, 30 }); 
  *    g_zgui->button("button", vec2{ 120, 30 });
- *    
+ *    g_zgui->button("button", vec2{ 120, 30 });
+ *
  *  code above won't work correctly because of same name provided. (known consequence is clicking 2 buttons at once)
- *  
+ *
  *  example:
- *    g_zgui->button("button#button_1", vec2{ 120, 30 }); 
+ *    g_zgui->button("button#button_1", vec2{ 120, 30 });
  *    g_zgui->button("button#button_2", vec2{ 120, 30 });
  *
  *  and now, code above will work because of unique id used to window input blocking that is provided after '#'
@@ -115,7 +115,7 @@ private:
 
 		color color_groupbox_bg{ 50, 50, 50, 255 };
 		color color_text{ 203, 203, 203, 255 };
-		color color_text_dark{ 99, 110, 114, 255 };
+		color color_text_dimmer{ 99, 110, 114, 255 };
 		color color_slider{ 108, 92, 231, 255 };
 		color color_combo_bg{ 108, 92, 231, 255 };
 	} global_colors;

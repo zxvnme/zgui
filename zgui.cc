@@ -175,7 +175,7 @@ bool zgui::begin_window(std::string_view title, const vec2 default_size, const u
 
 			this->global_colors.color_groupbox_bg = color{ 50, 50, 50, context.window.alpha };
 			this->global_colors.color_text = color{ 203, 203, 203, context.window.alpha };
-			this->global_colors.color_text_dark = color{ 99, 110, 114, context.window.alpha };
+			this->global_colors.color_text_dimmer = color{ 99, 110, 114, context.window.alpha };
 			this->global_colors.color_slider = color{ 108, 92, 231, context.window.alpha };
 		}
 	}
@@ -271,9 +271,9 @@ void zgui::checkbox(std::string_view id, bool& value) noexcept
 	std::wstring text{ id.begin(), id.end() };
 	functions.get_text_size(context.window.font, text.c_str(), text_wide, text_tall);
 
-	functions.draw_text(draw_pos.x + 14, draw_pos.y - 2, this->global_colors.color_text, context.window.font, false, id.data());
+	functions.draw_text(draw_pos.x + 14, draw_pos.y - 2, value ? this->global_colors.color_text : this->global_colors.color_text_dimmer, context.window.font, false, id.data());
 
-	if (this->mouse_in_region(draw_pos.x, draw_pos.y, control_width, control_height) && this->key_pressed(VK_LBUTTON) && context.window.blocking == 0)
+	if (this->mouse_in_region(draw_pos.x, draw_pos.y, control_width + 6 + text_wide, control_height) && this->key_pressed(VK_LBUTTON) && context.window.blocking == 0)
 		value = !value;
 
 	this->push_cursor_pos(vec2{ cursor_pos.x + 14 + text_wide + ITEM_SPACING, cursor_pos.y });
@@ -414,7 +414,7 @@ void zgui::text_input(std::string_view id, std::string& value, int max_length) n
 
 		functions.draw_text(draw_pos.x, draw_pos.y - 4, this->global_colors.color_text, context.window.font, false, id_split[0].c_str());
 
-		draw_pos.y += text_tall; 
+		draw_pos.y += text_tall;
 	}
 
 	bool active = context.window.blocking == std::hash<std::string_view>()(id);
@@ -512,8 +512,8 @@ void zgui::slider_int(std::string_view id, int min, int max, int& value) noexcep
 
 	functions.draw_text(draw_pos.x + text_x, draw_pos.y, this->global_colors.color_text, context.window.font, false, value_str.c_str());
 
-	functions.draw_text(draw_pos.x - (control_height - 2), draw_pos.y - 2, this->global_colors.color_text_dark, context.window.font, false, "-");
-	functions.draw_text(draw_pos.x + (control_width + 4), draw_pos.y - 2, this->global_colors.color_text_dark, context.window.font, false, "+");
+	functions.draw_text(draw_pos.x - (control_height - 2), draw_pos.y - 2, this->global_colors.color_text_dimmer, context.window.font, false, "-");
+	functions.draw_text(draw_pos.x + (control_width + 4), draw_pos.y - 2, this->global_colors.color_text_dimmer, context.window.font, false, "+");
 
 	if (context.window.blocking == 0 && this->mouse_in_region(draw_pos.x - (control_height - 2), draw_pos.y, 8, 10) && this->key_pressed(VK_LBUTTON))
 		value = std::clamp(value - 1, min, max);
@@ -652,8 +652,8 @@ void zgui::slider_float(std::string_view id, float min, float max, float& value)
 
 	functions.draw_text(draw_pos.x + text_x, draw_pos.y, this->global_colors.color_text, context.window.font, false, value_str.c_str());
 
-	functions.draw_text(draw_pos.x - (control_height - 2), draw_pos.y - 2, this->global_colors.color_text_dark, context.window.font, false, "-");
-	functions.draw_text(draw_pos.x + (control_width + 4), draw_pos.y - 2, this->global_colors.color_text_dark, context.window.font, false, "+");
+	functions.draw_text(draw_pos.x - (control_height - 2), draw_pos.y - 2, this->global_colors.color_text_dimmer, context.window.font, false, "-");
+	functions.draw_text(draw_pos.x + (control_width + 4), draw_pos.y - 2, this->global_colors.color_text_dimmer, context.window.font, false, "+");
 
 	if (context.window.blocking == 0 && this->mouse_in_region(draw_pos.x - (control_height - 2), draw_pos.y, 8, 10) && this->key_pressed(VK_LBUTTON))
 		value = std::clamp(value - 1, min, max);
