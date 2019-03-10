@@ -151,47 +151,47 @@ private:
 	bool key_state[256];
 	bool prev_key_state[256];
 
-	void poll_input();
+	void poll_input() noexcept;
 
-	bool key_pressed(int key);
-	bool key_down(int key);
-	bool key_released(int key);
+	bool key_pressed(int key) noexcept;
+	bool key_down(int key) noexcept;
+	bool key_released(int key) noexcept;
 
-	void push_cursor_pos(vec2 pos);
-	vec2 pop_cursor_pos();
+	void push_cursor_pos(vec2 pos) noexcept;
+	vec2 pop_cursor_pos() noexcept;
 
-	bool mouse_in_region(int x, int y, int w, int h) const;
+	bool mouse_in_region(int x, int y, int w, int h) const noexcept;
 
 public:
-	functions_t& get_functions();
+	functions_t& get_functions() noexcept;
 
-	bool begin_window(std::string_view title, vec2 default_size, unsigned long font, int flags = 0);
-	void end_window();
+	bool begin_window(std::string_view title, vec2 default_size, unsigned long font, int flags = 0) noexcept;
+	void end_window() noexcept;
 
-	void begin_groupbox(std::string_view title, vec2 size);
-	void end_groupbox();
+	void begin_groupbox(std::string_view title, vec2 size) noexcept;
+	void end_groupbox() noexcept;
 
-	void slider_int(std::string_view id, int min, int max, int& value);
-	void slider_float(std::string_view id, float min, float max, float& value);
+	void slider_int(std::string_view id, int min, int max, int& value) noexcept;
+	void slider_float(std::string_view id, float min, float max, float& value) noexcept;
 
-	void combobox(std::string_view, std::vector<std::string> items, int& value);
-	void multi_combobox(std::string_view id, std::vector<multi_item> items);
+	void combobox(std::string_view, std::vector<std::string> items, int& value) noexcept;
+	void multi_combobox(std::string_view id, std::vector<multi_item> items) noexcept;
 
-	void checkbox(std::string_view id, bool& value);
-	void toggle_button(std::string_view id, vec2 size, bool& value);
-	bool button(std::string_view id, vec2 size);
+	void checkbox(std::string_view id, bool& value) noexcept;
+	void toggle_button(std::string_view id, vec2 size, bool& value) noexcept;
+	bool button(std::string_view id, vec2 size) noexcept;
 
-	void key_bind(std::string_view id, int& value);
-	void text_input(std::string_view id, std::string& value, int max_length = 16);
+	void key_bind(std::string_view id, int& value) noexcept;
+	void text_input(std::string_view id, std::string& value, int max_length = 16) noexcept;
 
-	bool clickable_text(std::string_view id);
-	void text(std::string_view id);
-	void dummy();
+	bool clickable_text(std::string_view id) noexcept;
+	void text(std::string_view id) noexcept;
+	void dummy() noexcept;
 
-	void next_column(int pusher_x = 174, int pusher_y = 14);
+	void next_column(int pusher_x = 174, int pusher_y = 14) noexcept;
 
-	void same_line(float x_axis = -1);
-	void backup_line();
+	void same_line(float x_axis = -1) noexcept;
+	void backup_line() noexcept;
 };
 
 extern zgui* g_zgui;
