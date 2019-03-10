@@ -93,29 +93,29 @@ static key_code_info special_characters[22] = {
 	{ 191, '/',  '?' }
 };
 
-zgui::functions_t& zgui::get_functions()
+zgui::functions_t& zgui::get_functions() noexcept
 {
 	return this->functions;
 }
 
-bool zgui::mouse_in_region(const int x, const int y, const int w, const int h) const
+bool zgui::mouse_in_region(const int x, const int y, const int w, const int h) const noexcept
 {
 	return this->mouse_pos.x > x && this->mouse_pos.y > y && this->mouse_pos.x < w + x && this->mouse_pos.y < h + y;
 }
 
-void zgui::push_cursor_pos(zgui::vec2 pos)
+void zgui::push_cursor_pos(zgui::vec2 pos) noexcept
 {
 	context.window.cursor_pos.push(pos);
 }
 
-zgui::vec2 zgui::pop_cursor_pos()
+zgui::vec2 zgui::pop_cursor_pos() noexcept
 {
 	vec2 pos = context.window.cursor_pos.top();
 	context.window.cursor_pos.pop();
 	return pos;
 }
 
-void zgui::poll_input()
+void zgui::poll_input() noexcept
 {
 	static_assert(INPUT_WINDOW.length(),
 		"No window from where input should be read from specified (see defines on the top of zgui.cc file). Comment this if you are aware of this and its not an error."
@@ -133,22 +133,22 @@ void zgui::poll_input()
 	this->mouse_pos = vec2{ static_cast<float>(mouse_pos.x), static_cast<float>(mouse_pos.y) };
 }
 
-bool zgui::key_pressed(int key)
+bool zgui::key_pressed(int key) noexcept
 {
 	return key_state[key] == true && prev_key_state[key] == false;
 }
 
-bool zgui::key_down(int key)
+bool zgui::key_down(int key) noexcept
 {
 	return key_state[key] == true;
 }
 
-bool zgui::key_released(int key)
+bool zgui::key_released(int key) noexcept
 {
 	return key_state[key] == false && prev_key_state[key] == true;
 }
 
-bool zgui::begin_window(std::string_view title, const vec2 default_size, const unsigned long font, const int flags)
+bool zgui::begin_window(std::string_view title, const vec2 default_size, const unsigned long font, const int flags) noexcept
 {
 	context.window.font = font;
 
@@ -226,7 +226,7 @@ bool zgui::begin_window(std::string_view title, const vec2 default_size, const u
 	return context.window.opened || context.window.alpha > 0;
 }
 
-void zgui::end_window()
+void zgui::end_window() noexcept
 {
 	while (context.window.cursor_pos.empty() == false)
 	{
@@ -234,7 +234,7 @@ void zgui::end_window()
 	}
 }
 
-void zgui::begin_groupbox(std::string_view name, vec2 size)
+void zgui::begin_groupbox(std::string_view name, vec2 size) noexcept
 {
 	vec2 cursor_pos = this->pop_cursor_pos();
 	vec2 draw_pos{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
@@ -250,13 +250,13 @@ void zgui::begin_groupbox(std::string_view name, vec2 size)
 	this->push_cursor_pos(vec2{ cursor_pos.x + 8, cursor_pos.y + 14 });
 }
 
-void zgui::end_groupbox()
+void zgui::end_groupbox() noexcept
 {
 	this->push_cursor_pos(context.window.next_cursor_pos);
 	context.window.next_cursor_pos = ZERO_VEC;
 }
 
-void zgui::checkbox(std::string_view id, bool& value)
+void zgui::checkbox(std::string_view id, bool& value) noexcept
 {
 	const int control_height = 8;
 	const int control_width = 8;
@@ -280,7 +280,7 @@ void zgui::checkbox(std::string_view id, bool& value)
 	this->push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + ITEM_SPACING });
 }
 
-void zgui::toggle_button(std::string_view id, vec2 size, bool& value)
+void zgui::toggle_button(std::string_view id, vec2 size, bool& value) noexcept
 {
 	vec2 cursor_pos = this->pop_cursor_pos();
 	vec2 draw_pos{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
@@ -301,7 +301,7 @@ void zgui::toggle_button(std::string_view id, vec2 size, bool& value)
 		value = !value;
 }
 
-bool zgui::button(std::string_view id, vec2 size)
+bool zgui::button(std::string_view id, vec2 size) noexcept
 {
 	std::vector<std::string> id_split = id.find('#') == std::string::npos ? std::vector<std::string>{id.data()} : split_str(id.data(), '#');
 
@@ -338,7 +338,7 @@ bool zgui::button(std::string_view id, vec2 size)
 	return result;
 }
 
-void zgui::key_bind(std::string_view id, int& value)
+void zgui::key_bind(std::string_view id, int& value) noexcept
 {
 	std::vector<std::string> id_split = id.find('#') == std::string::npos ? std::vector<std::string>{id.data()} : split_str(id, '#');
 
@@ -394,7 +394,7 @@ void zgui::key_bind(std::string_view id, int& value)
 	}
 }
 
-void zgui::text_input(std::string_view id, std::string& value, int max_length)
+void zgui::text_input(std::string_view id, std::string& value, int max_length) noexcept
 {
 	std::vector<std::string> id_split = id.find('#') == std::string::npos ? std::vector<std::string>{id.data()} : split_str(id, '#');
 
@@ -470,7 +470,7 @@ void zgui::text_input(std::string_view id, std::string& value, int max_length)
 	}
 }
 
-void zgui::slider_int(std::string_view id, int min, int max, int& value)
+void zgui::slider_int(std::string_view id, int min, int max, int& value) noexcept
 {
 	std::vector<std::string> id_split = id.find('#') == std::string::npos ? std::vector<std::string>{id.data()} : split_str(id, '#');
 
@@ -541,7 +541,7 @@ void zgui::slider_int(std::string_view id, int min, int max, int& value)
 
 }
 
-void zgui::combobox(std::string_view id, std::vector<std::string>items, int& value)
+void zgui::combobox(std::string_view id, std::vector<std::string>items, int& value) noexcept
 {
 	std::vector<std::string> id_split = id.find('#') == std::string::npos ? std::vector<std::string>{id.data()} : split_str(id, '#');
 
@@ -608,7 +608,7 @@ void zgui::combobox(std::string_view id, std::vector<std::string>items, int& val
 	}
 }
 
-void zgui::slider_float(std::string_view id, float min, float max, float& value)
+void zgui::slider_float(std::string_view id, float min, float max, float& value) noexcept
 {
 	std::vector<std::string> id_split = id.find('#') == std::string::npos ? std::vector<std::string>{id.data()} : split_str(id, '#');
 
@@ -680,7 +680,7 @@ void zgui::slider_float(std::string_view id, float min, float max, float& value)
 	this->push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + control_height / 2 + ITEM_SPACING + (inlined ? 0 : 12) });
 }
 
-void zgui::multi_combobox(std::string_view id, std::vector<multi_item> items)
+void zgui::multi_combobox(std::string_view id, std::vector<multi_item> items) noexcept
 {
 	std::vector<std::string> id_split = id.find('#') == std::string::npos ? std::vector<std::string>{id.data()} : split_str(id, '#');
 
@@ -769,7 +769,7 @@ void zgui::multi_combobox(std::string_view id, std::vector<multi_item> items)
 	}
 }
 
-bool zgui::clickable_text(std::string_view id)
+bool zgui::clickable_text(std::string_view id) noexcept
 {
 	std::vector<std::string> id_split = id.find('#') == std::string::npos ? std::vector<std::string>{id.data()} : split_str(id, '#');
 
@@ -803,7 +803,7 @@ bool zgui::clickable_text(std::string_view id)
 	return result;
 }
 
-void zgui::text(std::string_view id)
+void zgui::text(std::string_view id) noexcept
 {
 	vec2 cursor_pos = this->pop_cursor_pos();
 	vec2 draw_pos{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
@@ -818,13 +818,13 @@ void zgui::text(std::string_view id)
 	this->push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + text_tall / 2 + ITEM_SPACING });
 }
 
-void zgui::dummy()
+void zgui::dummy() noexcept
 {
 	vec2 cursor_pos = this->pop_cursor_pos();
 	this->push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + ITEM_SPACING });
 }
 
-void zgui::next_column(int pusher_x, int pusher_y)
+void zgui::next_column(int pusher_x, int pusher_y) noexcept
 {
 	vec2 cursor_pos = this->pop_cursor_pos();
 	vec2 new_cursor_pos{ cursor_pos.x + pusher_x, BASE_POS.y + pusher_y };
@@ -835,7 +835,7 @@ void zgui::next_column(int pusher_x, int pusher_y)
 	this->push_cursor_pos(new_cursor_pos);
 }
 
-void zgui::same_line(float x_axis)
+void zgui::same_line(float x_axis) noexcept
 {
 	vec2 cursor_pos = this->pop_cursor_pos();
 
@@ -843,7 +843,7 @@ void zgui::same_line(float x_axis)
 		this->push_cursor_pos(vec2{ BASE_POS.x + x_axis, cursor_pos.x });
 }
 
-void zgui::backup_line()
+void zgui::backup_line() noexcept
 {
 	vec2 cursor_pos = this->pop_cursor_pos();
 
