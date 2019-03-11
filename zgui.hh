@@ -6,7 +6,7 @@
 #include <string_view>
 
 // zgui by zxvnme (https://github.com/zxvnme) and all the community contributors
-#define ZGUI_VER "1.2.3" // the number after second dot is snapshot version.
+#define ZGUI_VER "1.2.4" // the number after second dot is snapshot version.
 /* ================================================================================================
  *
  * zgui is an simple framework created to help people with GUI rendering during their game hacking (but not only) journey.
@@ -88,6 +88,12 @@ public:
 		zgui_window_flags_no_border = 1 << 0,
 		zgui_window_flags_no_titlebar = 1 << 1,
 		zgui_window_flags_no_ontoggle_animation = 1 << 2
+	};
+
+	enum zgui_text_input_flags_
+	{
+		zgui_text_input_flags_none = 0,
+		zgui_text_input_flags_password = 1 << 0
 	};
 
 	struct multi_item { std::string name; bool *value; };
@@ -182,7 +188,7 @@ public:
 	bool button(std::string_view id, vec2 size) noexcept;
 
 	void key_bind(std::string_view id, int& value) noexcept;
-	void text_input(std::string_view id, std::string& value, int max_length = 16) noexcept;
+	void text_input(std::string_view id, std::string& value, int max_length = 16, int flags = 0) noexcept;
 
 	bool clickable_text(std::string_view id) noexcept;
 	void text(std::string_view id) noexcept;
