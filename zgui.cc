@@ -258,6 +258,8 @@ void zgui::end_groupbox() noexcept
 
 void zgui::checkbox(std::string_view id, bool& value) noexcept
 {
+	std::vector<std::string> id_split = id.find('#') == std::string::npos ? std::vector<std::string>{id.data()} : split_str(id.data(), '#');
+
 	const int control_height = 8;
 	const int control_width = 8;
 
@@ -271,10 +273,20 @@ void zgui::checkbox(std::string_view id, bool& value) noexcept
 	std::wstring text{ id.begin(), id.end() };
 	functions.get_text_size(context.window.font, text.c_str(), text_wide, text_tall);
 
-	functions.draw_text(draw_pos.x + 14, draw_pos.y - 2, value ? this->global_colors.color_text : this->global_colors.color_text_dimmer, context.window.font, false, id.data());
+	bool active = context.window.blocking == std::hash<std::string_view>()(id);
+	bool hovered = this->mouse_in_region(draw_pos.x, draw_pos.y, control_width + 6 + text_wide, control_height);
 
-	if (this->mouse_in_region(draw_pos.x, draw_pos.y, control_width + 6 + text_wide, control_height) && this->key_pressed(VK_LBUTTON) && context.window.blocking == 0)
+	functions.draw_text(draw_pos.x + 14, draw_pos.y - 2, value ? this->global_colors.color_text : this->global_colors.color_text_dimmer, context.window.font, false, id_split[0].c_str());
+
+	if (active == false && hovered == true && this->key_pressed(VK_LBUTTON))
+	{
+		context.window.blocking = std::hash<std::string_view>()(id);
+	}
+	else if (active == true && this->key_down(VK_LBUTTON) == false)
+	{
+		context.window.blocking = 0;
 		value = !value;
+	}
 
 	this->push_cursor_pos(vec2{ cursor_pos.x + 14 + text_wide + ITEM_SPACING, cursor_pos.y });
 	this->push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + ITEM_SPACING });
@@ -282,6 +294,8 @@ void zgui::checkbox(std::string_view id, bool& value) noexcept
 
 void zgui::toggle_button(std::string_view id, vec2 size, bool& value) noexcept
 {
+	std::vector<std::string> id_split = id.find('#') == std::string::npos ? std::vector<std::string>{id.data()} : split_str(id.data(), '#');
+
 	vec2 cursor_pos = this->pop_cursor_pos();
 	vec2 draw_pos{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
 
@@ -289,16 +303,26 @@ void zgui::toggle_button(std::string_view id, vec2 size, bool& value) noexcept
 	functions.draw_filled_rect(draw_pos.x + 1, draw_pos.y + 1, size.x - 2, size.y - 2, value ? this->global_colors.control_active_or_clicked : this->global_colors.control_idle);
 
 	int text_wide, text_tall;
-	std::wstring text{ id.begin(), id.end() };
+	std::wstring text{ id_split[0].begin(), id_split[0].end() };
 	functions.get_text_size(context.window.font, text.c_str(), text_wide, text_tall);
 
-	functions.draw_text(draw_pos.x + size.x / 2 - text_wide / 2, draw_pos.y + size.y / 2 - text_tall / 2, this->global_colors.color_text, context.window.font, false, id.data());
+	bool active = context.window.blocking == std::hash<std::string_view>()(id);
+	bool hovered = this->mouse_in_region(draw_pos.x, draw_pos.y, size.x, size.y);
+
+	functions.draw_text(draw_pos.x + size.x / 2 - text_wide / 2, draw_pos.y + size.y / 2 - text_tall / 2, this->global_colors.color_text, context.window.font, false, id_split[0].c_str());
 
 	this->push_cursor_pos(vec2{ cursor_pos.x + size.x + ITEM_SPACING, cursor_pos.y });
 	this->push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + size.y / 2 + ITEM_SPACING });
 
-	if (this->mouse_in_region(draw_pos.x, draw_pos.y, size.x, size.y) && this->key_pressed(VK_LBUTTON) && context.window.blocking == 0)
+	if (active == false && hovered == true && this->key_pressed(VK_LBUTTON))
+	{
+		context.window.blocking = std::hash<std::string_view>()(id);
+	}
+	else if (active == true && this->key_down(VK_LBUTTON) == false)
+	{
+		context.window.blocking = 0;
 		value = !value;
+	}
 }
 
 bool zgui::button(std::string_view id, vec2 size) noexcept
