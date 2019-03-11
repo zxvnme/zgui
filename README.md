@@ -69,7 +69,7 @@ if (g_zgui->begin_window("zgui example window", zgui::vec2{ 500, 350 }, g::Tahom
   g_zgui->slider_int("#sample_slider", 0, 40, example_int);
   //                  ^ value after hash is hidden"
   //
-  // Hashing is demystyfied in zgui.hh
+  // Hashing is demystified in zgui.hh
 }
 g_zgui->end_window();
 ```
