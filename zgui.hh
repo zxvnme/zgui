@@ -6,7 +6,7 @@
 #include <string_view>
 
 // zgui by zxvnme (https://github.com/zxvnme) and all the community contributors
-#define ZGUI_VER "1.2.4" // the number after second dot is snapshot version.
+#define ZGUI_VER "1.2.5" // the number after second dot is snapshot version.
 /* ================================================================================================
  *
  * zgui is an simple framework created to help people with GUI rendering during their game hacking (but not only) journey.
@@ -87,7 +87,8 @@ public:
 		zgui_window_flags_none = 0,
 		zgui_window_flags_no_border = 1 << 0,
 		zgui_window_flags_no_titlebar = 1 << 1,
-		zgui_window_flags_no_ontoggle_animation = 1 << 2
+		zgui_window_flags_no_ontoggle_animation = 1 << 2,
+		zgui_window_flags_no_move = 1 << 3
 	};
 
 	enum zgui_text_input_flags_

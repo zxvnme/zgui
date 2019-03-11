@@ -184,22 +184,25 @@ bool zgui::begin_window(std::string_view title, const vec2 default_size, const u
 
 	if (context.window.opened || context.window.alpha > 0)
 	{
-		if ((flags & zgui_window_flags_no_border ? this->mouse_in_region(context.window.position.x + 9, context.window.position.y + 14, context.window.size.x - 18, 14)
-			: this->mouse_in_region(context.window.position.x - 6, context.window.position.y - 10, context.window.size.x + 12, 16))
-			&& this->key_pressed(VK_LBUTTON) && !context.window.dragging)
+		if (!(flags & zgui_window_flags_no_move))
 		{
-			context.window.dragging = true;
-		}
-		else if (this->key_down(VK_LBUTTON) && context.window.dragging)
-		{
-			const vec2 mouse_delta{ mouse_pos.x - previous_mouse_pos.x, mouse_pos.y - previous_mouse_pos.y };
-			const vec2 new_position{ context.window.position.x + mouse_delta.x, context.window.position.y + mouse_delta.y };
+			if ((flags & zgui_window_flags_no_border ? this->mouse_in_region(context.window.position.x + 9, context.window.position.y + 14, context.window.size.x - 18, 14)
+				: this->mouse_in_region(context.window.position.x - 6, context.window.position.y - 10, context.window.size.x + 12, 16))
+				&& this->key_pressed(VK_LBUTTON) && !context.window.dragging)
+			{
+				context.window.dragging = true;
+			}
+			else if (this->key_down(VK_LBUTTON) && context.window.dragging)
+			{
+				const vec2 mouse_delta{ mouse_pos.x - previous_mouse_pos.x, mouse_pos.y - previous_mouse_pos.y };
+				const vec2 new_position{ context.window.position.x + mouse_delta.x, context.window.position.y + mouse_delta.y };
 
-			context.window.position = new_position;
-		}
-		else if (!this->key_down(VK_LBUTTON) && context.window.dragging)
-		{
-			context.window.dragging = false;
+				context.window.position = new_position;
+			}
+			else if (!this->key_down(VK_LBUTTON) && context.window.dragging)
+			{
+				context.window.dragging = false;
+			}
 		}
 
 		if (context.window.size.x < 1 && context.window.size.y < 1)
