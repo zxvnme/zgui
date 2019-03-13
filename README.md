@@ -1,13 +1,6 @@
 <div align="center">
-<br>
 <img width="258" src="resources/zgui.png" alt="zgui logo">
-</div>
-
-<h4 align="center" color="#f62f6d">
-<br>Simple immediate mode gui framework.
-</h4>
-
-<div align=center>
+<h4>Simple immediate mode gui framework.</h4>
 
 [![forthebadge](https://forthebadge.com/images/badges/made-with-c-plus-plus.svg)](https://forthebadge.com)
 [![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
@@ -15,16 +8,15 @@
 
 #
 
-Simple, two file immediate mode gui framework written in **C++17** that is aimed to people
-who begin their journey with game hacking (but not only).
+Simple, two file immediate mode gui framework written in **C++17**, aimed mainly to people beginning their journey with game hacking (but limited to).
 It's main aspect is **universality** (it will work on all APIs; DirectX, OpenGL etc.) and fact that it is fully **dependency free**. Because of that zgui is really **easy to use** and it has simple but aesthetic UI that can be extended or modified easily too.
 
 All functions of framework are described in header file.
 Guide how to embed it in your project & example code  is on the bottom of README.
 
-See gif below for preview.
+See below gif for preview.
 
-<img src="https://i.imgur.com/Y9KWXLf.gif" width="500" height="350" />
+<img src="https://i.imgur.com/Y9KWXLf.gif" width="500" height="350">
 
 
 ## How to use & example
@@ -64,16 +56,16 @@ static bool example = false;
 static int example_int = 10;
 if (g_zgui->begin_window("zgui example window", zgui::vec2{ 500, 350 }, g::Tahoma, zgui_window_flags_none))
 {
-  g_zgui->checkbox("sample checkbox#example", example);
-  //  value before hash is visible ^
-  g_zgui->slider_int("#sample_slider", 0, 40, example_int);
-  //                  ^ value after hash is hidden"
-  //
-  // Hashing is demystified in zgui.hh
+    g_zgui->checkbox("sample checkbox#example", example);
+    //  value before hash is visible ^
+    g_zgui->slider_int("#sample_slider", 0, 40, example_int);
+    //                  ^ value after hash is hidden"
+    //
+    // Hashing is demystified in zgui.hh
 }
 g_zgui->end_window();
 ```
 
-### Closing speech
+### Acknowledgments
 Special thanks to [cyanidee](https://github.com/cyanidee) for explaining me loads of things.
 ... and all the community contributors.
