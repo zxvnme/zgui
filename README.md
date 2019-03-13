@@ -8,11 +8,11 @@
 
 #
 
-Simple, two file immediate mode gui framework written in **C++17**, aimed mainly to people beginning their journey with game hacking (but limited to).
-It's main aspect is **universality** (it will work on all APIs; DirectX, OpenGL etc.) and fact that it is fully **dependency free**. Because of that zgui is really **easy to use** and it has simple but aesthetic UI that can be extended or modified easily too.
+Simple, two file immediate mode gui framework written in **C++17**, mainly aimed for people beginning their journey with game hacking (but not limited to).
+It's main goals are to be **universal** (it works on all graphics APIs; DirectX, OpenGL, Vulkan etc.) and **dependency free**. Therefore zgui is really **easy to use** and it has simple but aesthetic UI that can be extended or modified easily too.
 
-All functions of framework are described in header file.
-Guide how to embed it in your project & example code  is on the bottom of README.
+All functions of framework are described in [header file](zgui.hh).
+Guide on embedding zgui in your project & example code is on the bottom of README.
 
 See below gif for preview.
 
