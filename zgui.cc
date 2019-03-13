@@ -133,19 +133,19 @@ void zgui::poll_input() noexcept
 	this->mouse_pos = vec2{ static_cast<float>(mouse_pos.x), static_cast<float>(mouse_pos.y) };
 }
 
-bool zgui::key_pressed(int key) noexcept
+bool zgui::key_pressed(const int key) noexcept
 {
-	return key_state[key] == true && prev_key_state[key] == false;
+	return key_state[key] && !prev_key_state[key];
 }
 
-bool zgui::key_down(int key) noexcept
+bool zgui::key_down(const int key) noexcept
 {
-	return key_state[key] == true;
+	return key_state[key];
 }
 
 bool zgui::key_released(int key) noexcept
 {
-	return key_state[key] == false && prev_key_state[key] == true;
+	return !key_state[key] && prev_key_state[key];
 }
 
 bool zgui::begin_window(std::string_view title, const vec2 default_size, const unsigned long font, const int flags) noexcept
@@ -231,7 +231,7 @@ bool zgui::begin_window(std::string_view title, const vec2 default_size, const u
 
 void zgui::end_window() noexcept
 {
-	while (context.window.cursor_pos.empty() == false)
+	while (!context.window.cursor_pos.empty())
 	{
 		context.window.cursor_pos.pop();
 	}
@@ -281,11 +281,11 @@ void zgui::checkbox(std::string_view id, bool& value) noexcept
 
 	functions.draw_text(draw_pos.x + 14, draw_pos.y - 2, value ? this->global_colors.color_text : this->global_colors.color_text_dimmer, context.window.font, false, id_split[0].c_str());
 
-	if (active == false && hovered == true && this->key_pressed(VK_LBUTTON))
+	if (!active && hovered && this->key_pressed(VK_LBUTTON))
 	{
 		context.window.blocking = std::hash<std::string_view>()(id);
 	}
-	else if (active == true && this->key_down(VK_LBUTTON) == false)
+	else if (active && !this->key_down(VK_LBUTTON))
 	{
 		context.window.blocking = 0;
 		value = !value;
@@ -309,19 +309,19 @@ void zgui::toggle_button(std::string_view id, vec2 size, bool& value) noexcept
 	std::wstring text{ id_split[0].begin(), id_split[0].end() };
 	functions.get_text_size(context.window.font, text.c_str(), text_wide, text_tall);
 
-	bool active = context.window.blocking == std::hash<std::string_view>()(id);
-	bool hovered = this->mouse_in_region(draw_pos.x, draw_pos.y, size.x, size.y);
+	const bool active = context.window.blocking == std::hash<std::string_view>()(id);
+	const bool hovered = this->mouse_in_region(draw_pos.x, draw_pos.y, size.x, size.y);
 
 	functions.draw_text(draw_pos.x + size.x / 2 - text_wide / 2, draw_pos.y + size.y / 2 - text_tall / 2, this->global_colors.color_text, context.window.font, false, id_split[0].c_str());
 
 	this->push_cursor_pos(vec2{ cursor_pos.x + size.x + ITEM_SPACING, cursor_pos.y });
 	this->push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + size.y / 2 + ITEM_SPACING });
 
-	if (active == false && hovered == true && this->key_pressed(VK_LBUTTON))
+	if (!active && hovered && this->key_pressed(VK_LBUTTON))
 	{
 		context.window.blocking = std::hash<std::string_view>()(id);
 	}
-	else if (active == true && this->key_down(VK_LBUTTON) == false)
+	else if (active && !this->key_down(VK_LBUTTON))
 	{
 		context.window.blocking = 0;
 		value = !value;
@@ -352,11 +352,11 @@ bool zgui::button(std::string_view id, vec2 size) noexcept
 
 	bool result = false;
 
-	if (active == false && hovered == true && this->key_pressed(VK_LBUTTON))
+	if (!active && hovered && this->key_pressed(VK_LBUTTON))
 	{
 		context.window.blocking = std::hash<std::string_view>()(id);
 	}
-	else if (active == true && this->key_down(VK_LBUTTON) == false)
+	else if (active && !this->key_down(VK_LBUTTON))
 	{
 		context.window.blocking = 0;
 		result = hovered;
@@ -377,7 +377,7 @@ void zgui::key_bind(std::string_view id, int& value) noexcept
 	vec2 cursor_pos = this->pop_cursor_pos();
 	vec2 draw_pos{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
 
-	bool inlined = id_split[0].empty();
+	const bool inlined = id_split[0].empty();
 
 	if (!inlined)
 	{
@@ -431,7 +431,7 @@ void zgui::text_input(std::string_view id, std::string& value, const int max_len
 	vec2 cursor_pos = this->pop_cursor_pos();
 	vec2 draw_pos{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
 
-	bool inlined = id_split[0].empty();
+	const bool inlined = id_split[0].empty();
 
 	if (!inlined)
 	{
@@ -450,10 +450,10 @@ void zgui::text_input(std::string_view id, std::string& value, const int max_len
 	functions.draw_filled_rect(draw_pos.x, draw_pos.y, control_width, control_height, this->global_colors.control_outline);
 	functions.draw_filled_rect(draw_pos.x + 1, draw_pos.y + 1, control_width - 2, control_height - 2, active ? this->global_colors.control_active_or_clicked : this->global_colors.control_idle);
 
-	if(flags & zgui_text_input_flags_password)
+	if (flags & zgui_text_input_flags_password)
 	{
 		std::string password_str;
-		for(int i = 0; i < value.length(); i++)
+		for (int i = 0; i < value.length(); i++)
 		{
 			password_str += "*";
 		}
@@ -532,8 +532,8 @@ void zgui::slider_int(std::string_view id, int min, int max, int& value) noexcep
 		draw_pos.y += text_tall;
 	}
 
-	bool hovered = this->mouse_in_region(draw_pos.x, draw_pos.y, control_width, control_height);
-	int dynamic_width = ((float)value - (float)min) / ((float)max - (float)min) * 118.0f;
+	const bool hovered = this->mouse_in_region(draw_pos.x, draw_pos.y, control_width, control_height);
+	const int dynamic_width = ((float)value - (float)min) / ((float)max - (float)min) * 118.0f;
 
 	functions.draw_filled_rect(draw_pos.x, draw_pos.y, control_width, control_height, this->global_colors.control_outline);
 	functions.draw_filled_rect(draw_pos.x + 1, draw_pos.y + 1, control_width - 2, control_height - 2, this->global_colors.control_idle);
@@ -605,7 +605,7 @@ void zgui::combobox(std::string_view id, std::vector<std::string>items, int& val
 		draw_pos.y += text_tall;
 	}
 
-	bool hovered = this->mouse_in_region(draw_pos.x, draw_pos.y, control_width, control_height);
+	const bool hovered = this->mouse_in_region(draw_pos.x, draw_pos.y, control_width, control_height);
 
 	functions.draw_filled_rect(draw_pos.x, draw_pos.y, control_width, control_height, this->global_colors.control_outline);
 	functions.draw_filled_rect(draw_pos.x + 1, draw_pos.y + 1, control_width - 2, control_height - 2, this->global_colors.control_idle);
@@ -657,7 +657,7 @@ void zgui::slider_float(std::string_view id, float min, float max, float& value)
 	vec2 cursor_pos = this->pop_cursor_pos();
 	vec2 draw_pos{ context.window.position.x + cursor_pos.x + 8, context.window.position.y + cursor_pos.y };
 
-	bool inlined = id_split[0].empty();
+	const bool inlined = id_split[0].empty();
 
 	if (!inlined)
 	{
@@ -670,7 +670,7 @@ void zgui::slider_float(std::string_view id, float min, float max, float& value)
 		draw_pos.y += text_tall;
 	}
 
-	bool hovered = this->mouse_in_region(draw_pos.x, draw_pos.y, control_width, control_height);
+	const bool hovered = this->mouse_in_region(draw_pos.x, draw_pos.y, control_width, control_height);
 	float dynamic_width = (value - min) / (max - min) * 118.0f;
 
 	functions.draw_filled_rect(draw_pos.x, draw_pos.y, control_width, control_height, this->global_colors.control_outline);
@@ -729,7 +729,7 @@ void zgui::multi_combobox(std::string_view id, std::vector<multi_item> items) no
 	vec2 cursor_pos = this->pop_cursor_pos();
 	vec2 draw_pos{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
 
-	bool inlined = id_split[0].empty();
+	const bool inlined = id_split[0].empty();
 
 	if (!inlined)
 	{
@@ -742,7 +742,7 @@ void zgui::multi_combobox(std::string_view id, std::vector<multi_item> items) no
 		draw_pos.y += text_tall;
 	}
 
-	bool hovered = this->mouse_in_region(draw_pos.x, draw_pos.y, control_width, control_height);
+	const bool hovered = this->mouse_in_region(draw_pos.x, draw_pos.y, control_width, control_height);
 
 	functions.draw_filled_rect(draw_pos.x, draw_pos.y, control_width, control_height, this->global_colors.control_outline);
 	functions.draw_filled_rect(draw_pos.x + 1, draw_pos.y + 1, control_width - 2, control_height - 2, this->global_colors.control_idle);
@@ -819,8 +819,8 @@ bool zgui::clickable_text(std::string_view id) noexcept
 	std::wstring text_wide{ id_split[0].begin(), id_split[0].end() };
 	functions.get_text_size(context.window.font, text_wide.c_str(), text_width, text_tall);
 
-	bool active = context.window.blocking == std::hash<std::string_view>()(id);
-	bool hovered = this->mouse_in_region(draw_pos.x, draw_pos.y, text_width, text_tall);
+	const bool active = context.window.blocking == std::hash<std::string_view>()(id);
+	const bool hovered = this->mouse_in_region(draw_pos.x, draw_pos.y, text_width, text_tall);
 
 	functions.draw_text(draw_pos.x, draw_pos.y, this->global_colors.color_text, context.window.font, false, id_split[0].c_str());
 
@@ -829,11 +829,11 @@ bool zgui::clickable_text(std::string_view id) noexcept
 
 	bool result = false;
 
-	if (active == false && hovered == true && this->key_pressed(VK_LBUTTON))
+	if (!active && hovered == true && this->key_pressed(VK_LBUTTON))
 	{
 		context.window.blocking = std::hash<std::string_view>()(id);
 	}
-	else if (active == true && this->key_down(VK_LBUTTON) == false)
+	else if (active && !this->key_down(VK_LBUTTON))
 	{
 		context.window.blocking = 0;
 		result = hovered;
