@@ -10,7 +10,7 @@
 /* ================================================================================================
  *
  * zgui is an simple framework created to help people with GUI rendering during their game hacking (but not only) journey.
- * here is quick presentation of features that zgui has:
+ * here is glance zgui feature presentation:
  *	- easy to use immediate mode rendering (all you need is to include zgui header and source files to your project).
  *	- simple and aesthetic design.
  *	- extensible code.
@@ -78,7 +78,7 @@
  *    g_zgui->button("button#button_1", vec2{ 120, 30 });
  *    g_zgui->button("button#button_2", vec2{ 120, 30 });
  *
- *  and now, code above will work because of unique id used to window input blocking that is provided after '#'
+ *  and now, above code works fine because unique id (used in window input blocking) is provided after '#'
 */
 
 class zgui {
