@@ -105,7 +105,7 @@ void zgui::push_cursor_pos(vec2 pos) noexcept
 
 zgui::vec2 zgui::pop_cursor_pos() noexcept
 {
-	vec2 pos = context.window.cursor_pos.top();
+	const vec2 pos = context.window.cursor_pos.top();
 	context.window.cursor_pos.pop();
 	return pos;
 }
@@ -114,7 +114,7 @@ void zgui::poll_input() noexcept
 {
 	static_assert(INPUT_WINDOW.length(),
 		"No window from where input should be read from specified (see defines on the top of zgui.cc file). Comment this if you are aware of this and its not an error."
-);
+	);
 
 	for (int i = 0; i < 256; i++) {
 		prev_key_state[i] = key_state[i];
@@ -138,7 +138,7 @@ bool zgui::key_down(const int key) noexcept
 	return key_state[key];
 }
 
-bool zgui::key_released(int key) noexcept
+bool zgui::key_released(const int key) noexcept
 {
 	return !key_state[key] && prev_key_state[key];
 }
@@ -232,8 +232,8 @@ void zgui::end_window() noexcept
 
 void zgui::begin_groupbox(std::string_view title, vec2 size) noexcept
 {
-	vec2 cursor_pos = this->pop_cursor_pos();
-	vec2 draw_pos{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
+	const vec2 cursor_pos = this->pop_cursor_pos();
+	const vec2 draw_pos{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
 
 	functions.draw_rect(draw_pos.x - 1, draw_pos.y - 1, size.x + 2, size.y + 2, this->global_colors.control_outline);
 	functions.draw_filled_rect(draw_pos.x, draw_pos.y, size.x, size.y, this->global_colors.color_groupbox_bg);
@@ -259,8 +259,8 @@ void zgui::checkbox(std::string_view id, bool& value) noexcept
 	const int control_height = 8;
 	const int control_width = 8;
 
-	vec2 cursor_pos = this->pop_cursor_pos();
-	vec2 draw_pos{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
+	const vec2 cursor_pos = this->pop_cursor_pos();
+	const vec2 draw_pos{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
 
 	functions.draw_filled_rect(draw_pos.x, draw_pos.y, control_width, control_height, this->global_colors.control_outline);
 	functions.draw_filled_rect(draw_pos.x + 1, draw_pos.y + 1, control_width - 2, control_height - 2, value ? this->global_colors.control_active_or_clicked : this->global_colors.control_idle);
@@ -269,7 +269,7 @@ void zgui::checkbox(std::string_view id, bool& value) noexcept
 	std::wstring text{ id.begin(), id.end() };
 	functions.get_text_size(context.window.font, text.c_str(), text_wide, text_tall);
 
-	bool active = context.window.blocking == std::hash<std::string_view>()(id);
+	const bool active = context.window.blocking == std::hash<std::string_view>()(id);
 
 	functions.draw_text(draw_pos.x + 14, draw_pos.y - 2, value ? this->global_colors.color_text : this->global_colors.color_text_dimmer, context.window.font, false, id_split[0].c_str());
 
@@ -291,8 +291,8 @@ void zgui::toggle_button(std::string_view id, vec2 size, bool& value) noexcept
 {
 	std::vector<std::string> id_split = id.find('#') == std::string::npos ? std::vector<std::string>{id.data()} : split_str(id.data(), '#');
 
-	vec2 cursor_pos = this->pop_cursor_pos();
-	vec2 draw_pos{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
+	const vec2 cursor_pos = this->pop_cursor_pos();
+	const vec2 draw_pos{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
 
 	functions.draw_filled_rect(draw_pos.x, draw_pos.y, size.x, size.y, this->global_colors.control_outline);
 	functions.draw_filled_rect(draw_pos.x + 1, draw_pos.y + 1, size.x - 2, size.y - 2, value ? this->global_colors.control_active_or_clicked : this->global_colors.control_idle);
@@ -323,11 +323,10 @@ bool zgui::button(std::string_view id, vec2 size) noexcept
 {
 	std::vector<std::string> id_split = id.find('#') == std::string::npos ? std::vector<std::string>{id.data()} : split_str(id.data(), '#');
 
-	vec2 cursor_pos = this->pop_cursor_pos();
-	vec2 draw_pos{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
+	const vec2 cursor_pos = this->pop_cursor_pos();
+	const vec2 draw_pos{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
 
-	bool active = context.window.blocking == std::hash<std::string_view>()(id);
-	
+	const bool active = context.window.blocking == std::hash<std::string_view>()(id);
 
 	functions.draw_filled_rect(draw_pos.x, draw_pos.y, size.x, size.y, this->global_colors.control_outline);
 	functions.draw_filled_rect(draw_pos.x + 1, draw_pos.y + 1, size.x - 2, size.y - 2, active ? this->global_colors.control_active_or_clicked : this->global_colors.control_idle);
@@ -364,7 +363,7 @@ void zgui::key_bind(std::string_view id, int& value) noexcept
 
 	value = std::clamp(value, 0, 255);
 
-	vec2 cursor_pos = this->pop_cursor_pos();
+	const vec2 cursor_pos = this->pop_cursor_pos();
 	vec2 draw_pos{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
 
 	const bool inlined = id_split[0].empty();
@@ -380,7 +379,7 @@ void zgui::key_bind(std::string_view id, int& value) noexcept
 		draw_pos.y += text_tall;
 	}
 
-	bool active = context.window.blocking == std::hash<std::string_view>()(id);
+	const bool active = context.window.blocking == std::hash<std::string_view>()(id);
 	
 	functions.draw_filled_rect(draw_pos.x, draw_pos.y, control_width, control_height, this->global_colors.control_outline);
 	functions.draw_filled_rect(draw_pos.x + 1, draw_pos.y + 1, control_width - 2, control_height - 2, active ? this->global_colors.control_active_or_clicked : this->global_colors.control_idle);
@@ -416,7 +415,7 @@ void zgui::text_input(std::string_view id, std::string& value, const int max_len
 	const int control_width = 80;
 	const int control_height = 20;
 
-	vec2 cursor_pos = this->pop_cursor_pos();
+	const vec2 cursor_pos = this->pop_cursor_pos();
 	vec2 draw_pos{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
 
 	const bool inlined = id_split[0].empty();
@@ -504,10 +503,10 @@ void zgui::slider_int(std::string_view id, int min, int max, int& value) noexcep
 	const int control_width = 120;
 	const int control_height = 10;
 
-	vec2 cursor_pos = this->pop_cursor_pos();
+	const vec2 cursor_pos = this->pop_cursor_pos();
 	vec2 draw_pos{ context.window.position.x + cursor_pos.x + 8, context.window.position.y + cursor_pos.y };
 
-	bool inlined = id_split[0].empty();
+	const bool inlined = id_split[0].empty();
 
 	if (!inlined)
 	{
@@ -576,10 +575,10 @@ void zgui::combobox(std::string_view id, std::vector<std::string>items, int& val
 
 	value = std::clamp(value, 0, (int)items.size() - 1);
 
-	vec2 cursor_pos = this->pop_cursor_pos();
+	const vec2 cursor_pos = this->pop_cursor_pos();
 	vec2 draw_pos{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
 
-	bool inlined = id_split[0].empty();
+	const bool inlined = id_split[0].empty();
 
 	if (!inlined)
 	{
@@ -639,7 +638,7 @@ void zgui::slider_float(std::string_view id, float min, float max, float& value)
 	const int control_width = 120;
 	const int control_height = 10;
 
-	vec2 cursor_pos = this->pop_cursor_pos();
+	const vec2 cursor_pos = this->pop_cursor_pos();
 	vec2 draw_pos{ context.window.position.x + cursor_pos.x + 8, context.window.position.y + cursor_pos.y };
 
 	const bool inlined = id_split[0].empty();
@@ -710,7 +709,7 @@ void zgui::multi_combobox(std::string_view id, std::vector<multi_item> items) no
 	const int control_width = 100;
 	const int control_height = 20;
 
-	vec2 cursor_pos = this->pop_cursor_pos();
+	const vec2 cursor_pos = this->pop_cursor_pos();
 	vec2 draw_pos{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
 
 	const bool inlined = id_split[0].empty();
@@ -794,8 +793,8 @@ bool zgui::clickable_text(std::string_view id) noexcept
 {
 	std::vector<std::string> id_split = id.find('#') == std::string::npos ? std::vector<std::string>{id.data()} : split_str(id, '#');
 
-	vec2 cursor_pos = this->pop_cursor_pos();
-	vec2 draw_pos{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
+	const vec2 cursor_pos = this->pop_cursor_pos();
+	const vec2 draw_pos{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
 
 	int text_width, text_tall;
 	std::wstring text_wide{ id_split[0].begin(), id_split[0].end() };
@@ -825,8 +824,8 @@ bool zgui::clickable_text(std::string_view id) noexcept
 
 void zgui::text(std::string_view id) noexcept
 {
-	vec2 cursor_pos = this->pop_cursor_pos();
-	vec2 draw_pos{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
+	const vec2 cursor_pos = this->pop_cursor_pos();
+	const vec2 draw_pos{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
 
 	int text_width, text_tall;
 	std::wstring text_wide{ id.begin(), id.end() };
@@ -840,13 +839,13 @@ void zgui::text(std::string_view id) noexcept
 
 void zgui::dummy() noexcept
 {
-	vec2 cursor_pos = this->pop_cursor_pos();
+	const vec2 cursor_pos = this->pop_cursor_pos();
 	this->push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + ITEM_SPACING });
 }
 
 void zgui::next_column(int pusher_x, int pusher_y) noexcept
 {
-	vec2 cursor_pos = this->pop_cursor_pos();
+	const vec2 cursor_pos = this->pop_cursor_pos();
 	vec2 new_cursor_pos{ cursor_pos.x + pusher_x, BASE_POS.y + pusher_y };
 
 	if (context.window.next_cursor_pos.y != 0)
@@ -857,7 +856,7 @@ void zgui::next_column(int pusher_x, int pusher_y) noexcept
 
 void zgui::same_line(float x_axis) noexcept
 {
-	vec2 cursor_pos = this->pop_cursor_pos();
+	const vec2 cursor_pos = this->pop_cursor_pos();
 
 	if (x_axis != -1)
 		this->push_cursor_pos(vec2{ BASE_POS.x + x_axis, cursor_pos.x });
@@ -865,7 +864,7 @@ void zgui::same_line(float x_axis) noexcept
 
 void zgui::backup_line() noexcept
 {
-	vec2 cursor_pos = this->pop_cursor_pos();
+	const vec2 cursor_pos = this->pop_cursor_pos();
 
 	this->push_cursor_pos(vec2{ BASE_POS.x, cursor_pos.y });
 }
