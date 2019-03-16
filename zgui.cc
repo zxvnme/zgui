@@ -431,8 +431,8 @@ void zgui::text_input(std::string_view id, std::string& value, const int max_len
 		draw_pos.y += text_tall;
 	}
 
-	bool active = context.window.blocking == std::hash<std::string_view>()(id);
-	bool hovered = this->mouse_in_region(draw_pos.x, draw_pos.y, control_width, control_height);
+	const bool active = context.window.blocking == std::hash<std::string_view>()(id);
+	const bool hovered = this->mouse_in_region(draw_pos.x, draw_pos.y, control_width, control_height);
 
 	functions.draw_filled_rect(draw_pos.x, draw_pos.y, control_width, control_height, this->global_colors.control_outline);
 	functions.draw_filled_rect(draw_pos.x + 1, draw_pos.y + 1, control_width - 2, control_height - 2, active ? this->global_colors.control_active_or_clicked : this->global_colors.control_idle);
@@ -478,7 +478,7 @@ void zgui::text_input(std::string_view id, std::string& value, const int max_len
 				if (i > 57 && i <= 90)
 				{
 					if (this->key_pressed(i))
-						value += this->key_down(VK_SHIFT) ? (char)i : (char)(i + 32);
+						value += this->key_down(VK_SHIFT) ? static_cast<char>(i) : static_cast<char>(i + 32);
 				}
 				else
 				{
@@ -519,7 +519,7 @@ void zgui::slider_int(std::string_view id, const int min, const int max, int& va
 		draw_pos.y += text_tall;
 	}
 
-	const int dynamic_width = ((float)value - (float)min) / ((float)max - (float)min) * control_width - 2;
+	const int dynamic_width = (static_cast<float>(value) - min) / (max - min) * control_width - 2;
 
 	functions.draw_filled_rect(draw_pos.x, draw_pos.y, control_width, control_height, this->global_colors.control_outline);
 	functions.draw_filled_rect(draw_pos.x + 1, draw_pos.y + 1, control_width - 2, control_height - 2, this->global_colors.control_idle);
@@ -551,8 +551,8 @@ void zgui::slider_int(std::string_view id, const int min, const int max, int& va
 	}
 	else if (this->key_down(VK_LBUTTON) && context.window.blocking == std::hash<std::string_view>()(id))
 	{
-		float value_unmapped = std::clamp(mouse_pos.x - draw_pos.x, 0.0f, float(control_width));
-		int value_mapped = static_cast<int>((value_unmapped / 120.f) * ((float)max - (float)min) + (float)min);
+		float value_unmapped = std::clamp(mouse_pos.x - draw_pos.x, 0.0f, static_cast<float>(control_width));
+		int value_mapped = static_cast<int>(value_unmapped / control_width * (max - min) + min);
 
 		value = value_mapped;
 	}
@@ -573,7 +573,7 @@ void zgui::combobox(std::string_view id, std::vector<std::string>items, int& val
 	const int control_width = 70;
 	const int control_height = 20;
 
-	value = std::clamp(value, 0, (int)items.size() - 1);
+	value = std::clamp(value, 0, static_cast<int>(items.size()) - 1);
 
 	const vec2 cursor_pos = this->pop_cursor_pos();
 	vec2 draw_pos{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
@@ -631,7 +631,7 @@ void zgui::combobox(std::string_view id, std::vector<std::string>items, int& val
 	}
 }
 
-auto zgui::slider_float(std::string_view id, const float min, const float max, float& value) noexcept -> void
+void zgui::slider_float(std::string_view id, const float min, const float max, float& value) noexcept
 {
 	std::vector<std::string> id_split = id.find('#') == std::string::npos ? std::vector<std::string>{id.data()} : split_str(id, '#');
 
@@ -688,8 +688,8 @@ auto zgui::slider_float(std::string_view id, const float min, const float max, f
 	}
 	else if (this->key_down(VK_LBUTTON) && context.window.blocking == std::hash<std::string_view>()(id))
 	{
-		float value_unmapped = std::clamp(mouse_pos.x - draw_pos.x, 0.0f, 120.f);
-		float value_mapped = static_cast<float>((value_unmapped / 120.f) * (max - min) + min);
+		float value_unmapped = std::clamp(mouse_pos.x - draw_pos.x, 0.0f, static_cast<float>(control_width));
+		float value_mapped = static_cast<float>((value_unmapped / static_cast<float>(control_width)) * (max - min) + min);
 
 		value = value_mapped;
 	}
