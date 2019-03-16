@@ -123,7 +123,7 @@ void zgui::poll_input() noexcept
 
 	POINT mouse_pos;
 	GetCursorPos(&mouse_pos);
-	ScreenToClient(FindWindow(0, INPUT_WINDOW.data()), &mouse_pos);
+	ScreenToClient(FindWindow(nullptr, INPUT_WINDOW.data()), &mouse_pos);
 	this->previous_mouse_pos = this->mouse_pos;
 	this->mouse_pos = vec2{ static_cast<float>(mouse_pos.x), static_cast<float>(mouse_pos.y) };
 }
@@ -230,7 +230,7 @@ void zgui::end_window() noexcept
 	}
 }
 
-void zgui::begin_groupbox(std::string_view title, vec2 size) noexcept
+void zgui::begin_groupbox(std::string_view title, const vec2 size) noexcept
 {
 	const vec2 cursor_pos = this->pop_cursor_pos();
 	const vec2 draw_pos{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
@@ -287,7 +287,7 @@ void zgui::checkbox(std::string_view id, bool& value) noexcept
 	this->push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + ITEM_SPACING });
 }
 
-void zgui::toggle_button(std::string_view id, vec2 size, bool& value) noexcept
+void zgui::toggle_button(std::string_view id, const vec2 size, bool& value) noexcept
 {
 	std::vector<std::string> id_split = id.find('#') == std::string::npos ? std::vector<std::string>{id.data()} : split_str(id.data(), '#');
 
@@ -319,7 +319,7 @@ void zgui::toggle_button(std::string_view id, vec2 size, bool& value) noexcept
 	}
 }
 
-bool zgui::button(std::string_view id, vec2 size) noexcept
+bool zgui::button(std::string_view id, const vec2 size) noexcept
 {
 	std::vector<std::string> id_split = id.find('#') == std::string::npos ? std::vector<std::string>{id.data()} : split_str(id.data(), '#');
 
@@ -496,7 +496,7 @@ void zgui::text_input(std::string_view id, std::string& value, const int max_len
 	}
 }
 
-void zgui::slider_int(std::string_view id, int min, int max, int& value) noexcept
+void zgui::slider_int(std::string_view id, const int min, const int max, int& value) noexcept
 {
 	std::vector<std::string> id_split = id.find('#') == std::string::npos ? std::vector<std::string>{id.data()} : split_str(id, '#');
 
@@ -631,7 +631,7 @@ void zgui::combobox(std::string_view id, std::vector<std::string>items, int& val
 	}
 }
 
-void zgui::slider_float(std::string_view id, float min, float max, float& value) noexcept
+auto zgui::slider_float(std::string_view id, const float min, const float max, float& value) noexcept -> void
 {
 	std::vector<std::string> id_split = id.find('#') == std::string::npos ? std::vector<std::string>{id.data()} : split_str(id, '#');
 
