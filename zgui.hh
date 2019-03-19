@@ -69,14 +69,14 @@
  *  the '#' thing in control name is separator that splits our name to two elements; actual displayed name & the one that is "hidden"
  *
  *  example:
- *    g_zgui->button("button", vec2{ 120, 30 });
- *    g_zgui->button("button", vec2{ 120, 30 });
+ *    zgui::button("button", { 120, 30 });
+ *    zgui::button("button", { 120, 30 });
  *
  *  code above won't work correctly because of same name provided. (known consequence is clicking 2 buttons at once)
  *
  *  example:
- *    g_zgui->button("button#button_1", vec2{ 120, 30 });
- *    g_zgui->button("button#button_2", vec2{ 120, 30 });
+ *    zgui::button("button#button_1", { 120, 30 });
+ *    zgui::button("button#button_2", { 120, 30 });
  *
  *  and now, above code works fine because unique id (used in window input blocking) is provided after '#'
 */

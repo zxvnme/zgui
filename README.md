@@ -43,7 +43,7 @@ float get_frametime() { return g_pGlobalVars->frametime; }
 then in your hooks initialize function
 
 ```cpp
-auto& draw_functions = g_zgui->get_functions();
+auto& draw_functions = zgui::get_functions();
 
 draw_functions.draw_line        = reinterpret_cast<zgui::line_t>(line);
 draw_functions.draw_rect        = reinterpret_cast<zgui::rect_t>(rect);
@@ -58,16 +58,16 @@ and finally, you can render the gui, here's short demo
 ```cpp
 static bool example = false;
 static int example_int = 10;
-if (g_zgui->begin_window("zgui example window", zgui::vec2{ 500, 350 }, g::Tahoma, zgui_window_flags_none))
+if (zgui::begin_window("zgui example window", { 500, 350 }, g::Tahoma, zgui::zgui_window_flags_none))
 {
-    g_zgui->checkbox("sample checkbox#example", example);
+    zgui::->checkbox("sample checkbox#example", example);
     //  value before hash is visible ^
-    g_zgui->slider_int("#sample_slider", 0, 40, example_int);
+    zgui::->slider_int("#sample_slider", 0, 40, example_int);
     //                  ^ value after hash is hidden"
     //
     // Hashing is demystified in zgui.hh
 }
-g_zgui->end_window();
+zgui::->end_window();
 ```
 
 ### Acknowledgments
