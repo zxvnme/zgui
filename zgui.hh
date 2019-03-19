@@ -6,7 +6,7 @@
 #include <string_view>
 
 // zgui by zxvnme (https://github.com/zxvnme) and all the community contributors
-#define ZGUI_VER "1.3.0" // the number after second dot is snapshot version.
+#define ZGUI_VER "1.4.0" // the number after second dot is snapshot version.
 /* ================================================================================================
  *
  * zgui is an simple framework created to help people with GUI rendering during their game hacking (but not only) journey.
@@ -81,8 +81,8 @@
  *  and now, above code works fine because unique id (used in window input blocking) is provided after '#'
 */
 
-class zgui {
-public:
+namespace zgui {
+
 	enum zgui_window_flags_ {
 		zgui_window_flags_none = 0,
 		zgui_window_flags_no_border = 1 << 0,
@@ -97,9 +97,9 @@ public:
 		zgui_text_input_flags_password = 1 << 0
 	};
 
-	struct multi_item { std::string name; bool *value; };
-	struct vec2 { float x, y; };
-	struct color { int r, g, b, a; };
+	static struct multi_item { std::string name; bool *value; };
+	static struct vec2 { float x, y; };
+	static struct color { int r, g, b, a; };
 
 
 	using line_t = void(*)(int, int, int, int, color);
@@ -109,8 +109,7 @@ public:
 	using get_text_size_t = void(*)(unsigned long, const wchar_t*, int&, int&);
 	using get_frametime = float(*)();
 
-private:
-	struct stylecolors_t {
+	static struct stylecolors_t {
 		color window_border_inner_fill{ 60, 60, 60, 255 };
 		color window_border_fill{ 40, 40, 40, 255 };
 		color window_border_color{ 10, 10, 10, 255 };
@@ -139,11 +138,11 @@ private:
 		int alpha;
 	};
 
-	struct gui_context_t {
+	static struct gui_context_t {
 		gui_window_context_t window;
 	} context;
 
-	struct functions_t {
+	static struct functions_t {
 		line_t draw_line;
 		rect_t draw_rect;
 		filled_rect_t draw_filled_rect;
@@ -152,11 +151,11 @@ private:
 		get_frametime get_frametime;
 	} functions;
 
-	vec2 mouse_pos;
-	vec2 previous_mouse_pos;
+	static vec2 mouse_pos;
+	static vec2 previous_mouse_pos;
 
-	bool key_state[256];
-	bool prev_key_state[256];
+	static bool key_state[256];
+	static bool prev_key_state[256];
 
 	void poll_input() noexcept;
 
@@ -167,9 +166,8 @@ private:
 	void push_cursor_pos(vec2 pos) noexcept;
 	vec2 pop_cursor_pos() noexcept;
 
-	bool mouse_in_region(int x, int y, int w, int h) const noexcept;
+	bool mouse_in_region(int x, int y, int w, int h) noexcept;
 
-public:
 	functions_t& get_functions() noexcept;
 
 	bool begin_window(std::string_view title, vec2 default_size, unsigned long font, int flags = 0) noexcept;
@@ -200,5 +198,3 @@ public:
 	void same_line(float x_axis = -1) noexcept;
 	void backup_line() noexcept;
 };
-
-extern zgui* g_zgui;
