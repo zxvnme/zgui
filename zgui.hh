@@ -34,7 +34,7 @@
  *  -- functions used to create sliders with value type described in function name.
  *
  *  combobox(std::string_view id, std::vector<std::string> items, int* value);
- *  multi_combobox(std::string id, std::vector<multi_item> items)
+ *  multi_combobox(std::string id, std::vector<multi_combobox_item> items)
  *  -- functions used for creating combo boxes.
  *
  *  checkbox(std::string_view id, bool* value);
@@ -81,9 +81,29 @@
  *  and now, above code works fine because unique id (used in window input blocking) is provided after '#'
 */
 
+
+// For examples and function descriptions see zgui header file.
 namespace zgui {
 
-	enum zgui_window_flags_ {
+	// Multi combobox item.
+	static struct multi_combobox_item { std::string name; bool *value; };
+	// Two dimensional vector.
+	static struct vec2 { float x, y; };
+	// Color with 4 paremeters; red, green, blue and alpha.
+	static struct color { int r, g, b, a; };
+
+	/// "Proxy" functions definitions.
+	using line_t = void(*)(int, int, int, int, color);
+	using rect_t = void(*)(int, int, int, int, color);
+	using filled_rect_t = void(*)(int, int, int, int, color);
+	using text_t = void(*)(int, int, color, int, bool, const char*, ...);
+	using get_text_size_t = void(*)(unsigned long, const wchar_t*, int&, int&);
+	using get_frametime = float(*)();
+	///
+
+	// Flags for window appereance and its behavior.
+	// ex: (zgui_window_flags_no_border | zgui_window_flags_no_titlebar) will cause window to be borderless and without title bar.
+	enum zgui_window_flags {
 		zgui_window_flags_none = 0,
 		zgui_window_flags_no_border = 1 << 0,
 		zgui_window_flags_no_titlebar = 1 << 1,
@@ -91,24 +111,15 @@ namespace zgui {
 		zgui_window_flags_no_move = 1 << 3
 	};
 
-	enum zgui_text_input_flags_
+	// Flags for text input appereance.
+	// ex: (zgui_text_input_flags_password) will convert text input (ex: "abcdef") to "******"
+	enum zgui_text_input_flags
 	{
 		zgui_text_input_flags_none = 0,
 		zgui_text_input_flags_password = 1 << 0
 	};
 
-	static struct multi_item { std::string name; bool *value; };
-	static struct vec2 { float x, y; };
-	static struct color { int r, g, b, a; };
-
-
-	using line_t = void(*)(int, int, int, int, color);
-	using rect_t = void(*)(int, int, int, int, color);
-	using filled_rect_t = void(*)(int, int, int, int, color);
-	using text_t = void(*)(int, int, color, int, bool, const char*, ...);
-	using get_text_size_t = void(*)(unsigned long, const wchar_t*, int&, int&);
-	using get_frametime = float(*)();
-
+	// Color definition. Can be changed at any time just simply by editing this struct.
 	static struct stylecolors_t {
 		color window_border_inner_fill{ 60, 60, 60, 255 };
 		color window_border_fill{ 40, 40, 40, 255 };
@@ -126,10 +137,11 @@ namespace zgui {
 		color color_combo_bg{ 108, 92, 231, 255 };
 	} global_colors;
 
+	// Window context.
 	struct gui_window_context_t {
 		size_t blocking;
 		std::stack<vec2> cursor_pos;
-		std::string title; // Unused for now.
+		std::string _ /* title */;
 		vec2 position, size;
 		vec2 next_cursor_pos;
 		bool dragging;
@@ -138,10 +150,12 @@ namespace zgui {
 		int alpha;
 	};
 
+	// Window definitions.
 	static struct gui_context_t {
 		gui_window_context_t window;
 	} context;
 
+	// "Proxy" functions stuff...
 	static struct functions_t {
 		line_t draw_line;
 		rect_t draw_rect;
@@ -151,24 +165,31 @@ namespace zgui {
 		get_frametime get_frametime;
 	} functions;
 
+	// Get "Proxy" functions
+	functions_t& get_functions() noexcept;
+
+	// Globals
 	static vec2 mouse_pos;
 	static vec2 previous_mouse_pos;
 
+	// Input handling stuff
 	static bool key_state[256];
 	static bool prev_key_state[256];
 
+	// Function for starting our input loop.
 	void poll_input() noexcept;
 
+	// Input utilities.
 	bool key_pressed(int key) noexcept;
 	bool key_down(int key) noexcept;
 	bool key_released(int key) noexcept;
 
+	// Positioning
 	void push_cursor_pos(vec2 pos) noexcept;
 	vec2 pop_cursor_pos() noexcept;
 
+	// Check if mouse is hovered over specified region.
 	bool mouse_in_region(int x, int y, int w, int h) noexcept;
-
-	functions_t& get_functions() noexcept;
 
 	bool begin_window(std::string_view title, vec2 default_size, unsigned long font, int flags = 0) noexcept;
 	void end_window() noexcept;
@@ -180,7 +201,7 @@ namespace zgui {
 	void slider_float(std::string_view id, float min, float max, float& value) noexcept;
 
 	void combobox(std::string_view, std::vector<std::string> items, int& value) noexcept;
-	void multi_combobox(std::string_view id, std::vector<multi_item> items) noexcept;
+	void multi_combobox(std::string_view id, std::vector<multi_combobox_item> items) noexcept;
 
 	void checkbox(std::string_view id, bool& value) noexcept;
 	void toggle_button(std::string_view id, vec2 size, bool& value) noexcept;
