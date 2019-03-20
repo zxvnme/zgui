@@ -435,19 +435,7 @@ void zgui::text_input(std::string_view id, std::string& value, const int max_len
 	functions.draw_filled_rect(draw_pos.x, draw_pos.y, control_width, control_height, global_colors.control_outline);
 	functions.draw_filled_rect(draw_pos.x + 1, draw_pos.y + 1, control_width - 2, control_height - 2, active ? global_colors.control_active_or_clicked : global_colors.control_idle);
 
-	if (flags & zgui_text_input_flags_password)
-	{
-		std::string password_str;
-		for (int i = 0; i < value.length(); i++)
-		{
-			password_str += "*";
-		}
-		functions.draw_text(draw_pos.x + 4, draw_pos.y + 4, global_colors.color_text, context.window.font, false, password_str.c_str());
-	}
-	else
-	{
-		functions.draw_text(draw_pos.x + 4, draw_pos.y + 4, global_colors.color_text, context.window.font, false, value.c_str());
-	}
+	functions.draw_text(draw_pos.x + 4, draw_pos.y + 4, global_colors.color_text, context.window.font, false, flags & zgui_text_input_flags_password ? std::string(value.length(), '*').c_str() : value.c_str());
 
 	push_cursor_pos(vec2{ cursor_pos.x + control_width + ITEM_SPACING, cursor_pos.y });
 	push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + control_height / 2 + ITEM_SPACING + (inlined ? 0 : 12) });
