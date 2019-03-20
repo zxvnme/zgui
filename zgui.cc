@@ -700,7 +700,7 @@ void zgui::slider_float(std::string_view id, const float min, const float max, f
 	push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + control_height / 2 + ITEM_SPACING + (inlined ? 0 : 12) });
 }
 
-void zgui::multi_combobox(std::string_view id, std::vector<multi_item> items) noexcept
+void zgui::multi_combobox(std::string_view id, std::vector<multi_combobox_item> items) noexcept
 {
 	std::vector<std::string> id_split = id.find('#') == std::string::npos ? std::vector<std::string>{id.data()} : split_str(id, '#');
 
