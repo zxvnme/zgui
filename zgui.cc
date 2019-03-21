@@ -91,11 +91,6 @@ zgui::functions_t& zgui::get_functions() noexcept
 	return functions;
 }
 
-bool zgui::mouse_in_region(const int x, const int y, const int w, const int h) noexcept
-{
-	return mouse_pos.x > x && mouse_pos.y > y && mouse_pos.x < w + x && mouse_pos.y < h + y;
-}
-
 void zgui::push_cursor_pos(vec2 pos) noexcept
 {
 	context.window.cursor_pos.push(pos);
@@ -124,21 +119,6 @@ void zgui::poll_input() noexcept
 	ScreenToClient(FindWindow(nullptr, INPUT_WINDOW.data()), &p_mouse_pos);
 	previous_mouse_pos = mouse_pos;
 	mouse_pos = vec2{ static_cast<float>(p_mouse_pos.x), static_cast<float>(p_mouse_pos.y) };
-}
-
-bool zgui::key_pressed(const int key) noexcept
-{
-	return key_state[key] && !prev_key_state[key];
-}
-
-bool zgui::key_down(const int key) noexcept
-{
-	return key_state[key];
-}
-
-bool zgui::key_released(const int key) noexcept
-{
-	return !key_state[key] && prev_key_state[key];
 }
 
 bool zgui::begin_window(std::string_view title, const vec2 default_size, const unsigned long font, const int flags) noexcept

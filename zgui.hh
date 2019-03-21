@@ -180,16 +180,30 @@ namespace zgui {
 	void poll_input() noexcept;
 
 	// Input utilities.
-	bool key_pressed(int key) noexcept;
-	bool key_down(int key) noexcept;
-	bool key_released(int key) noexcept;
+	constexpr bool key_pressed(const int key) noexcept
+	{
+		return key_state[key] && !prev_key_state[key];
+	}
+
+	constexpr bool key_down(const int key) noexcept
+	{
+		return key_state[key];
+	}
+
+	constexpr bool key_released(const int key) noexcept
+	{
+		return !key_state[key] && prev_key_state[key];
+	}
 
 	// Positioning
 	void push_cursor_pos(vec2 pos) noexcept;
 	vec2 pop_cursor_pos() noexcept;
 
 	// Check if mouse is hovered over specified region.
-	bool mouse_in_region(int x, int y, int w, int h) noexcept;
+	constexpr bool mouse_in_region(const int x, const int y, const int w, const int h) noexcept
+	{
+		return mouse_pos.x > x && mouse_pos.y > y && mouse_pos.x < w + x && mouse_pos.y < h + y;
+	}
 
 	bool begin_window(std::string_view title, vec2 default_size, unsigned long font, int flags = 0) noexcept;
 	void end_window() noexcept;
