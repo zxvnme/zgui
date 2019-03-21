@@ -232,7 +232,7 @@ void zgui::end_groupbox() noexcept
 
 void zgui::checkbox(std::string_view id, bool& value) noexcept
 {
-	std::vector<std::string> id_split = id.find('#') == std::string::npos ? std::vector<std::string>{id.data()} : split_str(id.data(), '#');
+	std::vector<std::string> id_split = split_str(id.data(), '#');
 
 	const int control_height = 8;
 	const int control_width = 8;
@@ -267,7 +267,7 @@ void zgui::checkbox(std::string_view id, bool& value) noexcept
 
 void zgui::toggle_button(std::string_view id, const vec2 size, bool& value) noexcept
 {
-	std::vector<std::string> id_split = id.find('#') == std::string::npos ? std::vector<std::string>{id.data()} : split_str(id.data(), '#');
+	std::vector<std::string> id_split = split_str(id.data(), '#');
 
 	const vec2 cursor_pos = pop_cursor_pos();
 	const vec2 draw_pos{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
@@ -299,7 +299,7 @@ void zgui::toggle_button(std::string_view id, const vec2 size, bool& value) noex
 
 bool zgui::button(std::string_view id, const vec2 size) noexcept
 {
-	std::vector<std::string> id_split = id.find('#') == std::string::npos ? std::vector<std::string>{id.data()} : split_str(id.data(), '#');
+	std::vector<std::string> id_split = split_str(id.data(), '#');
 
 	const vec2 cursor_pos = pop_cursor_pos();
 	const vec2 draw_pos{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
@@ -334,7 +334,7 @@ bool zgui::button(std::string_view id, const vec2 size) noexcept
 
 void zgui::key_bind(std::string_view id, int& value) noexcept
 {
-	std::vector<std::string> id_split = id.find('#') == std::string::npos ? std::vector<std::string>{id.data()} : split_str(id, '#');
+	std::vector<std::string> id_split = split_str(id, '#');
 
 	const int control_width = 80;
 	const int control_height = 20;
@@ -388,7 +388,7 @@ void zgui::key_bind(std::string_view id, int& value) noexcept
 
 void zgui::text_input(std::string_view id, std::string& value, const int max_length, const int flags) noexcept
 {
-	std::vector<std::string> id_split = id.find('#') == std::string::npos ? std::vector<std::string>{id.data()} : split_str(id, '#');
+	std::vector<std::string> id_split = split_str(id, '#');
 
 	const int control_width = 80;
 	const int control_height = 20;
@@ -464,7 +464,7 @@ void zgui::text_input(std::string_view id, std::string& value, const int max_len
 
 void zgui::slider_int(std::string_view id, const int min, const int max, int& value) noexcept
 {
-	std::vector<std::string> id_split = id.find('#') == std::string::npos ? std::vector<std::string>{id.data()} : split_str(id, '#');
+	std::vector<std::string> id_split = split_str(id, '#');
 
 	const int control_width = 120;
 	const int control_height = 10;
@@ -534,7 +534,7 @@ void zgui::slider_int(std::string_view id, const int min, const int max, int& va
 
 void zgui::combobox(std::string_view id, std::vector<std::string>items, int& value) noexcept
 {
-	std::vector<std::string> id_split = id.find('#') == std::string::npos ? std::vector<std::string>{id.data()} : split_str(id, '#');
+	std::vector<std::string> id_split = split_str(id, '#');
 
 	const int control_width = 70;
 	const int control_height = 20;
@@ -599,7 +599,7 @@ void zgui::combobox(std::string_view id, std::vector<std::string>items, int& val
 
 void zgui::slider_float(std::string_view id, const float min, const float max, float& value) noexcept
 {
-	std::vector<std::string> id_split = id.find('#') == std::string::npos ? std::vector<std::string>{id.data()} : split_str(id, '#');
+	std::vector<std::string> id_split = split_str(id, '#');
 
 	const int control_width = 120;
 	const int control_height = 10;
@@ -670,7 +670,7 @@ void zgui::slider_float(std::string_view id, const float min, const float max, f
 
 void zgui::multi_combobox(std::string_view id, std::vector<multi_combobox_item> items) noexcept
 {
-	std::vector<std::string> id_split = id.find('#') == std::string::npos ? std::vector<std::string>{id.data()} : split_str(id, '#');
+	std::vector<std::string> id_split = split_str(id, '#');
 
 	const int control_width = 100;
 	const int control_height = 20;
@@ -757,7 +757,7 @@ void zgui::multi_combobox(std::string_view id, std::vector<multi_combobox_item> 
 
 bool zgui::clickable_text(std::string_view id) noexcept
 {
-	std::vector<std::string> id_split = id.find('#') == std::string::npos ? std::vector<std::string>{id.data()} : split_str(id, '#');
+	std::vector<std::string> id_split = split_str(id, '#');
 
 	const vec2 cursor_pos = pop_cursor_pos();
 	const vec2 draw_pos{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
