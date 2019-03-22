@@ -65,8 +65,8 @@ if (zgui::begin_window("zgui example window", { 500, 350 }, g::Tahoma, zgui::zgu
     //                  ^ value after hash is hidden"
     //
     // Hashing is demystified in zgui.hh
+    zgui::end_window();
 }
-zgui::end_window();
 ```
 
 ### Acknowledgments
