@@ -93,12 +93,12 @@ namespace zgui {
 	struct color { int r, g, b, a; };
 
 	/// "Proxy" functions definitions.
-	using line_t = void(*)(int, int, int, int, color);
-	using rect_t = void(*)(int, int, int, int, color);
-	using filled_rect_t = void(*)(int, int, int, int, color);
-	using text_t = void(*)(int, int, color, int, bool, const char*, ...);
-	using get_text_size_t = void(*)(unsigned long, const wchar_t*, int&, int&);
-	using get_frametime = float(*)();
+	using line_t = void(*)(int, int, int, int, color) noexcept;
+	using rect_t = void(*)(int, int, int, int, color) noexcept;
+	using filled_rect_t = void(*)(int, int, int, int, color) noexcept;
+	using text_t = void(*)(int, int, color, int, bool, const char*, ...) noexcept;
+	using get_text_size_t = void(*)(unsigned long, const wchar_t*, int&, int&) noexcept;
+	using get_frametime = float(*)() noexcept;
 	///
 
 	// Flags for window appereance and its behavior.
