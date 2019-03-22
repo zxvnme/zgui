@@ -135,19 +135,19 @@ bool zgui::begin_window(std::string_view title, const vec2 default_size, const u
 
 		if (context.window.alpha != prev_alpha)
 		{
-			global_colors.window_border_inner_fill = color{ 60, 60, 60, context.window.alpha };
-			global_colors.window_border_fill = color{ 40, 40, 40, context.window.alpha };
-			global_colors.window_border_color = color{ 10, 10, 10, context.window.alpha };
-			global_colors.window_background = color{ 40, 40, 40, context.window.alpha };
+			global_colors.window_border_inner_fill.a = context.window.alpha;
+			global_colors.window_border_fill.a = context.window.alpha;
+			global_colors.window_border_color.a = context.window.alpha;
+			global_colors.window_background.a = context.window.alpha;
 
-			global_colors.control_outline = color{ 23, 23, 30, context.window.alpha };
-			global_colors.control_active_or_clicked = color{ 108, 92, 231, context.window.alpha };
-			global_colors.control_idle = color{ 62, 62, 72, context.window.alpha };
+			global_colors.control_outline.a = context.window.alpha;
+			global_colors.control_active_or_clicked.a = context.window.alpha;
+			global_colors.control_idle.a = context.window.alpha;
 
-			global_colors.color_groupbox_bg = color{ 50, 50, 50, context.window.alpha };
-			global_colors.color_text = color{ 203, 203, 203, context.window.alpha };
-			global_colors.color_text_dimmer = color{ 99, 110, 114, context.window.alpha };
-			global_colors.color_slider = color{ 108, 92, 231, context.window.alpha };
+			global_colors.color_groupbox_bg.a = context.window.alpha;
+			global_colors.color_text.a = context.window.alpha;
+			global_colors.color_text_dimmer.a = context.window.alpha;
+			global_colors.color_slider.a = context.window.alpha;
 		}
 	}
 
