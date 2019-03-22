@@ -120,7 +120,7 @@ namespace zgui {
 	};
 
 	// Color definition. Can be changed at any time just simply by editing this struct.
-	struct stylecolors_t {
+	static struct stylecolors_t {
 		color window_border_inner_fill{ 60, 60, 60, 255 };
 		color window_border_fill{ 40, 40, 40, 255 };
 		color window_border_color{ 10, 10, 10, 255 };
@@ -138,7 +138,7 @@ namespace zgui {
 	} global_colors;
 
 	// Window context.
-	struct gui_window_context_t {
+	static struct gui_window_context_t {
 		size_t blocking;
 		std::stack<vec2> cursor_pos;
 		std::string _ /* title */;
@@ -151,12 +151,12 @@ namespace zgui {
 	};
 
 	// Window definitions.
-	struct gui_context_t {
+	static struct gui_context_t {
 		gui_window_context_t window;
 	} context;
 
 	// "Proxy" functions stuff...
-	struct functions_t {
+	static struct functions_t {
 		line_t draw_line;
 		rect_t draw_rect;
 		filled_rect_t draw_filled_rect;
@@ -169,12 +169,12 @@ namespace zgui {
 	functions_t& get_functions() noexcept;
 
 	// Globals
-	vec2 mouse_pos;
-	vec2 previous_mouse_pos;
+	static vec2 mouse_pos;
+	static vec2 previous_mouse_pos;
 
 	// Input handling stuff
-	bool key_state[256];
-	bool prev_key_state[256];
+	static bool key_state[256];
+	static bool prev_key_state[256];
 
 	// Function for starting our input loop.
 	void poll_input() noexcept;
