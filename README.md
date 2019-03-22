@@ -29,15 +29,14 @@ constexpr std::string_view INPUT_WINDOW{ "" };
 ```
 
 In top of `hooks.cc` (whatever) create some proxy functions.
-Functions used in this example are from valve_sdk (but their can be from wherever you want)
 
 ```cpp
-void line(int x, int y, int x2, int y2, Color c) { g_pSurface->Line(x, y, x2, y2, c); }
-void rect(int x, int y, int x2, int y2, Color c) { g_pSurface->OutlinedRect(x, y, x2, y2, c); }
-void filled_rect(int x, int y, int x2, int y2, Color c) { g_pSurface->FilledRect(x, y, x2, y2, c); }
-void text(int x, int y, Color color, int font, bool center, const char* _input, ...) { g_pSurface->DrawT(x, y, color, font, center, _input); }
-void get_text_size(unsigned long font, const wchar_t* text, int& wide, int& tall) { g_pSurface->GetTextSize(font, text, wide, tall); }
-float get_frametime() { return g_pGlobalVars->frametime; }
+void line(int x, int y, int x2, int y2, zgui::color c) { /* draw line using your renderer */ }
+void rect(int x, int y, int x2, int y2, zgui::color c) { /* draw outlined rectangle using your renderer */ }
+void filled_rect(int x, int y, int x2, int y2, zgui::color c) { /* draw filled rectangle using your renderer */ }
+void text(int x, int y, Color color, int font, bool center, const char* _input, ...) { /* draw text using your renderer */ }
+void get_text_size(unsigned long font, const wchar_t* text, int& wide, int& tall) { /* calculate text size here */ }
+float get_frametime() { /* return frametime */ }
 ```
 
 then in your hooks initialize function
@@ -45,12 +44,12 @@ then in your hooks initialize function
 ```cpp
 auto& draw_functions = zgui::get_functions();
 
-draw_functions.draw_line        = reinterpret_cast<zgui::line_t>(line);
-draw_functions.draw_rect        = reinterpret_cast<zgui::rect_t>(rect);
-draw_functions.draw_filled_rect = reinterpret_cast<zgui::filled_rect_t>(filled_rect);
-draw_functions.draw_text        = reinterpret_cast<zgui::text_t>(text);
-draw_functions.get_text_size    = static_cast<zgui::get_text_size_t>(get_text_size);
-draw_functions.get_frametime    = static_cast<zgui::get_frametime>(get_frametime);
+draw_functions.draw_line        = line;
+draw_functions.draw_rect        = rect;
+draw_functions.draw_filled_rect = filled_rect;
+draw_functions.draw_text        = text;
+draw_functions.get_text_size    = get_text_size;
+draw_functions.get_frametime    = get_frametime;
 ```
 
 and finally, you can render the gui, here's short demo
