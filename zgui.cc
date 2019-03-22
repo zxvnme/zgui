@@ -105,7 +105,7 @@ zgui::vec2 zgui::pop_cursor_pos() noexcept
 
 void zgui::poll_input() noexcept
 {
-	static_assert(!INPUT_WINDOW.length(),
+	static_assert(INPUT_WINDOW.length(),
 		"No window from where input should be read from specified (see defines on the top of zgui.cc file). Comment this if you are aware of this and its not an error."
 	);
 
