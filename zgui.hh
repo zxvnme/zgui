@@ -214,20 +214,20 @@ namespace zgui {
 	void begin_groupbox(std::string_view title, vec2 size) noexcept;
 	void end_groupbox() noexcept;
 
-	void slider_int(std::string_view id, int min, int max, int& value) noexcept;
-	void slider_float(std::string_view id, float min, float max, float& value) noexcept;
+	void slider_int(const char* id, int min, int max, int& value) noexcept;
+	void slider_float(const char* id, float min, float max, float& value) noexcept;
 
-	void combobox(std::string_view, std::vector<std::string> items, int& value) noexcept;
-	void multi_combobox(std::string_view id, std::vector<multi_combobox_item> items) noexcept;
+	void combobox(const char*, std::vector<std::string> items, int& value) noexcept;
+	void multi_combobox(const char* id, std::vector<multi_combobox_item> items) noexcept;
 
 	void checkbox(std::string_view id, bool& value) noexcept;
-	void toggle_button(std::string_view id, vec2 size, bool& value) noexcept;
-	bool button(std::string_view id, vec2 size) noexcept;
+	void toggle_button(const char* id, vec2 size, bool& value) noexcept;
+	bool button(const char* id, vec2 size) noexcept;
 
-	void key_bind(std::string_view id, int& value) noexcept;
-	void text_input(std::string_view id, std::string& value, int max_length = 16, int flags = 0) noexcept;
+	void key_bind(const char* id, int& value) noexcept;
+	void text_input(const char* id, std::string& value, int max_length = 16, int flags = 0) noexcept;
 
-	bool clickable_text(std::string_view id) noexcept;
+	bool clickable_text(const char* id) noexcept;
 	void text(std::string_view id) noexcept;
 	void dummy() noexcept;
 
