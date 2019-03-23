@@ -86,11 +86,6 @@ static key_code_info special_characters[22] = {
 	{ 191, '/',  '?' }
 };
 
-zgui::functions_t& zgui::get_functions() noexcept
-{
-	return functions;
-}
-
 void zgui::push_cursor_pos(vec2 pos) noexcept
 {
 	context.window.cursor_pos.push(pos);

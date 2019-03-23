@@ -166,7 +166,10 @@ namespace zgui {
 	} functions;
 
 	// Get "Proxy" functions
-	functions_t& get_functions() noexcept;
+	constexpr functions_t& get_functions() noexcept
+	{
+		return functions;
+	}
 
 	// Globals
 	static vec2 mouse_pos;
