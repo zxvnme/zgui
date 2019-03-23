@@ -1,6 +1,6 @@
 <div align="center">
 <img width="258" src="resources/zgui.png" alt="zgui logo">
-<h4>Simple immediate mode gui framework.</h4>
+<h4>Simple immediate mode gui framework</h4>
 
 [![forthebadge](https://forthebadge.com/images/badges/made-with-c-plus-plus.svg)](https://forthebadge.com)
 [![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
@@ -34,7 +34,7 @@ In top of `hooks.cc` (whatever) create some proxy functions.
 void line(int x, int y, int x2, int y2, zgui::color c) noexcept { /* draw line using your renderer */ }
 void rect(int x, int y, int x2, int y2, zgui::color c) noexcept { /* draw outlined rectangle using your renderer */ }
 void filled_rect(int x, int y, int x2, int y2, zgui::color c) noexcept { /* draw filled rectangle using your renderer */ }
-void text(int x, int y, Color color, int font, bool center, const char* _input, ...) noexcept { /* draw text using your renderer */ }
+void text(int x, int y, zgui::color color, int font, bool center, const char* _input, ...) noexcept { /* draw text using your renderer */ }
 void get_text_size(unsigned long font, const wchar_t* text, int& wide, int& tall) noexcept { /* calculate text size here */ }
 float get_frametime() noexcept { /* return frametime */ }
 ```
