@@ -16,6 +16,107 @@ constexpr int MENU_TOGGLE_KEY{ VK_INSERT }; // virtual key that will trigger our
 //
 constexpr zgui::vec2 ZERO_VEC{ 0, 0 };
 
+// Color definition. Can be changed at any time just simply by editing this struct.
+static struct {
+	zgui::color window_border_inner_fill{ 60, 60, 60, 255 };
+	zgui::color window_border_fill{ 40, 40, 40, 255 };
+	zgui::color window_border_color{ 10, 10, 10, 255 };
+	zgui::color window_background{ 40, 40, 40, 255 };
+
+	zgui::color control_outline{ 23, 23, 30, 255 };
+	zgui::color control_active_or_clicked{ 108, 92, 231, 255 };
+	zgui::color control_idle{ 62, 62, 72, 255 };
+
+	zgui::color color_groupbox_bg{ 50, 50, 50, 255 };
+	zgui::color color_text{ 203, 203, 203, 255 };
+	zgui::color color_text_dimmer{ 99, 110, 114, 255 };
+	zgui::color color_slider{ 108, 92, 231, 255 };
+	zgui::color color_combo_bg{ 108, 92, 231, 255 };
+} global_colors;
+
+// Window context.
+struct gui_window_context_t {
+	size_t blocking;
+	std::stack<zgui::vec2> cursor_pos;
+	std::string _ /* title */;
+	zgui::vec2 position, size;
+	zgui::vec2 next_cursor_pos;
+	bool dragging;
+	bool opened;
+	int font;
+	int alpha;
+};
+
+// Window definitions.
+static struct gui_context_t {
+	gui_window_context_t window;
+} context;
+
+// "Proxy" functions stuff...
+zgui::functions_t zgui::functions;
+
+// Globals
+static zgui::vec2 mouse_pos;
+static zgui::vec2 previous_mouse_pos;
+
+// Input handling stuff
+static bool key_state[256];
+static bool prev_key_state[256];
+
+// Function for starting our input loop.
+void poll_input() noexcept
+{
+	static_assert(INPUT_WINDOW.length(),
+		"No window from where input should be read from specified (see defines on the top of zgui.cc file). Comment this if you are aware of this and its not an error."
+		);
+
+	for (int i = 0; i < 256; i++) {
+		prev_key_state[i] = key_state[i];
+		key_state[i] = GetAsyncKeyState(i);
+	}
+
+	POINT p_mouse_pos;
+	GetCursorPos(&p_mouse_pos);
+	ScreenToClient(FindWindow(nullptr, INPUT_WINDOW.data()), &p_mouse_pos);
+	previous_mouse_pos = mouse_pos;
+	mouse_pos = zgui::vec2{ static_cast<float>(p_mouse_pos.x), static_cast<float>(p_mouse_pos.y) };
+}
+
+// Input utilities.
+constexpr bool key_pressed(const int key) noexcept
+{
+	return key_state[key] && !prev_key_state[key];
+}
+
+constexpr bool key_down(const int key) noexcept
+{
+	return key_state[key];
+}
+
+constexpr bool key_released(const int key) noexcept
+{
+	return !key_state[key] && prev_key_state[key];
+}
+
+// Positioning
+void push_cursor_pos(zgui::vec2 pos) noexcept
+{
+	context.window.cursor_pos.push(pos);
+}
+
+zgui::vec2 pop_cursor_pos() noexcept
+{
+	const zgui::vec2 pos = context.window.cursor_pos.top();
+	context.window.cursor_pos.pop();
+	return pos;
+}
+
+// Check if mouse is hovered over specified region.
+constexpr bool mouse_in_region(const int x, const int y, const int w, const int h) noexcept
+{
+	return mouse_pos.x > x && mouse_pos.y > y && mouse_pos.x < w + x && mouse_pos.y < h + y;
+}
+
 std::vector<std::string> split_str(const char* str, char separator)
 {
 	std::vector<std::string> output;
@@ -85,36 +186,6 @@ static key_code_info special_characters[22] = {
 	{ 190, '.',  '>' },
 	{ 191, '/',  '?' }
 };
-
-void zgui::push_cursor_pos(vec2 pos) noexcept
-{
-	context.window.cursor_pos.push(pos);
-}
-
-zgui::vec2 zgui::pop_cursor_pos() noexcept
-{
-	const vec2 pos = context.window.cursor_pos.top();
-	context.window.cursor_pos.pop();
-	return pos;
-}
-
-void zgui::poll_input() noexcept
-{
-	static_assert(INPUT_WINDOW.length(),
-		"No window from where input should be read from specified (see defines on the top of zgui.cc file). Comment this if you are aware of this and its not an error."
-	);
-
-	for (int i = 0; i < 256; i++) {
-		prev_key_state[i] = key_state[i];
-		key_state[i] = GetAsyncKeyState(i);
-	}
-
-	POINT p_mouse_pos;
-	GetCursorPos(&p_mouse_pos);
-	ScreenToClient(FindWindow(nullptr, INPUT_WINDOW.data()), &p_mouse_pos);
-	previous_mouse_pos = mouse_pos;
-	mouse_pos = vec2{ static_cast<float>(p_mouse_pos.x), static_cast<float>(p_mouse_pos.y) };
-}
 
 bool zgui::begin_window(std::string_view title, const vec2 default_size, const unsigned long font, const int flags) noexcept
 {

@@ -119,93 +119,22 @@ namespace zgui {
 		zgui_text_input_flags_password = 1 << 0
 	};
 
-	// Color definition. Can be changed at any time just simply by editing this struct.
-	static struct stylecolors_t {
-		color window_border_inner_fill{ 60, 60, 60, 255 };
-		color window_border_fill{ 40, 40, 40, 255 };
-		color window_border_color{ 10, 10, 10, 255 };
-		color window_background{ 40, 40, 40, 255 };
-
-		color control_outline{ 23, 23, 30, 255 };
-		color control_active_or_clicked{ 108, 92, 231, 255 };
-		color control_idle{ 62, 62, 72, 255 };
-
-		color color_groupbox_bg{ 50, 50, 50, 255 };
-		color color_text{ 203, 203, 203, 255 };
-		color color_text_dimmer{ 99, 110, 114, 255 };
-		color color_slider{ 108, 92, 231, 255 };
-		color color_combo_bg{ 108, 92, 231, 255 };
-	} global_colors;
-
-	// Window context.
-	static struct gui_window_context_t {
-		size_t blocking;
-		std::stack<vec2> cursor_pos;
-		std::string _ /* title */;
-		vec2 position, size;
-		vec2 next_cursor_pos;
-		bool dragging;
-		bool opened;
-		int font;
-		int alpha;
-	};
-
-	// Window definitions.
-	static struct gui_context_t {
-		gui_window_context_t window;
-	} context;
-
 	// "Proxy" functions stuff...
-	static struct functions_t {
+	struct functions_t {
 		line_t draw_line;
 		rect_t draw_rect;
 		filled_rect_t draw_filled_rect;
 		text_t draw_text;
 		get_text_size_t get_text_size;
 		get_frametime get_frametime;
-	} functions;
+	};
+
+	extern functions_t functions;
 
 	// Get "Proxy" functions
 	constexpr functions_t& get_functions() noexcept
 	{
 		return functions;
-	}
-
-	// Globals
-	static vec2 mouse_pos;
-	static vec2 previous_mouse_pos;
-
-	// Input handling stuff
-	static bool key_state[256];
-	static bool prev_key_state[256];
-
-	// Function for starting our input loop.
-	void poll_input() noexcept;
-
-	// Input utilities.
-	constexpr bool key_pressed(const int key) noexcept
-	{
-		return key_state[key] && !prev_key_state[key];
-	}
-
-	constexpr bool key_down(const int key) noexcept
-	{
-		return key_state[key];
-	}
-
-	constexpr bool key_released(const int key) noexcept
-	{
-		return !key_state[key] && prev_key_state[key];
-	}
-
-	// Positioning
-	void push_cursor_pos(vec2 pos) noexcept;
-	vec2 pop_cursor_pos() noexcept;
-
-	// Check if mouse is hovered over specified region.
-	constexpr bool mouse_in_region(const int x, const int y, const int w, const int h) noexcept
-	{
-		return mouse_pos.x > x && mouse_pos.y > y && mouse_pos.x < w + x && mouse_pos.y < h + y;
 	}
 
 	bool begin_window(std::string_view title, vec2 default_size, unsigned long font, int flags = 0) noexcept;
@@ -235,4 +164,4 @@ namespace zgui {
 
 	void same_line(float x_axis = -1) noexcept;
 	void backup_line() noexcept;
-};
+}
