@@ -6,7 +6,7 @@
 #include <string_view>
 
 // zgui by zxvnme (https://github.com/zxvnme) and all the community contributors
-#define ZGUI_VER "1.4.0" // the number after second dot is snapshot version.
+#define ZGUI_VER "1.4.1" // the number after second dot is snapshot version.
 /* ================================================================================================
  *
  * zgui is an simple framework created to help people with GUI rendering during their game hacking (but not only) journey.
@@ -86,7 +86,7 @@
 namespace zgui {
 
 	// Multi combobox item.
-	struct multi_combobox_item { std::string name; bool *value; };
+	struct multi_combobox_item { std::string_view name; bool *value; };
 	// Two dimensional vector.
 	struct vec2 { float x, y; };
 	// Color with 4 paremeters; red, green, blue and alpha.
@@ -147,7 +147,9 @@ namespace zgui {
 	void slider_float(const char* id, float min, float max, float& value) noexcept;
 
 	void combobox(const char*, std::vector<std::string> items, int& value) noexcept;
-	void multi_combobox(const char* id, std::vector<multi_combobox_item> items) noexcept;
+	void multi_combobox(const char* id, std::vector<multi_combobox_item> items) noexcept; 
+
+	void listbox(const char* id, std::vector<multi_combobox_item> items) noexcept;
 
 	void checkbox(std::string_view id, bool& value) noexcept;
 	void toggle_button(const char* id, vec2 size, bool& value) noexcept;
