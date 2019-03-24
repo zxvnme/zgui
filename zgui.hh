@@ -34,7 +34,7 @@
  *  -- functions used to create sliders with value type described in function name.
  *
  *  combobox(std::string_view id, std::vector<std::string> items, int* value);
- *  multi_combobox(std::string id, std::vector<multi_combobox_item> items)
+ *  multi_combobox(std::string id, std::vector<multi_select_item> items)
  *  -- functions used for creating combo boxes.
  *
  *  checkbox(std::string_view id, bool* value);
@@ -85,8 +85,8 @@
 // For examples and function descriptions see zgui header file.
 namespace zgui {
 
-	// Multi combobox item.
-	struct multi_combobox_item { std::string_view name; bool *value; };
+	// Multi selectable item.
+	struct multi_select_item { std::string_view name; bool *value; };
 	// Two dimensional vector.
 	struct vec2 { float x, y; };
 	// Color with 4 paremeters; red, green, blue and alpha.
@@ -147,9 +147,9 @@ namespace zgui {
 	void slider_float(const char* id, float min, float max, float& value) noexcept;
 
 	void combobox(const char*, std::vector<std::string> items, int& value) noexcept;
-	void multi_combobox(const char* id, std::vector<multi_combobox_item> items) noexcept; 
+	void multi_combobox(const char* id, std::vector<multi_select_item> items) noexcept; 
 
-	void listbox(const char* id, std::vector<multi_combobox_item> items) noexcept;
+	void listbox(const char* id, std::vector<multi_select_item> items) noexcept;
 
 	void checkbox(std::string_view id, bool& value) noexcept;
 	void toggle_button(const char* id, vec2 size, bool& value) noexcept;
