@@ -42,14 +42,12 @@ float get_frametime() noexcept { /* return frametime */ }
 then in your hooks initialize function
 
 ```cpp
-auto& draw_functions = zgui::get_functions();
-
-draw_functions.draw_line        = line;
-draw_functions.draw_rect        = rect;
-draw_functions.draw_filled_rect = filled_rect;
-draw_functions.draw_text        = text;
-draw_functions.get_text_size    = get_text_size;
-draw_functions.get_frametime    = get_frametime;
+zgui::functions.draw_line = line;
+zgui::functions.draw_rect = rect;
+zgui::functions.draw_filled_rect = filled_rect;
+zgui::functions.draw_text = text;
+zgui::functions.get_text_size = get_text_size;
+zgui::functions.get_frametime = get_frametime;
 ```
 
 and finally, you can render the gui, here's short demo

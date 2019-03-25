@@ -131,12 +131,6 @@ namespace zgui {
 
 	extern functions_t functions;
 
-	// Get "Proxy" functions
-	constexpr functions_t& get_functions() noexcept
-	{
-		return functions;
-	}
-
 	bool begin_window(std::string_view title, vec2 default_size, unsigned long font, int flags = 0) noexcept;
 	void end_window() noexcept;
 
