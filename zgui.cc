@@ -117,7 +117,7 @@ constexpr bool mouse_in_region(const int x, const int y, const int w, const int 
 	return mouse_pos.x > x && mouse_pos.y > y && mouse_pos.x < w + x && mouse_pos.y < h + y;
 }
 
-std::vector<std::string> split_str(const char* str, char separator)
+std::vector<std::string> split_str(const char* str, char separator) noexcept
 {
 	std::vector<std::string> output;
 	std::string substring;
