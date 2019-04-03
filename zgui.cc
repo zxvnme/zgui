@@ -283,7 +283,7 @@ void zgui::begin_groupbox(std::string_view title, const vec2 size) noexcept
 	functions.draw_filled_rect(draw_pos.x, draw_pos.y, size.x, size.y, global_colors.color_groupbox_bg);
 
 	if (title.length() > 0)
-		functions.draw_text(draw_pos.x + 4, draw_pos.y - 6, global_colors.color_text, context.window.font, false, title.data());
+		functions.draw_text(draw_pos.x + 4, draw_pos.y - 8, global_colors.color_text, context.window.font, false, title.data());
 
 	context.window.next_cursor_pos = vec2{ cursor_pos.x, cursor_pos.y + size.y + 10 };
 
