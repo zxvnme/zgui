@@ -6,7 +6,7 @@
 #include <string_view>
 
 // zgui by zxvnme (https://github.com/zxvnme) and all the community contributors
-#define ZGUI_VER "1.4.1" // the number after second dot is snapshot version.
+#define ZGUI_VER "1.4.2" // the number after second dot is snapshot version.
 /* ================================================================================================
  *
  * zgui is an simple framework created to help people with GUI rendering during their game hacking (but not only) journey.
@@ -131,7 +131,20 @@ namespace zgui {
 
 	extern functions_t functions;
 
-	bool begin_window(std::string_view title, vec2 default_size, unsigned long font, int flags = 0) noexcept;
+	struct gui_window_context_t {
+		size_t blocking;
+		std::stack<vec2> cursor_pos;
+		vec2 position, size;
+		vec2 next_cursor_pos;
+		bool dragging;
+		bool opened;
+		int font;
+		int alpha;
+	};
+
+	void poll_input(std::string_view window_name);
+
+	bool begin_window(std::string_view title, vec2 default_size, unsigned long font, int flags = 0);
 	void end_window() noexcept;
 
 	void begin_groupbox(std::string_view title, vec2 size) noexcept;
@@ -141,7 +154,7 @@ namespace zgui {
 	void slider_float(const char* id, float min, float max, float& value) noexcept;
 
 	void combobox(const char*, std::vector<std::string> items, int& value) noexcept;
-	void multi_combobox(const char* id, std::vector<multi_select_item> items) noexcept; 
+	void multi_combobox(const char* id, std::vector<multi_select_item> items) noexcept;
 
 	void listbox(const char* id, std::vector<multi_select_item> items) noexcept;
 

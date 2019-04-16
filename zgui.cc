@@ -11,7 +11,6 @@
 // -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 constexpr zgui::vec2 BASE_POS{ 16, 23 }; // base position that first control will be created.
 constexpr int ITEM_SPACING{ 16 }; // spacing between controls.
-constexpr std::string_view INPUT_WINDOW{ "" }; // name of window where input will be read from
 constexpr int MENU_TOGGLE_KEY{ VK_INSERT }; // virtual key that will trigger our gui open.
 //
 constexpr zgui::vec2 ZERO_VEC{ 0, 0 };
@@ -34,22 +33,9 @@ static struct {
 	zgui::color color_combo_bg{ 108, 92, 231, 255 };
 } global_colors;
 
-// Window context.
-struct gui_window_context_t {
-	size_t blocking;
-	std::stack<zgui::vec2> cursor_pos;
-	std::string _ /* title */;
-	zgui::vec2 position, size;
-	zgui::vec2 next_cursor_pos;
-	bool dragging;
-	bool opened;
-	int font;
-	int alpha;
-};
-
 // Window definitions.
 static struct gui_context_t {
-	gui_window_context_t window;
+	zgui::gui_window_context_t window;
 } context;
 
 // "Proxy" functions stuff...
@@ -63,12 +49,14 @@ static zgui::vec2 previous_mouse_pos;
 static bool key_state[256];
 static bool prev_key_state[256];
 
+// Check for input polling.
+static bool input_loop_started = false;
+
 // Function for starting our input loop.
-void poll_input() noexcept
+void zgui::poll_input(std::string_view window_name)
 {
-	static_assert(INPUT_WINDOW.length(),
-		"No window from where input should be read from specified (see defines on the top of zgui.cc file). Comment this if you are aware of this and its not an error."
-		);
+	if (window_name.empty())
+		throw std::exception("No window from where input should be read from specified (see defines on the top of zgui.cc file). Comment this if you are aware of this and its not an error.");
 
 	for (int i = 0; i < 256; i++) {
 		prev_key_state[i] = key_state[i];
@@ -77,9 +65,12 @@ void poll_input() noexcept
 
 	POINT p_mouse_pos;
 	GetCursorPos(&p_mouse_pos);
-	ScreenToClient(FindWindow(nullptr, INPUT_WINDOW.data()), &p_mouse_pos);
+	ScreenToClient(FindWindow(nullptr, window_name.data()), &p_mouse_pos);
 	previous_mouse_pos = mouse_pos;
-	mouse_pos = zgui::vec2{ static_cast<float>(p_mouse_pos.x), static_cast<float>(p_mouse_pos.y) };
+	mouse_pos = vec2{ static_cast<float>(p_mouse_pos.x), static_cast<float>(p_mouse_pos.y) };
+
+	if (!input_loop_started)
+		input_loop_started = true;
 }
 
 // Input utilities.
@@ -99,7 +90,7 @@ constexpr bool key_released(const int key) noexcept
 }
 
 // Positioning
-void push_cursor_pos(zgui::vec2 pos) noexcept
+void push_cursor_pos(const zgui::vec2 pos) noexcept
 {
 	context.window.cursor_pos.push(pos);
 }
@@ -187,8 +178,11 @@ static key_code_info special_characters[22] = {
 	{ 191, '/',  '?' }
 };
 
-bool zgui::begin_window(std::string_view title, const vec2 default_size, const unsigned long font, const int flags) noexcept
+bool zgui::begin_window(std::string_view title, const vec2 default_size, const unsigned long font, const int flags)
 {
+	if (!input_loop_started)
+		throw std::exception("Input loop didnt start or didnt start properly.");;
+
 	context.window.font = font;
 
 	if (key_pressed(MENU_TOGGLE_KEY))
@@ -216,8 +210,6 @@ bool zgui::begin_window(std::string_view title, const vec2 default_size, const u
 			global_colors.color_slider.a = context.window.alpha;
 		}
 	}
-
-	poll_input();
 
 	if (context.window.opened || context.window.alpha > 0)
 	{
@@ -875,7 +867,7 @@ void zgui::listbox(const char* id, std::vector<multi_select_item> items) noexcep
 	{
 		context.window.blocking = std::hash<const char*>()(id);
 	}
-		
+
 }
 
 bool zgui::clickable_text(const char* id) noexcept
