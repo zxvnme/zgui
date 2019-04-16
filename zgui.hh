@@ -65,7 +65,7 @@
  *    backup_line();
  *      -- functions used for inline controls positioning. NOTE: there can be only one item between these two functions called.
  *
- *    ================================[hashing control names]================================
+ *    ================================[hashing controls names]================================
  *
  *    the '#' thing in control name is separator that splits our name to two elements; actual displayed name & the one that is "hidden"
  *

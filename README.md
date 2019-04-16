@@ -49,6 +49,7 @@ and finally, you can render the gui, here's short demo
 ```cpp
 // Start input loop
 zgui::poll_input("type_window_name_here"); // Improper calling will result in exception.
+// Search in zgui.hh for [input handling] to get more details.
 
 static bool example = false;
 static int example_int = 10;
@@ -60,6 +61,7 @@ if (zgui::begin_window("zgui example window", { 500, 350 }, g::Tahoma, zgui::zgu
     //                ^ value after hash is hidden"
     //
     // Hashing is demystified in zgui.hh
+    // Search for [hashing controls names] to get more details.
     zgui::end_window();
 }
 ```
