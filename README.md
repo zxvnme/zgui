@@ -22,12 +22,6 @@ See below gif for preview.
 ## How to use & example
 The core thing that you need to do is to wrap some rendering functions.
 
-At first, you should specify window name from where the input will be read from (top of `zgui.cc`)
-
-```cpp
-constexpr std::string_view INPUT_WINDOW{ "" };
-```
-
 In top of `hooks.cc` (whatever) create some proxy functions.
 
 ```cpp
@@ -53,6 +47,9 @@ zgui::functions.get_frametime = get_frametime;
 and finally, you can render the gui, here's short demo
 
 ```cpp
+// Start input loop
+zgui::poll_input("type_window_name_here"); // Improper calling will result in exception.
+
 static bool example = false;
 static int example_int = 10;
 if (zgui::begin_window("zgui example window", { 500, 350 }, g::Tahoma, zgui::zgui_window_flags_none))
