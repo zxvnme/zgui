@@ -7,7 +7,7 @@
 
 // zgui by zxvnme (https://github.com/zxvnme) and all the community contributors
 #define ZGUI_VER "1.4.2" // the number after second dot is snapshot version.
-/* ================================================================================================
+/* =============================[general]===============================
  *
  * zgui is an simple framework created to help people with GUI rendering during their game hacking (but not only) journey.
  * here is glance zgui feature presentation:
@@ -16,69 +16,90 @@
  *	- extensible code.
  *	... and function documentation in section below:
  *
- *  ================================================================================================
+ *    ================================[pseudo documentation]=====================================
  *
- *  get_functions()
- *  -- function that is used to get our wrapped ones.
+ *    get_functions()
+ *      -- function that is used to get our wrapped ones.
  *
- *  begin_window(std::string_view title, vec2 default_size, unsigned long font, int flags);
- *  end_window();
- *  -- functions used to create and end window.
+ *    begin_window(std::string_view title, vec2 default_size, unsigned long font, int flags);
+ *    end_window();
+ *      -- functions used to create and end window.
  *
- *  begin_groupbox(std::string_view name, vec2 size);
- *  end_groupbox();
- *  -- functions uses to create our groupbox with desired size and end it.
+ *    begin_groupbox(std::string_view name, vec2 size);
+ *    end_groupbox();
+ *      -- functions uses to create our groupbox with desired size and end it.
  *
- *  slider_int(std::string_view id, int min, int max, int* value);
- *  slider_float(std::string_view id, float min, float max, float* value);
- *  -- functions used to create sliders with value type described in function name.
+ *    slider_int(std::string_view id, int min, int max, int* value);
+ *    slider_float(std::string_view id, float min, float max, float* value);
+ *      -- functions used to create sliders with value type described in function name.
  *
- *  combobox(std::string_view id, std::vector<std::string> items, int* value);
- *  multi_combobox(std::string id, std::vector<multi_select_item> items)
- *  -- functions used for creating combo boxes.
+ *    combobox(std::string_view id, std::vector<std::string> items, int* value);
+ *    multi_combobox(std::string id, std::vector<multi_select_item> items)
+ *      -- functions used for creating combo boxes.
  *
- *  checkbox(std::string_view id, bool* value);
- *  -- function that creates checkbox.
+ *    checkbox(std::string_view id, bool* value);
+ *      -- function that creates checkbox.
  *
- *  toggle_button(std::string_view id, vec2 size, bool* value);
- *  -- function that creates toggle button.
+ *    toggle_button(std::string_view id, vec2 size, bool* value);
+ *      -- function that creates toggle button.
  *
- *  button(std::string_view id, vec2 size);
- *  -- function that creates button.
+ *    button(std::string_view id, vec2 size);
+ *      -- function that creates button.
  *
- *  key_bind(std::string_view id, int* value);
- *  -- function that creates key binder.
+ *    key_bind(std::string_view id, int* value);
+ *      -- function that creates key binder.
  *
- *  text_input(std::string_view id, std::string* value, int max_length = 18);
- *  -- functions that creates text input box.
+ *    text_input(std::string_view id, std::string* value, int max_length = 18);
+ *      -- functions that creates text input box.
  *
- *  clickable_text(std::string_view text);
- *  -- function that creates text that can be clicked and eventually perform an action.
+ *    clickable_text(std::string_view text);
+ *      -- function that creates text that can be clicked and eventually perform an action.
  *
- *  text(std::string_view text);
- *  -- function that creates text.
+ *    text(std::string_view text);
+ *      -- function that creates text.
  *
- *  dummy();
- *  -- function that pushes cursor_pos.x to make empty space between our controls.
+ *    dummy();
+ *      -- function that pushes cursor_pos.x to make empty space between our controls.
  *
- *  same_line(float x_axis = -1);
- *  backup_line();
- *  -- functions used for inline controls positioning. NOTE: there can be only one item between these two functions called.
+ *    same_line(float x_axis = -1);
+ *    backup_line();
+ *      -- functions used for inline controls positioning. NOTE: there can be only one item between these two functions called.
  *
- *  ================================================================================================
- *  the '#' thing in control name is separator that splits our name to two elements; actual displayed name & the one that is "hidden"
+ *    ================================[hashing control names]================================
  *
- *  example:
- *    zgui::button("button", { 120, 30 });
- *    zgui::button("button", { 120, 30 });
+ *    the '#' thing in control name is separator that splits our name to two elements; actual displayed name & the one that is "hidden"
  *
- *  code above won't work correctly because of same name provided. (known consequence is clicking 2 buttons at once)
+ *    bad example:
+ *      zgui::button("button", { 120, 30 });
+ *      zgui::button("button", { 120, 30 });
  *
- *  example:
- *    zgui::button("button#button_1", { 120, 30 });
- *    zgui::button("button#button_2", { 120, 30 });
+ *    code above won't work correctly because of same name provided. (known consequence is clicking 2 buttons at once)
  *
- *  and now, above code works fine because unique id (used in window input blocking) is provided after '#'
+ *    good example:
+ *      zgui::button("button#button_1", { 120, 30 });
+ *      zgui::button("button#button_2", { 120, 30 });
+ *
+ *    and now, code above works fine because unique id (used in window input blocking) is provided after '#'
+ *
+ *    ==================================[input handling]======================================
+ *    
+ *    IMPORTANT NOTE: poll_input(); HAS to be called before everything. Otherwise zgui will throw an exception or won't work properly.
+ *
+ *    poll_input("type_your_window_name") is function used to start reading input from window we specify in function parameter (string_view)
+ *
+ *    bad example:
+ *      zgui::poll_input("");
+ *      ... not calling this before whole zgui :)
+ *
+ *    code above won't work correctly because window name string_view size is equal to 0.
+ *
+ *    good example:
+ *      zgui::poll_input("zgui directx9 example");
+ *      zgui::poll_input("Minecraft 1.8.9");
+ *
+ *    and now, code above will work fine if your window titles are "zgui directx9 example" or "Minecraft 1.8.9"
+ *
+ * ================================================================================================
 */
 
 
