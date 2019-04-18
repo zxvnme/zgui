@@ -12,8 +12,6 @@
 constexpr zgui::vec2 BASE_POS{ 16, 23 }; // base position that first control will be created.
 constexpr int ITEM_SPACING{ 16 }; // spacing between controls.
 constexpr int MENU_TOGGLE_KEY{ VK_INSERT }; // virtual key that will trigger our gui open.
-//
-constexpr zgui::vec2 ZERO_VEC{ 0, 0 };
 
 // Color definition. Can be changed at any time just simply by editing this struct.
 static struct {
@@ -285,7 +283,7 @@ void zgui::begin_groupbox(std::string_view title, const vec2 size) noexcept
 void zgui::end_groupbox() noexcept
 {
 	push_cursor_pos(context.window.next_cursor_pos);
-	context.window.next_cursor_pos = ZERO_VEC;
+	context.window.next_cursor_pos = { };
 }
 
 void zgui::checkbox(std::string_view id, bool& value) noexcept
