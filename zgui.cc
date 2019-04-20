@@ -9,9 +9,6 @@
 // heres defines that are designed to be modified by your preferences.
 // see zgui.hh for complete documentation.
 // -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-constexpr zgui::vec2 BASE_POS{ 16, 23 }; // base position that first control will be created.
-constexpr int ITEM_SPACING{ 16 }; // spacing between controls.
-constexpr int MENU_TOGGLE_KEY{ VK_INSERT }; // virtual key that will trigger our gui open.
 
 // Color definition. Can be changed at any time just simply by editing this struct.
 static struct {
@@ -30,6 +27,15 @@ static struct {
 	zgui::color color_slider{ 108, 92, 231, 255 };
 	zgui::color color_combo_bg{ 108, 92, 231, 255 };
 } global_colors;
+
+static struct {
+	// Base position of first drawn control (px). DO NOT change if its necessary
+	zgui::vec2 base_pos{ 16, 23 };
+	// Spacing between items (px)
+	int item_spacing = 16;
+	// Key that will toggle menu visibility unless zgui_window_flags_always_open is set
+	int menu_toggle_key = VK_INSERT;
+} global_config;
 
 // Window definitions.
 static struct gui_context_t {
@@ -54,7 +60,7 @@ static bool input_loop_started = false;
 void zgui::poll_input(std::string_view window_name)
 {
 	if (window_name.empty())
-		throw std::exception("No window from where input should be read from specified (see defines on the top of zgui.cc file). Comment this if you are aware of this and its not an error.");
+		throw std::exception("No window from where input should be read from specified in function parameter.");
 
 	for (int i = 0; i < 256; i++) {
 		prev_key_state[i] = key_state[i];
@@ -87,12 +93,19 @@ constexpr bool key_released(const int key) noexcept
 	return !key_state[key] && prev_key_state[key];
 }
 
-// Positioning
-void push_cursor_pos(const zgui::vec2 pos) noexcept
+// Check if mouse is hovered over specified region.
+bool mouse_in_region(const int x, const int y, const int w, const int h) noexcept
+{
+	return mouse_pos.x > x && mouse_pos.y > y && mouse_pos.x < w + x && mouse_pos.y < h + y;
+}
+
+// Push cursor position to the stack
+void zgui::push_cursor_pos(const zgui::vec2 pos) noexcept
 {
 	context.window.cursor_pos.push(pos);
 }
 
+// Pop cursor position from the stack
 zgui::vec2 pop_cursor_pos() noexcept
 {
 	const zgui::vec2 pos = context.window.cursor_pos.top();
@@ -100,12 +113,7 @@ zgui::vec2 pop_cursor_pos() noexcept
 	return pos;
 }
 
-// Check if mouse is hovered over specified region.
-constexpr bool mouse_in_region(const int x, const int y, const int w, const int h) noexcept
-{
-	return mouse_pos.x > x && mouse_pos.y > y && mouse_pos.x < w + x && mouse_pos.y < h + y;
-}
-
+// Hashing util
 std::vector<std::string> split_str(const char* str, char separator) noexcept
 {
 	std::vector<std::string> output;
@@ -118,6 +126,7 @@ std::vector<std::string> split_str(const char* str, char separator) noexcept
 	return output;
 }
 
+// Names for each of VKs
 constexpr std::string_view keys_list[]{
 "Error", "Left Mouse", "Right Mouse", "Break", "Middle Mouse", "Mouse 4", "Mouse 5",
 "Error", "Backspace", "TAB", "Error", "Error", "Error", "ENTER", "Error", "Error", "SHIFT",
@@ -183,8 +192,14 @@ bool zgui::begin_window(std::string_view title, const vec2 default_size, const u
 
 	context.window.font = font;
 
-	if (key_pressed(MENU_TOGGLE_KEY))
-		context.window.opened = !context.window.opened;
+	if (!(flags & zgui_window_flags_always_open))
+	{
+		if (key_pressed(global_config.menu_toggle_key))
+			context.window.opened = !context.window.opened;
+	}
+	else
+		context.window.opened = true;
+
 
 	if (const int prev_alpha = context.window.alpha; !(flags & zgui_window_flags_no_ontoggle_animation))
 	{
@@ -250,7 +265,7 @@ bool zgui::begin_window(std::string_view title, const vec2 default_size, const u
 
 		functions.draw_filled_rect(context.window.position.x + 9, context.window.position.y + 16, context.window.size.x - 18, context.window.size.y - 25, global_colors.window_background);
 
-		push_cursor_pos(BASE_POS);
+		push_cursor_pos(global_config.base_pos);
 	}
 
 	return context.window.opened || context.window.alpha > 0;
@@ -317,8 +332,8 @@ void zgui::checkbox(std::string_view id, bool& value) noexcept
 		value = !value;
 	}
 
-	push_cursor_pos(vec2{ cursor_pos.x + 14 + text_wide + ITEM_SPACING, cursor_pos.y });
-	push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + ITEM_SPACING });
+	push_cursor_pos(vec2{ cursor_pos.x + 14 + text_wide + global_config.item_spacing, cursor_pos.y });
+	push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + global_config.item_spacing });
 }
 
 void zgui::toggle_button(const char* id, const vec2 size, bool& value) noexcept
@@ -339,8 +354,8 @@ void zgui::toggle_button(const char* id, const vec2 size, bool& value) noexcept
 
 	functions.draw_text(draw_pos.x + size.x / 2 - text_wide / 2, draw_pos.y + size.y / 2 - text_tall / 2, global_colors.color_text, context.window.font, false, id_split[0].c_str());
 
-	push_cursor_pos(vec2{ cursor_pos.x + size.x + ITEM_SPACING, cursor_pos.y });
-	push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + size.y / 2 + ITEM_SPACING });
+	push_cursor_pos(vec2{ cursor_pos.x + size.x + global_config.item_spacing, cursor_pos.y });
+	push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + size.y / 2 + global_config.item_spacing });
 
 	if (const bool hovered = mouse_in_region(draw_pos.x, draw_pos.y, size.x, size.y); !active && hovered && key_pressed(VK_LBUTTON))
 	{
@@ -371,8 +386,8 @@ bool zgui::button(const char* id, const vec2 size) noexcept
 
 	functions.draw_text(draw_pos.x + size.x / 2 - text_wide / 2, draw_pos.y + size.y / 2 - text_tall / 2, global_colors.color_text, context.window.font, false, id_split[0].data());
 
-	push_cursor_pos(vec2{ cursor_pos.x + size.x + ITEM_SPACING, cursor_pos.y });
-	push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + size.y / 2 + ITEM_SPACING });
+	push_cursor_pos(vec2{ cursor_pos.x + size.x + global_config.item_spacing, cursor_pos.y });
+	push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + size.y / 2 + global_config.item_spacing });
 
 	bool result = false;
 	if (const bool hovered = mouse_in_region(draw_pos.x, draw_pos.y, size.x, size.y); !active && hovered && key_pressed(VK_LBUTTON))
@@ -420,8 +435,8 @@ void zgui::key_bind(const char* id, int& value) noexcept
 
 	functions.draw_text(draw_pos.x + 4, draw_pos.y + 4, global_colors.color_text, context.window.font, false, active ? "Press any key" : keys_list[value].data());
 
-	push_cursor_pos(vec2{ cursor_pos.x + control_width + ITEM_SPACING, cursor_pos.y });
-	push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + control_height / 2 + ITEM_SPACING + (inlined ? 0 : 12) });
+	push_cursor_pos(vec2{ cursor_pos.x + control_width + global_config.item_spacing, cursor_pos.y });
+	push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + control_height / 2 + global_config.item_spacing + (inlined ? 0 : 12) });
 
 	if (const bool hovered = mouse_in_region(draw_pos.x, draw_pos.y, control_width, control_height); hovered && key_pressed(VK_LBUTTON) && context.window.blocking == 0)
 	{
@@ -473,8 +488,8 @@ void zgui::text_input(const char* id, std::string& value, const int max_length, 
 
 	functions.draw_text(draw_pos.x + 4, draw_pos.y + 4, global_colors.color_text, context.window.font, false, flags & zgui_text_input_flags_password ? std::string(value.length(), '*').c_str() : value.c_str());
 
-	push_cursor_pos(vec2{ cursor_pos.x + control_width + ITEM_SPACING, cursor_pos.y });
-	push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + control_height / 2 + ITEM_SPACING + (inlined ? 0 : 12) });
+	push_cursor_pos(vec2{ cursor_pos.x + control_width + global_config.item_spacing, cursor_pos.y });
+	push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + control_height / 2 + global_config.item_spacing + (inlined ? 0 : 12) });
 
 	if (hovered && key_pressed(VK_LBUTTON) && !active)
 	{
@@ -583,8 +598,8 @@ void zgui::slider_int(const char* id, const int min, const int max, int& value) 
 		context.window.blocking = 0;
 	}
 
-	push_cursor_pos(vec2{ cursor_pos.x + control_width + 14 + ITEM_SPACING, cursor_pos.y });
-	push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + control_height / 2 + ITEM_SPACING + (inlined ? 0 : 12) });
+	push_cursor_pos(vec2{ cursor_pos.x + control_width + 14 + global_config.item_spacing, cursor_pos.y });
+	push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + control_height / 2 + global_config.item_spacing + (inlined ? 0 : 12) });
 
 }
 
@@ -621,13 +636,13 @@ void zgui::combobox(const char* id, std::vector<std::string>items, int& value) n
 
 	if (context.window.blocking == std::hash<const char*>()(id))
 	{
-		push_cursor_pos(vec2{ cursor_pos.x + control_width + ITEM_SPACING, cursor_pos.y });
-		push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + control_height / 2 + ITEM_SPACING + (inlined ? 0 : 12) + 20 * items.size() });
+		push_cursor_pos(vec2{ cursor_pos.x + control_width + global_config.item_spacing, cursor_pos.y });
+		push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + control_height / 2 + global_config.item_spacing + (inlined ? 0 : 12) + 20 * items.size() });
 	}
 	else
 	{
-		push_cursor_pos(vec2{ cursor_pos.x + control_width + ITEM_SPACING, cursor_pos.y });
-		push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + control_height / 2 + ITEM_SPACING + (inlined ? 0 : 12) });
+		push_cursor_pos(vec2{ cursor_pos.x + control_width + global_config.item_spacing, cursor_pos.y });
+		push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + control_height / 2 + global_config.item_spacing + (inlined ? 0 : 12) });
 	}
 
 	if (const bool hovered = mouse_in_region(draw_pos.x, draw_pos.y, control_width, control_height); hovered && key_pressed(VK_LBUTTON) && context.window.blocking == 0)
@@ -720,8 +735,8 @@ void zgui::slider_float(const char* id, const float min, const float max, float&
 		context.window.blocking = 0;
 	}
 
-	push_cursor_pos(vec2{ cursor_pos.x + control_width + 14 + ITEM_SPACING, cursor_pos.y });
-	push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + control_height / 2 + ITEM_SPACING + (inlined ? 0 : 12) });
+	push_cursor_pos(vec2{ cursor_pos.x + control_width + 14 + global_config.item_spacing, cursor_pos.y });
+	push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + control_height / 2 + global_config.item_spacing + (inlined ? 0 : 12) });
 }
 
 void zgui::multi_combobox(const char* id, std::vector<multi_select_item> items) noexcept
@@ -778,13 +793,13 @@ void zgui::multi_combobox(const char* id, std::vector<multi_select_item> items) 
 
 	if (context.window.blocking == std::hash<const char*>()(id))
 	{
-		push_cursor_pos(vec2{ cursor_pos.x + control_width + ITEM_SPACING, cursor_pos.y });
-		push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + control_height / 2 + ITEM_SPACING + (inlined ? 0 : 12) + 20 * items.size() });
+		push_cursor_pos(vec2{ cursor_pos.x + control_width + global_config.item_spacing, cursor_pos.y });
+		push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + control_height / 2 + global_config.item_spacing + (inlined ? 0 : 12) + 20 * items.size() });
 	}
 	else
 	{
-		push_cursor_pos(vec2{ cursor_pos.x + control_width + ITEM_SPACING, cursor_pos.y });
-		push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + control_height / 2 + ITEM_SPACING + (inlined ? 0 : 12) });
+		push_cursor_pos(vec2{ cursor_pos.x + control_width + global_config.item_spacing, cursor_pos.y });
+		push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + control_height / 2 + global_config.item_spacing + (inlined ? 0 : 12) });
 	}
 
 	if (const bool hovered = mouse_in_region(draw_pos.x, draw_pos.y, control_width, control_height); hovered && key_pressed(VK_LBUTTON) && context.window.blocking == 0)
@@ -852,13 +867,13 @@ void zgui::listbox(const char* id, std::vector<multi_select_item> items) noexcep
 
 	if (context.window.blocking == std::hash<const char*>()(id))
 	{
-		push_cursor_pos(vec2{ cursor_pos.x + control_width + ITEM_SPACING, cursor_pos.y });
-		push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + control_height / 2 + ITEM_SPACING + (inlined ? 0 : 12) + 20 * items.size() });
+		push_cursor_pos(vec2{ cursor_pos.x + control_width + global_config.item_spacing, cursor_pos.y });
+		push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + control_height / 2 + global_config.item_spacing + (inlined ? 0 : 12) + 20 * items.size() });
 	}
 	else
 	{
-		push_cursor_pos(vec2{ cursor_pos.x + control_width + ITEM_SPACING, cursor_pos.y });
-		push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + control_height / 2 + ITEM_SPACING + (inlined ? 0 : 12) });
+		push_cursor_pos(vec2{ cursor_pos.x + control_width + global_config.item_spacing, cursor_pos.y });
+		push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + control_height / 2 + global_config.item_spacing + (inlined ? 0 : 12) });
 	}
 
 	if (const bool hovered = mouse_in_region(draw_pos.x, draw_pos.y, control_width, control_height); hovered && key_pressed(VK_LBUTTON) && context.window.blocking == 0)
@@ -883,8 +898,8 @@ bool zgui::clickable_text(const char* id) noexcept
 
 	functions.draw_text(draw_pos.x, draw_pos.y, global_colors.color_text, context.window.font, false, id_split[0].c_str());
 
-	push_cursor_pos(vec2{ cursor_pos.x + text_width + ITEM_SPACING, cursor_pos.y });
-	push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + text_tall / 2 + ITEM_SPACING });
+	push_cursor_pos(vec2{ cursor_pos.x + text_width + global_config.item_spacing, cursor_pos.y });
+	push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + text_tall / 2 + global_config.item_spacing });
 
 	bool result = false;
 
@@ -912,20 +927,20 @@ void zgui::text(std::string_view id) noexcept
 
 	functions.draw_text(draw_pos.x, draw_pos.y, global_colors.color_text, context.window.font, false, id.data());
 
-	push_cursor_pos(vec2{ cursor_pos.x + text_width + ITEM_SPACING, cursor_pos.y });
-	push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + text_tall / 2 + ITEM_SPACING });
+	push_cursor_pos(vec2{ cursor_pos.x + text_width + global_config.item_spacing, cursor_pos.y });
+	push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + text_tall / 2 + global_config.item_spacing });
 }
 
 void zgui::dummy() noexcept
 {
 	const vec2 cursor_pos = pop_cursor_pos();
-	push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + ITEM_SPACING });
+	push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + global_config.item_spacing });
 }
 
-void zgui::next_column(int pusher_x, int pusher_y) noexcept
+void zgui::next_column(const int pusher_x, const int pusher_y) noexcept
 {
 	const vec2 cursor_pos = pop_cursor_pos();
-	vec2 new_cursor_pos{ cursor_pos.x + pusher_x, BASE_POS.y + pusher_y };
+	vec2 new_cursor_pos{ cursor_pos.x + pusher_x, global_config.base_pos.y + pusher_y };
 
 	if (context.window.next_cursor_pos.y != 0)
 		new_cursor_pos.y += 14;
@@ -933,17 +948,17 @@ void zgui::next_column(int pusher_x, int pusher_y) noexcept
 	push_cursor_pos(new_cursor_pos);
 }
 
-void zgui::same_line(float x_axis) noexcept
+void zgui::same_line(const float x_axis) noexcept
 {
 	const vec2 cursor_pos = pop_cursor_pos();
 
 	if (x_axis != -1)
-		push_cursor_pos(vec2{ BASE_POS.x + x_axis, cursor_pos.x });
+		push_cursor_pos(vec2{ global_config.base_pos.x + x_axis, cursor_pos.x });
 }
 
 void zgui::backup_line() noexcept
 {
 	const vec2 cursor_pos = pop_cursor_pos();
 
-	push_cursor_pos(vec2{ BASE_POS.x, cursor_pos.y });
+	push_cursor_pos(vec2{ global_config.base_pos.x, cursor_pos.y });
 }

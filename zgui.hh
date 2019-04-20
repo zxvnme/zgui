@@ -6,7 +6,7 @@
 #include <string_view>
 
 // zgui by zxvnme (https://github.com/zxvnme) and all the community contributors
-#define ZGUI_VER "1.4.2" // the number after second dot is snapshot version.
+#define ZGUI_VER "1.4.3" // the number after second dot is snapshot version.
 /* =============================[general]===============================
  *
  * zgui is an simple framework created to help people with GUI rendering during their game hacking (but not only) journey.
@@ -82,7 +82,7 @@
  *    and now, code above works fine because unique id (used in window input blocking) is provided after '#'
  *
  *    ==================================[input handling]======================================
- *    
+ *
  *    IMPORTANT NOTE: poll_input(); HAS to be called before everything. Otherwise zgui will throw an exception or won't work properly.
  *
  *    poll_input("type_your_window_name") is function used to start reading input from window we specify in function parameter (string_view)
@@ -98,6 +98,7 @@
  *      zgui::poll_input("Minecraft 1.8.9");
  *
  *    and now, code above will work fine if your window titles are "zgui directx9 example" or "Minecraft 1.8.9"
+ *    ================================================================================================
  *
  * ================================================================================================
 */
@@ -129,7 +130,8 @@ namespace zgui {
 		zgui_window_flags_no_border = 1 << 0,
 		zgui_window_flags_no_titlebar = 1 << 1,
 		zgui_window_flags_no_ontoggle_animation = 1 << 2,
-		zgui_window_flags_no_move = 1 << 3
+		zgui_window_flags_no_move = 1 << 3,
+		zgui_window_flags_always_open = 1 << 4,
 	};
 
 	// Flags for text input appereance.
@@ -163,7 +165,11 @@ namespace zgui {
 		int alpha;
 	};
 
+	// Start Input loop
 	void poll_input(std::string_view window_name);
+
+	// Push cursor position to the stack defined in window context
+	void push_cursor_pos(vec2 pos) noexcept;
 
 	bool begin_window(std::string_view title, vec2 default_size, unsigned long font, int flags = 0);
 	void end_window() noexcept;
