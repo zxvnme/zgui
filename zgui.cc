@@ -301,9 +301,9 @@ void zgui::end_groupbox() noexcept
 	context.window.next_cursor_pos = { };
 }
 
-void zgui::checkbox(std::string_view id, bool& value) noexcept
+void zgui::checkbox(const char* id, bool& value) noexcept
 {
-	std::vector<std::string> id_split = split_str(id.data(), '#');
+	std::vector<std::string> id_split = split_str(id, '#');
 
 	const int control_height = 8;
 	const int control_width = 8;
@@ -317,13 +317,13 @@ void zgui::checkbox(std::string_view id, bool& value) noexcept
 	int text_wide, text_tall;
 	functions.get_text_size(context.window.font, id_split[0].c_str(), text_wide, text_tall);
 
-	const bool active = context.window.blocking == std::hash<std::string_view>()(id);
+	const bool active = context.window.blocking == std::hash<const char*>()(id);
 
 	functions.draw_text(draw_pos.x + 14, draw_pos.y - 2, value ? global_colors.color_text : global_colors.color_text_dimmer, context.window.font, false, id_split[0].c_str());
 
 	if (const bool hovered = mouse_in_region(draw_pos.x, draw_pos.y, control_width + 6 + text_wide, control_height); !active && hovered && key_pressed(VK_LBUTTON))
 	{
-		context.window.blocking = std::hash<std::string_view>()(id);
+		context.window.blocking = std::hash<const char*>()(id);
 	}
 	else if (active && !key_down(VK_LBUTTON))
 	{
@@ -903,15 +903,15 @@ bool zgui::clickable_text(const char* id) noexcept
 	return result;
 }
 
-void zgui::text(std::string_view id) noexcept
+void zgui::text(const char* text) noexcept
 {
 	const vec2 cursor_pos = pop_cursor_pos();
 	const vec2 draw_pos{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
 
 	int text_width, text_tall;
-	functions.get_text_size(context.window.font, id.data(), text_width, text_tall);
+	functions.get_text_size(context.window.font, text, text_width, text_tall);
 
-	functions.draw_text(draw_pos.x, draw_pos.y, global_colors.color_text, context.window.font, false, id.data());
+	functions.draw_text(draw_pos.x, draw_pos.y, global_colors.color_text, context.window.font, false, text);
 
 	push_cursor_pos(vec2{ cursor_pos.x + text_width + global_config.item_spacing, cursor_pos.y });
 	push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + text_tall / 2 + global_config.item_spacing });

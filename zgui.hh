@@ -190,7 +190,7 @@ namespace zgui {
 
 	void listbox(const char* id, std::vector<multi_select_item> items) noexcept;
 
-	void checkbox(std::string_view id, bool& value) noexcept;
+	void checkbox(const char* id, bool& value) noexcept;
 	void toggle_button(const char* id, vec2 size, bool& value) noexcept;
 	bool button(const char* id, vec2 size) noexcept;
 
@@ -198,7 +198,7 @@ namespace zgui {
 	void text_input(const char* id, std::string& value, int max_length = 16, int flags = 0) noexcept;
 
 	bool clickable_text(const char* id) noexcept;
-	void text(std::string_view id) noexcept;
+	void text(const char* text) noexcept;
 	void dummy() noexcept;
 
 	void next_column(int pusher_x = 174, int pusher_y = 14) noexcept;
