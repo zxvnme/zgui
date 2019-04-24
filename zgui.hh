@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <string_view>
+#include <type_traits>
 
 // zgui by zxvnme (https://github.com/zxvnme) and all the community contributors
 #define ZGUI_VER "1.4.4" // the number after second dot is snapshot version.
@@ -115,12 +116,12 @@ namespace zgui {
 	struct color { int r, g, b, a; };
 
 	/// "Proxy" functions definitions.
-	using line_t = void(*)(int, int, int, int, color) noexcept;
-	using rect_t = void(*)(int, int, int, int, color) noexcept;
-	using filled_rect_t = void(*)(int, int, int, int, color) noexcept;
-	using text_t = void(*)(int, int, color, int, bool, const char*, ...) noexcept;
-	using get_text_size_t = void(*)(unsigned long, const wchar_t*, int&, int&) noexcept;
-	using get_frametime = float(*)() noexcept;
+	using line_t = std::add_pointer_t<void(int x, int y, int x2, int y2, color color) noexcept>;
+	using rect_t = std::add_pointer_t<void(int x, int y, int x2, int y2, color color) noexcept>;
+	using filled_rect_t = std::add_pointer_t<void(int x, int y, int x2, int y2, color color) noexcept>;
+	using text_t = std::add_pointer_t<void(int x, int y, color color, int font, bool center, const char* text) noexcept>;
+	using get_text_size_t = std::add_pointer_t<void(unsigned long font, const char* text, int& wide, int& tall) noexcept>;
+	using get_frametime = std::add_pointer_t<float() noexcept>;
 	///
 
 	// "Proxy" functions stuff...

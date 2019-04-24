@@ -315,8 +315,7 @@ void zgui::checkbox(std::string_view id, bool& value) noexcept
 	functions.draw_filled_rect(draw_pos.x + 1, draw_pos.y + 1, control_width - 2, control_height - 2, value ? global_colors.control_active_or_clicked : global_colors.control_idle);
 
 	int text_wide, text_tall;
-	std::wstring text{ id.begin(), id.end() };
-	functions.get_text_size(context.window.font, text.c_str(), text_wide, text_tall);
+	functions.get_text_size(context.window.font, id_split[0].c_str(), text_wide, text_tall);
 
 	const bool active = context.window.blocking == std::hash<std::string_view>()(id);
 
@@ -347,8 +346,7 @@ void zgui::toggle_button(const char* id, const vec2 size, bool& value) noexcept
 	functions.draw_filled_rect(draw_pos.x + 1, draw_pos.y + 1, size.x - 2, size.y - 2, value ? global_colors.control_active_or_clicked : global_colors.control_idle);
 
 	int text_wide, text_tall;
-	std::wstring text{ id_split[0].begin(), id_split[0].end() };
-	functions.get_text_size(context.window.font, text.c_str(), text_wide, text_tall);
+	functions.get_text_size(context.window.font, id_split[0].c_str(), text_wide, text_tall);
 
 	const bool active = context.window.blocking == std::hash<const char*>()(id);
 
@@ -381,8 +379,7 @@ bool zgui::button(const char* id, const vec2 size) noexcept
 	functions.draw_filled_rect(draw_pos.x + 1, draw_pos.y + 1, size.x - 2, size.y - 2, active ? global_colors.control_active_or_clicked : global_colors.control_idle);
 
 	int text_wide, text_tall;
-	std::wstring text{ id_split[0].begin(), id_split[0].end() };
-	functions.get_text_size(context.window.font, text.c_str(), text_wide, text_tall);
+	functions.get_text_size(context.window.font, id_split[0].c_str(), text_wide, text_tall);
 
 	functions.draw_text(draw_pos.x + size.x / 2 - text_wide / 2, draw_pos.y + size.y / 2 - text_tall / 2, global_colors.color_text, context.window.font, false, id_split[0].data());
 
@@ -420,8 +417,7 @@ void zgui::key_bind(const char* id, int& value) noexcept
 	if (!inlined)
 	{
 		int text_wide, text_tall;
-		std::wstring text{ id_split[0].begin(), id_split[0].end() };
-		functions.get_text_size(context.window.font, text.c_str(), text_wide, text_tall);
+		functions.get_text_size(context.window.font, id_split[0].c_str(), text_wide, text_tall);
 
 		functions.draw_text(draw_pos.x, draw_pos.y - 4, global_colors.color_text, context.window.font, false, id_split[0].c_str());
 
@@ -472,8 +468,7 @@ void zgui::text_input(const char* id, std::string& value, const int max_length, 
 	if (!inlined)
 	{
 		int text_wide, text_tall;
-		std::wstring text{ id_split[0].begin(), id_split[0].end() };
-		functions.get_text_size(context.window.font, text.c_str(), text_wide, text_tall);
+		functions.get_text_size(context.window.font, id_split[0].c_str(), text_wide, text_tall);
 
 		functions.draw_text(draw_pos.x, draw_pos.y - 4, global_colors.color_text, context.window.font, false, id_split[0].c_str());
 
@@ -548,8 +543,7 @@ void zgui::slider_int(const char* id, const int min, const int max, int& value) 
 	if (!inlined)
 	{
 		int text_wide, text_tall;
-		std::wstring text{ id_split[0].begin(), id_split[0].end() };
-		functions.get_text_size(context.window.font, text.c_str(), text_wide, text_tall);
+		functions.get_text_size(context.window.font, id_split[0].c_str(), text_wide, text_tall);
 
 		functions.draw_text(draw_pos.x, draw_pos.y - 4, global_colors.color_text, context.window.font, false, id_split[0].c_str());
 
@@ -564,8 +558,7 @@ void zgui::slider_int(const char* id, const int min, const int max, int& value) 
 
 	int text_wide, text_tall;
 	std::string value_str = std::to_string(value);
-	std::wstring text{ value_str.begin(), value_str.end() };
-	functions.get_text_size(context.window.font, text.c_str(), text_wide, text_tall);
+	functions.get_text_size(context.window.font, value_str.c_str(), text_wide, text_tall);
 
 	int text_x = dynamic_width - text_wide;
 
@@ -620,8 +613,8 @@ void zgui::combobox(const char* id, std::vector<std::string>items, int& value) n
 	if (!inlined)
 	{
 		int text_wide, text_tall;
-		std::wstring text{ id_split[0].begin(), id_split[0].end() };
-		functions.get_text_size(context.window.font, text.c_str(), text_wide, text_tall);
+
+		functions.get_text_size(context.window.font, id_split[0].c_str(), text_wide, text_tall);
 
 		functions.draw_text(draw_pos.x, draw_pos.y - 4, global_colors.color_text, context.window.font, false, id_split[0].c_str());
 
@@ -683,8 +676,7 @@ void zgui::slider_float(const char* id, const float min, const float max, float&
 	if (!inlined)
 	{
 		int text_wide, text_tall;
-		std::wstring text{ id_split[0].begin(), id_split[0].end() };
-		functions.get_text_size(context.window.font, text.c_str(), text_wide, text_tall);
+		functions.get_text_size(context.window.font, id_split[0].c_str(), text_wide, text_tall);
 
 		functions.draw_text(draw_pos.x, draw_pos.y - 4, global_colors.color_text, context.window.font, false, id_split[0].c_str());
 
@@ -701,8 +693,7 @@ void zgui::slider_float(const char* id, const float min, const float max, float&
 	std::stringstream ss;
 	ss << std::fixed << std::setprecision(2) << value;
 	std::string value_str = ss.str();
-	std::wstring text{ value_str.begin(), value_str.end() };
-	functions.get_text_size(context.window.font, text.c_str(), text_wide, text_tall);
+	functions.get_text_size(context.window.font, value_str.c_str(), text_wide, text_tall);
 
 	int text_x = dynamic_width - text_wide;
 
@@ -754,8 +745,7 @@ void zgui::multi_combobox(const char* id, std::vector<multi_select_item> items) 
 	if (!inlined)
 	{
 		int text_wide, text_tall;
-		std::wstring text{ id_split[0].begin(), id_split[0].end() };
-		functions.get_text_size(context.window.font, text.c_str(), text_wide, text_tall);
+		functions.get_text_size(context.window.font, id_split[0].c_str(), text_wide, text_tall);
 
 		functions.draw_text(draw_pos.x, draw_pos.y - 4, global_colors.color_text, context.window.font, false, id_split[0].c_str());
 
@@ -779,8 +769,7 @@ void zgui::multi_combobox(const char* id, std::vector<multi_select_item> items) 
 		}
 	}
 
-	std::wstring text = std::wstring(value_str.begin(), value_str.end());
-	functions.get_text_size(context.window.font, text.c_str(), text_wide, text_tall);
+	functions.get_text_size(context.window.font, value_str.c_str(), text_wide, text_tall);
 	if (text_wide > control_width - 18)
 	{
 		value_str.resize(control_width / 10);
@@ -841,8 +830,7 @@ void zgui::listbox(const char* id, std::vector<multi_select_item> items) noexcep
 	if (!inlined)
 	{
 		int text_wide, text_tall;
-		std::wstring text{ id_split[0].begin(), id_split[0].end() };
-		functions.get_text_size(context.window.font, text.c_str(), text_wide, text_tall);
+		functions.get_text_size(context.window.font, id_split[0].c_str(), text_wide, text_tall);
 
 		functions.draw_text(draw_pos.x, draw_pos.y - 4, global_colors.color_text, context.window.font, false, id_split[0].c_str());
 
@@ -891,8 +879,7 @@ bool zgui::clickable_text(const char* id) noexcept
 	const vec2 draw_pos{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
 
 	int text_width, text_tall;
-	std::wstring text_wide{ id_split[0].begin(), id_split[0].end() };
-	functions.get_text_size(context.window.font, text_wide.c_str(), text_width, text_tall);
+	functions.get_text_size(context.window.font, id_split[0].c_str(), text_width, text_tall);
 
 	const bool active = context.window.blocking == std::hash<const char*>()(id);
 
@@ -922,8 +909,7 @@ void zgui::text(std::string_view id) noexcept
 	const vec2 draw_pos{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
 
 	int text_width, text_tall;
-	std::wstring text_wide{ id.begin(), id.end() };
-	functions.get_text_size(context.window.font, text_wide.c_str(), text_width, text_tall);
+	functions.get_text_size(context.window.font, id.data(), text_width, text_tall);
 
 	functions.draw_text(draw_pos.x, draw_pos.y, global_colors.color_text, context.window.font, false, id.data());
 
