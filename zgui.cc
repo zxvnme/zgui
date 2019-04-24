@@ -100,21 +100,21 @@ bool mouse_in_region(const int x, const int y, const int w, const int h) noexcep
 }
 
 // Push cursor position to the stack
-void zgui::push_cursor_pos(const zgui::vec2 pos) noexcept
+void zgui::push_cursor_pos(const vec2 pos) noexcept
 {
 	context.window.cursor_pos.push(pos);
 }
 
 // Pop cursor position from the stack
-zgui::vec2 pop_cursor_pos() noexcept
+zgui::vec2 zgui::pop_cursor_pos() noexcept
 {
-	const zgui::vec2 pos = context.window.cursor_pos.top();
+	const vec2 pos = context.window.cursor_pos.top();
 	context.window.cursor_pos.pop();
 	return pos;
 }
 
 // Hashing util
-std::vector<std::string> split_str(const char* str, char separator) noexcept
+std::vector<std::string> split_str(const char* str, const char separator) noexcept
 {
 	std::vector<std::string> output;
 	std::string substring;
@@ -413,7 +413,7 @@ void zgui::key_bind(const char* id, int& value) noexcept
 	value = std::clamp(value, 0, 255);
 
 	const vec2 cursor_pos = pop_cursor_pos();
-	vec2 draw_pos{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
+	vec2 draw_pos{ context.window.position.x + cursor_pos.x + 14, context.window.position.y + cursor_pos.y };
 
 	const bool inlined = id_split[0].empty();
 
@@ -465,7 +465,7 @@ void zgui::text_input(const char* id, std::string& value, const int max_length, 
 	const int control_height = 20;
 
 	const vec2 cursor_pos = pop_cursor_pos();
-	vec2 draw_pos{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
+	vec2 draw_pos{ context.window.position.x + cursor_pos.x + 14, context.window.position.y + cursor_pos.y };
 
 	const bool inlined = id_split[0].empty();
 
@@ -541,7 +541,7 @@ void zgui::slider_int(const char* id, const int min, const int max, int& value) 
 	const int control_height = 10;
 
 	const vec2 cursor_pos = pop_cursor_pos();
-	vec2 draw_pos{ context.window.position.x + cursor_pos.x + 8, context.window.position.y + cursor_pos.y };
+	vec2 draw_pos{ context.window.position.x + cursor_pos.x + 14, context.window.position.y + cursor_pos.y };
 
 	const bool inlined = id_split[0].empty();
 
@@ -613,7 +613,7 @@ void zgui::combobox(const char* id, std::vector<std::string>items, int& value) n
 	value = std::clamp(value, 0, static_cast<int>(items.size()) - 1);
 
 	const vec2 cursor_pos = pop_cursor_pos();
-	vec2 draw_pos{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
+	vec2 draw_pos{ context.window.position.x + cursor_pos.x + 14, context.window.position.y + cursor_pos.y };
 
 	const bool inlined = id_split[0].empty();
 
@@ -676,7 +676,7 @@ void zgui::slider_float(const char* id, const float min, const float max, float&
 	const int control_height = 10;
 
 	const vec2 cursor_pos = pop_cursor_pos();
-	vec2 draw_pos{ context.window.position.x + cursor_pos.x + 8, context.window.position.y + cursor_pos.y };
+	vec2 draw_pos{ context.window.position.x + cursor_pos.x + 14, context.window.position.y + cursor_pos.y };
 
 	const bool inlined = id_split[0].empty();
 
@@ -747,7 +747,7 @@ void zgui::multi_combobox(const char* id, std::vector<multi_select_item> items) 
 	const int control_height = 20;
 
 	const vec2 cursor_pos = pop_cursor_pos();
-	vec2 draw_pos{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
+	vec2 draw_pos{ context.window.position.x + cursor_pos.x + 14, context.window.position.y + cursor_pos.y };
 
 	const bool inlined = id_split[0].empty();
 

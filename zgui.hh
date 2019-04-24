@@ -6,7 +6,7 @@
 #include <string_view>
 
 // zgui by zxvnme (https://github.com/zxvnme) and all the community contributors
-#define ZGUI_VER "1.4.3" // the number after second dot is snapshot version.
+#define ZGUI_VER "1.4.4" // the number after second dot is snapshot version.
 /* =============================[general]===============================
  *
  * zgui is an simple framework created to help people with GUI rendering during their game hacking (but not only) journey.
@@ -123,9 +123,22 @@ namespace zgui {
 	using get_frametime = float(*)() noexcept;
 	///
 
+	// "Proxy" functions stuff...
+	struct functions_t
+	{
+		line_t draw_line;
+		rect_t draw_rect;
+		filled_rect_t draw_filled_rect;
+		text_t draw_text;
+		get_text_size_t get_text_size;
+		get_frametime get_frametime;
+	};
+	extern functions_t functions;
+
 	// Flags for window appereance and its behavior.
 	// ex: (zgui_window_flags_no_border | zgui_window_flags_no_titlebar) will cause window to be borderless and without title bar.
-	enum zgui_window_flags {
+	enum zgui_window_flags 
+	{
 		zgui_window_flags_none = 0,
 		zgui_window_flags_no_border = 1 << 0,
 		zgui_window_flags_no_titlebar = 1 << 1,
@@ -142,19 +155,8 @@ namespace zgui {
 		zgui_text_input_flags_password = 1 << 0
 	};
 
-	// "Proxy" functions stuff...
-	struct functions_t {
-		line_t draw_line;
-		rect_t draw_rect;
-		filled_rect_t draw_filled_rect;
-		text_t draw_text;
-		get_text_size_t get_text_size;
-		get_frametime get_frametime;
-	};
-
-	extern functions_t functions;
-
-	struct gui_window_context_t {
+	struct gui_window_context_t 
+	{
 		size_t blocking;
 		std::stack<vec2> cursor_pos;
 		vec2 position, size;
@@ -170,6 +172,8 @@ namespace zgui {
 
 	// Push cursor position to the stack defined in window context
 	void push_cursor_pos(vec2 pos) noexcept;
+	// Pop cursor position from the stack defined in window context
+	vec2 pop_cursor_pos() noexcept;
 
 	bool begin_window(std::string_view title, vec2 default_size, unsigned long font, int flags = 0);
 	void end_window() noexcept;
