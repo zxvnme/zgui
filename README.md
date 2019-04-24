@@ -28,8 +28,8 @@ In top of `hooks.cc` (whatever) create some proxy functions.
 void line(int x, int y, int x2, int y2, zgui::color c) noexcept { /* draw line using your renderer */ }
 void rect(int x, int y, int x2, int y2, zgui::color c) noexcept { /* draw outlined rectangle using your renderer */ }
 void filled_rect(int x, int y, int x2, int y2, zgui::color c) noexcept { /* draw filled rectangle using your renderer */ }
-void text(int x, int y, zgui::color color, int font, bool center, const char* _input, ...) noexcept { /* draw text using your renderer */ }
-void get_text_size(unsigned long font, const wchar_t* text, int& wide, int& tall) noexcept { /* calculate text size here */ }
+void text(int x, int y, zgui::color color, int font, bool center, const char* text) noexcept { /* draw text using your renderer */ }
+void get_text_size(unsigned long font, const char* text, int& wide, int& tall) noexcept { /* calculate text size here */ }
 float get_frametime() noexcept { /* return frametime */ }
 ```
 
