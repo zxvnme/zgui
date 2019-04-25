@@ -68,7 +68,7 @@
  *
  *    ================================[hashing controls names]================================
  *
- *    the '#' thing in control name is separator that splits our name to two elements; actual displayed name & the one that is "hidden"
+ *    the '\0' thing in control name is separator that splits our name to two elements; actual displayed name & the one that is "hidden"
  *
  *    bad example:
  *      zgui::button("button", { 120, 30 });
@@ -77,10 +77,10 @@
  *    code above won't work correctly because of same name provided. (known consequence is clicking 2 buttons at once)
  *
  *    good example:
- *      zgui::button("button#button_1", { 120, 30 });
- *      zgui::button("button#button_2", { 120, 30 });
+ *      zgui::button("button\0button_1", { 120, 30 });
+ *      zgui::button("button\0button_2", { 120, 30 });
  *
- *    and now, code above works fine because unique id (used in window input blocking) is provided after '#'
+ *    and now, code above works fine because unique id (used in window input blocking) is provided after '\0'
  *
  *    ==================================[input handling]======================================
  *
