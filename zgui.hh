@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstdint>
 #include <stack>
 #include <vector>
 #include <string>
@@ -158,7 +159,7 @@ namespace zgui {
 
 	struct gui_window_context_t 
 	{
-		size_t blocking;
+		uint32_t blocking;
 		std::stack<vec2> cursor_pos;
 		vec2 position, size;
 		vec2 next_cursor_pos;
