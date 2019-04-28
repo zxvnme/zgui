@@ -87,7 +87,7 @@
  *
  *    IMPORTANT NOTE: poll_input(); HAS to be called before everything. Otherwise zgui will throw an exception or won't work properly.
  *
- *    poll_input("type_your_window_name") is function used to start reading input from window we specify in function parameter (string_view)
+ *    poll_input("type_your_window_name") or poll_input(hwnd) is function used to start reading input from window we specify in function parameter (string_view) or (HWND)
  *
  *    bad example:
  *      zgui::poll_input("");
@@ -98,8 +98,10 @@
  *    good example:
  *      zgui::poll_input("zgui directx9 example");
  *      zgui::poll_input("Minecraft 1.8.9");
+ *      zgui::poll_input(hwnd); // HWND of your desktop application
  *
- *    and now, code above will work fine if your window titles are "zgui directx9 example" or "Minecraft 1.8.9"
+ *
+ *    and now, code above will work fine if your window titles are "zgui directx9 example", "Minecraft 1.8.9" or when proper HWND is specified.
  *    ================================================================================================
  *
  * ================================================================================================
