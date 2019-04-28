@@ -139,7 +139,7 @@ namespace zgui {
 
 	// Flags for window appereance and its behavior.
 	// ex: (zgui_window_flags_no_border | zgui_window_flags_no_titlebar) will cause window to be borderless and without title bar.
-	enum zgui_window_flags 
+	enum zgui_window_flags
 	{
 		zgui_window_flags_none = 0,
 		zgui_window_flags_no_border = 1 << 0,
@@ -157,7 +157,7 @@ namespace zgui {
 		zgui_text_input_flags_password = 1 << 0
 	};
 
-	struct gui_window_context_t 
+	struct gui_window_context_t
 	{
 		uint32_t blocking;
 		std::stack<vec2> cursor_pos;
@@ -171,6 +171,7 @@ namespace zgui {
 
 	// Start Input loop
 	void poll_input(std::string_view window_name);
+	void poll_input(HWND hwnd);
 
 	// Push cursor position to the stack defined in window context
 	void push_cursor_pos(vec2 pos) noexcept;
