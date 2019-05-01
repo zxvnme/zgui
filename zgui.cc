@@ -624,71 +624,6 @@ void zgui::slider_int(const char* id, const int min, const int max, int& value) 
 
 }
 
-void zgui::combobox(const char* id, std::vector<std::string>items, int& value) noexcept
-{
-	std::vector<std::string> id_split = split_str(id, '#');
-
-	const int control_width = 70;
-	const int control_height = 20;
-
-	value = std::clamp(value, 0, static_cast<int>(items.size()) - 1);
-
-	const vec2 cursor_pos = pop_cursor_pos();
-	vec2 draw_pos{ context.window.position.x + cursor_pos.x + 14, context.window.position.y + cursor_pos.y };
-
-	const bool inlined = id_split[0].empty();
-
-	if (!inlined)
-	{
-		int text_wide, text_tall;
-
-		functions.get_text_size(context.window.font, id_split[0].c_str(), text_wide, text_tall);
-
-		functions.draw_text(draw_pos.x, draw_pos.y - 4, global_colors.color_text, context.window.font, false, id_split[0].c_str());
-
-		draw_pos.y += text_tall;
-	}
-
-	functions.draw_filled_rect(draw_pos.x, draw_pos.y, control_width, control_height, global_colors.control_outline);
-	functions.draw_filled_rect(draw_pos.x + 1, draw_pos.y + 1, control_width - 2, control_height - 2, global_colors.control_idle);
-
-	functions.draw_text(draw_pos.x + 4, draw_pos.y + 4, global_colors.color_text, context.window.font, false, items.at(value).c_str());
-	functions.draw_text(draw_pos.x + control_width - 10, draw_pos.y + 4, global_colors.color_text, context.window.font, false, "+");
-
-	if (context.window.blocking == hash(id))
-	{
-		push_cursor_pos(vec2{ cursor_pos.x + control_width + global_config.item_spacing, cursor_pos.y });
-		push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + control_height / 2 + global_config.item_spacing + (inlined ? 0 : 12) + 20 * items.size() });
-	}
-	else
-	{
-		push_cursor_pos(vec2{ cursor_pos.x + control_width + global_config.item_spacing, cursor_pos.y });
-		push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + control_height / 2 + global_config.item_spacing + (inlined ? 0 : 12) });
-	}
-
-	if (const bool hovered = mouse_in_region(draw_pos.x, draw_pos.y, control_width, control_height); hovered && key_pressed(VK_LBUTTON) && context.window.blocking == 0)
-	{
-		context.window.blocking = hash(id);
-	}
-	else if (context.window.blocking == hash(id))
-	{
-		for (int i = 1; i <= items.size(); i++)
-		{
-			bool hovered = mouse_in_region(draw_pos.x, draw_pos.y + (control_height - 1) * i, control_width, control_height);
-
-			if (hovered && key_pressed(VK_LBUTTON))
-			{
-				context.window.blocking = 0;
-				value = i - 1;
-			}
-
-			functions.draw_filled_rect(draw_pos.x, draw_pos.y + 19 * i, control_width, control_height, global_colors.control_outline);
-			functions.draw_filled_rect(draw_pos.x + 1, draw_pos.y + (19 * i) + 1, control_width - 2, control_height - 2, hovered ? global_colors.color_combo_bg : global_colors.control_idle);
-			functions.draw_text(draw_pos.x + 4, draw_pos.y + (control_height - 1) * i + 4, global_colors.color_text, context.window.font, false, items.at(i - 1).c_str());
-		}
-	}
-}
-
 void zgui::slider_float(const char* id, const float min, const float max, float& value) noexcept
 {
 	std::vector<std::string> id_split = split_str(id, '#');
@@ -756,6 +691,71 @@ void zgui::slider_float(const char* id, const float min, const float max, float&
 
 	push_cursor_pos(vec2{ cursor_pos.x + control_width + 14 + global_config.item_spacing, cursor_pos.y });
 	push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + control_height / 2 + global_config.item_spacing + (inlined ? 0 : 12) });
+}
+
+void zgui::combobox(const char* id, std::vector<std::string>items, int& value) noexcept
+{
+	std::vector<std::string> id_split = split_str(id, '#');
+
+	const int control_width = 70;
+	const int control_height = 20;
+
+	value = std::clamp(value, 0, static_cast<int>(items.size()) - 1);
+
+	const vec2 cursor_pos = pop_cursor_pos();
+	vec2 draw_pos{ context.window.position.x + cursor_pos.x + 14, context.window.position.y + cursor_pos.y };
+
+	const bool inlined = id_split[0].empty();
+
+	if (!inlined)
+	{
+		int text_wide, text_tall;
+
+		functions.get_text_size(context.window.font, id_split[0].c_str(), text_wide, text_tall);
+
+		functions.draw_text(draw_pos.x, draw_pos.y - 4, global_colors.color_text, context.window.font, false, id_split[0].c_str());
+
+		draw_pos.y += text_tall;
+	}
+
+	functions.draw_filled_rect(draw_pos.x, draw_pos.y, control_width, control_height, global_colors.control_outline);
+	functions.draw_filled_rect(draw_pos.x + 1, draw_pos.y + 1, control_width - 2, control_height - 2, global_colors.control_idle);
+
+	functions.draw_text(draw_pos.x + 4, draw_pos.y + 4, global_colors.color_text, context.window.font, false, items.at(value).c_str());
+	functions.draw_text(draw_pos.x + control_width - 10, draw_pos.y + 4, global_colors.color_text, context.window.font, false, "+");
+
+	if (context.window.blocking == hash(id))
+	{
+		push_cursor_pos(vec2{ cursor_pos.x + control_width + global_config.item_spacing, cursor_pos.y });
+		push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + control_height / 2 + global_config.item_spacing + (inlined ? 0 : 12) + 20 * items.size() });
+	}
+	else
+	{
+		push_cursor_pos(vec2{ cursor_pos.x + control_width + global_config.item_spacing, cursor_pos.y });
+		push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + control_height / 2 + global_config.item_spacing + (inlined ? 0 : 12) });
+	}
+
+	if (const bool hovered = mouse_in_region(draw_pos.x, draw_pos.y, control_width, control_height); hovered && key_pressed(VK_LBUTTON) && context.window.blocking == 0)
+	{
+		context.window.blocking = hash(id);
+	}
+	else if (context.window.blocking == hash(id))
+	{
+		for (int i = 1; i <= items.size(); i++)
+		{
+			bool hovered = mouse_in_region(draw_pos.x, draw_pos.y + (control_height - 1) * i, control_width, control_height);
+
+			if (hovered && key_pressed(VK_LBUTTON))
+			{
+				context.window.blocking = 0;
+				value = i - 1;
+			}
+
+			functions.draw_filled_rect(draw_pos.x, draw_pos.y + 19 * i, control_width, control_height, global_colors.control_outline);
+			functions.draw_filled_rect(draw_pos.x + 1, draw_pos.y + (19 * i) + 1, control_width - 2, control_height - 2, hovered ? global_colors.color_combo_bg : global_colors.control_idle);
+			functions.draw_text(draw_pos.x + 4, draw_pos.y + (control_height - 1) * i + 4, global_colors.color_text, context.window.font, false, items.at(i - 1).c_str());
+		}
+	}
 }
 
 void zgui::multi_combobox(const char* id, std::vector<multi_select_item> items) noexcept

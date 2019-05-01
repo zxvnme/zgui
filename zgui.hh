@@ -87,7 +87,7 @@
  *
  *    IMPORTANT NOTE: poll_input(); HAS to be called before everything. Otherwise zgui will throw an exception or won't work properly.
  *
- *    poll_input("type_your_window_name") or poll_input(hwnd) is function used to start reading input from window we specify in function parameter (string_view) or (HWND)
+ *    poll_input("type_your_window_name") is function used to start reading input from window we specify in function parameter (string_view)
  *
  *    bad example:
  *      zgui::poll_input("");
@@ -98,15 +98,13 @@
  *    good example:
  *      zgui::poll_input("zgui directx9 example");
  *      zgui::poll_input("Minecraft 1.8.9");
- *      zgui::poll_input(hwnd); // HWND of your desktop application
  *
- *
- *    and now, code above will work fine if your window titles are "zgui directx9 example", "Minecraft 1.8.9" or when proper HWND is specified.
+ *    and now, code above will work fine if your window titles are "zgui directx9 example" or "Minecraft 1.8.9"
+ *    
  *    ================================================================================================
  *
  * ================================================================================================
 */
-
 
 // For examples and function descriptions see zgui header file.
 namespace zgui {
@@ -173,8 +171,6 @@ namespace zgui {
 
 	// Start Input loop
 	void poll_input(std::string_view window_name);
-	void poll_input(HWND hwnd);
-
 	// Push cursor position to the stack defined in window context
 	void push_cursor_pos(vec2 pos) noexcept;
 	// Pop cursor position from the stack defined in window context
@@ -186,27 +182,35 @@ namespace zgui {
 	void begin_groupbox(std::string_view title, vec2 size) noexcept;
 	void end_groupbox() noexcept;
 
+	void checkbox(const char* id, bool& value) noexcept;
+
+	void toggle_button(const char* id, vec2 size, bool& value) noexcept;
+
+	bool button(const char* id, vec2 size) noexcept;
+
+	void key_bind(const char* id, int& value) noexcept;
+
+	void text_input(const char* id, std::string& value, int max_length = 16, int flags = 0) noexcept;
+
 	void slider_int(const char* id, int min, int max, int& value) noexcept;
+
 	void slider_float(const char* id, float min, float max, float& value) noexcept;
 
 	void combobox(const char*, std::vector<std::string> items, int& value) noexcept;
+
 	void multi_combobox(const char* id, std::vector<multi_select_item> items) noexcept;
 
 	void listbox(const char* id, std::vector<multi_select_item> items) noexcept;
 
-	void checkbox(const char* id, bool& value) noexcept;
-	void toggle_button(const char* id, vec2 size, bool& value) noexcept;
-	bool button(const char* id, vec2 size) noexcept;
-
-	void key_bind(const char* id, int& value) noexcept;
-	void text_input(const char* id, std::string& value, int max_length = 16, int flags = 0) noexcept;
-
 	bool clickable_text(const char* id) noexcept;
+
 	void text(const char* text) noexcept;
+
 	void dummy() noexcept;
 
 	void next_column(int pusher_x = 174, int pusher_y = 14) noexcept;
 
 	void same_line(float x_axis = -1) noexcept;
+
 	void backup_line() noexcept;
 }
