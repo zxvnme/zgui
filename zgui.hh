@@ -239,7 +239,7 @@ namespace zgui {
 
 	void multi_combobox(const char* id, std::vector<multi_select_item> items) noexcept;
 
-	void listbox(const char* id, std::vector<multi_select_item> items, int max_items = 5) noexcept;
+	void listbox(const char* id, std::vector<multi_select_item> items) noexcept;
 
 	bool clickable_text(const char* id) noexcept;
 

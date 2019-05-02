@@ -857,13 +857,12 @@ void zgui::multi_combobox(const char* id, std::vector<multi_select_item> items) 
 	}
 }
 
-void zgui::listbox(const char* id, std::vector<multi_select_item> items, int max_items) noexcept
+void zgui::listbox(const char* id, std::vector<multi_select_item> items) noexcept
 {
 	std::vector<std::string> id_split = split_str(id, '#');
 
 	const int control_width = 100;
 	const int control_height = 20;
-	static int item_index = 0;
 
 	const vec2 cursor_pos = pop_cursor_pos();
 	vec2 draw_pos{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
@@ -880,54 +879,24 @@ void zgui::listbox(const char* id, std::vector<multi_select_item> items, int max
 		draw_pos.y += text_tall;
 	}
 
-	const bool hovered1 = mouse_in_region(draw_pos.x, draw_pos.y - 5, control_width, 5);
-	const bool hovered2 = mouse_in_region(draw_pos.x, draw_pos.y + control_height * max_items + 2, control_width, 5);
+	for (int i = 1; i <= items.size(); i++)
+	{
+		const bool hovered = mouse_in_region(draw_pos.x, draw_pos.y + (control_height - 1) * (i - 1), control_width, control_height);
 
-	if (hovered1 && key_pressed(VK_LBUTTON))
-	{
-		item_index += 1;
-		std::clamp(item_index, 0, static_cast<int>(items.size() - max_items) - 1);
-	}
-	if (hovered2 && key_pressed(VK_LBUTTON))
-	{
-		item_index -= 1;
-		std::clamp(item_index, 0, static_cast<int>(items.size() - 2));
-	}
-	if (items.size() > max_items)
-	{
-		for (int i = 1; i <= 5; i++)
+		if (hovered && key_pressed(VK_LBUTTON))
 		{
-			const bool hovered = mouse_in_region(draw_pos.x, draw_pos.y + (control_height - 1) * (i - 1), control_width, control_height);
-
-			if (hovered && key_pressed(VK_LBUTTON))
-			{
-				context.window.blocking = 0;
-				*items[i - 1 + item_index].value = !*items[i - 1 + item_index].value;
-			}
-			context.window.render.emplace_back(zgui_control_render_t{ { draw_pos.x + 4, draw_pos.y + (control_height - 1) * (i - 1) + 4}, zgui_render_type::zgui_text ,*items[i - 1 + item_index].value || hovered ? global_colors.control_active_or_clicked : global_colors.color_text, items[i - 1 + item_index].name.data() });
+			context.window.blocking = 0;
+			*items[i - 1].value = !*items[i - 1].value;
 		}
-	}
-	else
-	{
-		for (int i = 1; i <= items.size(); i++)
-		{
-			const bool hovered = mouse_in_region(draw_pos.x, draw_pos.y + (control_height - 1) * (i - 1), control_width, control_height);
-
-			if (hovered && key_pressed(VK_LBUTTON))
-			{
-				context.window.blocking = 0;
-				*items[i - 1].value = !*items[i - 1].value;
-			}
-			context.window.render.emplace_back(zgui_control_render_t{ { draw_pos.x + 4, draw_pos.y + (control_height - 1) * (i - 1) + 4}, zgui_render_type::zgui_text ,*items[i - 1].value || hovered ? global_colors.control_active_or_clicked : global_colors.color_text, items[i - 1].name.data() });
-		}
+		context.window.render.emplace_back(zgui_control_render_t{ { draw_pos.x + 4, draw_pos.y + (control_height - 1) * (i - 1) + 4}, zgui_render_type::zgui_text ,*items[i - 1].value || hovered ? global_colors.control_active_or_clicked : global_colors.color_text, items[i - 1].name.data() });
 	}
 
 
-	context.window.render.emplace_back(zgui_control_render_t{ { draw_pos.x + 1, draw_pos.y + 1 }, zgui_render_type::zgui_filled_rect, global_colors.control_idle, "", { control_width - 2, static_cast<float>(control_height * max_items - 2) } });
-	context.window.render.emplace_back(zgui_control_render_t{ { draw_pos.x , draw_pos.y }, zgui_render_type::zgui_filled_rect, global_colors.control_outline, "", { control_width ,  static_cast<float>(control_height * max_items) } });
+	context.window.render.emplace_back(zgui_control_render_t{ { draw_pos.x + 1, draw_pos.y + 1 }, zgui_render_type::zgui_filled_rect, global_colors.control_idle, "", { control_width - 2, static_cast<float>(control_height * items.size() - 2) } });
+	context.window.render.emplace_back(zgui_control_render_t{ { draw_pos.x , draw_pos.y }, zgui_render_type::zgui_filled_rect, global_colors.control_outline, "", { control_width ,  static_cast<float>(control_height * items.size()) } });
 
 	push_cursor_pos(vec2{ cursor_pos.x + control_width + global_config.item_spacing, cursor_pos.y });
-	push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + control_height / 2 + global_config.item_spacing + (inlined ? 0 : 12) + control_height * max_items });
+	push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + control_height / 2 + global_config.item_spacing + (inlined ? 0 : 12) + control_height * items.size() });
 
 	if (const bool hovered = mouse_in_region(draw_pos.x, draw_pos.y, control_width, control_height); hovered && key_pressed(VK_LBUTTON) && context.window.blocking == 0)
 	{
