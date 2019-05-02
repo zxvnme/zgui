@@ -4,7 +4,7 @@
 #include <cctype>
 #include <Windows.h>
 
-#include "zgui.h"
+#include "zgui.hh"
 // zgui by zxvnme (https://github.com/zxvnme)
 // heres defines that are designed to be modified by your preferences.
 // see zgui.hh for complete documentation.
