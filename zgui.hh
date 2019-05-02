@@ -157,6 +157,25 @@ namespace zgui {
 		zgui_text_input_flags_password = 1 << 0
 	};
 
+  // zgui controls enumeration.
+	// WIP
+	enum zgui_controls
+	{
+		zgui_checkbox = 1,
+		zgui_toggle_button,
+		zgui_button,
+		zgui_key_bind,
+		zgui_text_input,
+		zgui_slider_int,
+		zgui_slider_float,
+		zgui_combobox,
+		zgui_multi_combobox,
+		zgui_listbox,
+		zgui_clickable_text,
+		zgui_text,
+		zgui_dummy
+	};
+
 	struct gui_window_context_t
 	{
 		uint32_t blocking;
@@ -172,7 +191,7 @@ namespace zgui {
 	// Start Input loop
 	void poll_input(std::string_view window_name);
 	void poll_input(HWND hwnd);
-  
+
 	// Push cursor position to the stack defined in window context
 	void push_cursor_pos(vec2 pos) noexcept;
 	// Pop cursor position from the stack defined in window context
