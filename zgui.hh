@@ -189,7 +189,7 @@ namespace zgui {
 		vec2 draw_posistion;
 		zgui_render_type render_type;
 		color color;
-		std::string text;
+		const char* text;
 		vec2 size;
 	};
 
