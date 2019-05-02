@@ -77,26 +77,6 @@ void zgui::poll_input(std::string_view window_name)
 		input_loop_started = true;
 }
 
-void zgui::poll_input(HWND hwnd)
-{
-	if (!hwnd)
-		throw std::exception("No window from where input should be read from specified in function parameter.");
-
-	for (int i = 0; i < 256; i++) {
-		prev_key_state[i] = key_state[i];
-		key_state[i] = GetAsyncKeyState(i);
-	}
-
-	POINT p_mouse_pos;
-	GetCursorPos(&p_mouse_pos);
-	ScreenToClient(hwnd, &p_mouse_pos);
-	previous_mouse_pos = mouse_pos;
-	mouse_pos = vec2{ static_cast<float>(p_mouse_pos.x), static_cast<float>(p_mouse_pos.y) };
-
-	if (!input_loop_started)
-		input_loop_started = true;
-}
-
 // Input utilities.
 constexpr bool key_pressed(const int key) noexcept
 {
