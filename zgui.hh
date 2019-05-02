@@ -176,20 +176,20 @@ namespace zgui {
 		zgui_dummy
 	};
 
-	enum zgui_render_type 
+	enum class zgui_render_type 
 	{
-		zgui_draw_line = 1,
-		zgui_draw_rect,
-		zgui_draw_filled_rect,
-		zgui_draw_text
+		zgui_line = 1,
+		zgui_rect,
+		zgui_filled_rect,
+		zgui_text
 	};
 
 	struct zgui_control_render_t
 	{
-		vec2 draw_posistion;
+		vec2 draw_position;
 		zgui_render_type render_type;
 		color color;
-		const char* text;
+		std::string text;
 		vec2 size;
 	};
 
@@ -239,7 +239,7 @@ namespace zgui {
 
 	void multi_combobox(const char* id, std::vector<multi_select_item> items) noexcept;
 
-	void listbox(const char* id, std::vector<multi_select_item> items) noexcept;
+	void listbox(const char* id, std::vector<multi_select_item> items, int max_items = 5) noexcept;
 
 	bool clickable_text(const char* id) noexcept;
 
