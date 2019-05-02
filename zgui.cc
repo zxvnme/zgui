@@ -308,25 +308,17 @@ void zgui::end_window() noexcept
 		switch (context.window.render[i].render_type)
 		{
 			case zgui_draw_line:
-			{
 				functions.draw_line(context.window.render[i].draw_posistion.x, context.window.render[i].draw_posistion.y, context.window.render[i].size.x, context.window.render[i].size.y, context.window.render[i].color);
 				break;
-			}
 			case zgui_draw_rect:
-			{
 				functions.draw_rect(context.window.render[i].draw_posistion.x, context.window.render[i].draw_posistion.y, context.window.render[i].size.x, context.window.render[i].size.y, context.window.render[i].color);
 				break;
-			}
 			case zgui_draw_filled_rect:
-			{
 				functions.draw_filled_rect(context.window.render[i].draw_posistion.x, context.window.render[i].draw_posistion.y, context.window.render[i].size.x, context.window.render[i].size.y, context.window.render[i].color);
 				break;
-			}
 			case zgui_draw_text:
-			{
-				functions.draw_text(context.window.render[i].draw_posistion.x, context.window.render[i].draw_posistion.y, context.window.render[i].color, context.window.font, false, context.window.render[i].text.c_str());
+				functions.draw_text(context.window.render[i].draw_posistion.x, context.window.render[i].draw_posistion.y, context.window.render[i].color, context.window.font, false, context.window.render[i].text));
 				break;
-			}
 		}
 	}
 
