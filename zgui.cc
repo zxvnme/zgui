@@ -77,6 +77,7 @@ void zgui::poll_input(std::string_view window_name)
 		input_loop_started = true;
 }
 
+// Function for starting our input loop.
 void zgui::poll_input(HWND hwnd)
 {
 	if (!hwnd)

@@ -171,6 +171,8 @@ namespace zgui {
 
 	// Start Input loop
 	void poll_input(std::string_view window_name);
+	void poll_input(HWND hwnd);
+  
 	// Push cursor position to the stack defined in window context
 	void push_cursor_pos(vec2 pos) noexcept;
 	// Pop cursor position from the stack defined in window context
