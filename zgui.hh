@@ -100,7 +100,7 @@
  *      zgui::poll_input("Minecraft 1.8.9");
  *
  *    and now, code above will work fine if your window titles are "zgui directx9 example" or "Minecraft 1.8.9"
- *    
+ *
  *    ================================================================================================
  *
  * ================================================================================================
@@ -157,8 +157,8 @@ namespace zgui {
 		zgui_text_input_flags_password = 1 << 0
 	};
 
-  // zgui controls enumeration.
-	// WIP
+	// zgui controls enumeration.
+	  // WIP
 	enum zgui_controls
 	{
 		zgui_checkbox = 1,
@@ -176,10 +176,28 @@ namespace zgui {
 		zgui_dummy
 	};
 
+	enum class zgui_render_type 
+	{
+		zgui_line = 1,
+		zgui_rect,
+		zgui_filled_rect,
+		zgui_text
+	};
+
+	struct zgui_control_render_t
+	{
+		vec2 draw_position;
+		zgui_render_type render_type;
+		color color;
+		std::string text;
+		vec2 size;
+	};
+
 	struct gui_window_context_t
 	{
 		uint32_t blocking;
 		std::stack<vec2> cursor_pos;
+		std::vector<zgui_control_render_t> render;
 		vec2 position, size;
 		vec2 next_cursor_pos;
 		bool dragging;
