@@ -150,33 +150,22 @@ namespace zgui {
 	};
 
 	// Flags for text input appereance.
-	// ex: (zgui_text_input_flags_password) will convert text input (ex: "abcdef") to "******"
+	// ex: (zgui_text_input_flags_password) will convert text input (ex: "abcdef") to "******".
 	enum zgui_text_input_flags
 	{
 		zgui_text_input_flags_none = 0,
 		zgui_text_input_flags_password = 1 << 0
 	};
 
-	// zgui controls enumeration.
-	  // WIP
-	enum zgui_controls
+	// Flags for groupboxes appereance.
+	// ex: (zgui_groupbox_flags_title_centered) will center align title of groupbox.
+	enum zgui_groupbox_flags
 	{
-		zgui_checkbox = 1,
-		zgui_toggle_button,
-		zgui_button,
-		zgui_key_bind,
-		zgui_text_input,
-		zgui_slider_int,
-		zgui_slider_float,
-		zgui_combobox,
-		zgui_multi_combobox,
-		zgui_listbox,
-		zgui_clickable_text,
-		zgui_text,
-		zgui_dummy
+		zgui_groupbox_flags_none = 0,
+		zgui_groupbox_flags_title_centered = 1 << 0,
 	};
 
-	enum class zgui_render_type 
+	enum class zgui_render_type
 	{
 		zgui_line = 1,
 		zgui_rect,
@@ -218,7 +207,7 @@ namespace zgui {
 	bool begin_window(std::string_view title, vec2 default_size, unsigned long font, int flags = 0);
 	void end_window() noexcept;
 
-	void begin_groupbox(std::string_view title, vec2 size) noexcept;
+	void begin_groupbox(std::string_view title, vec2 size, int flags = 0) noexcept;
 	void end_groupbox() noexcept;
 
 	void checkbox(const char* id, bool& value) noexcept;
