@@ -900,7 +900,7 @@ void zgui::listbox(const char* id, std::vector<multi_select_item> items) noexcep
 	context.window.render.emplace_back(zgui_control_render_t{ { draw_pos.x,  draw_pos.y }, zgui_render_type::zgui_filled_rect, global_colors.control_outline, "", { control_width, static_cast<float>(control_height * items.size()) } });
 
 	push_cursor_pos(vec2{ cursor_pos.x + control_width + global_config.item_spacing, cursor_pos.y });
-	push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + control_height / 2 + global_config.item_spacing + (inlined ? 0 : 12) + control_height * items.size() });
+	push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + control_height / 2 + global_config.item_spacing + (inlined ? 0 : 12) + control_height * (items.size() - 1) });
 
 	if (const bool hovered = mouse_in_region(draw_pos.x, draw_pos.y, control_width, control_height); hovered && key_pressed(VK_LBUTTON) && context.window.blocking == 0)
 	{
@@ -920,15 +920,16 @@ bool zgui::clickable_text(const char* id) noexcept
 	functions.get_text_size(context.window.font, id_split[0].c_str(), text_width, text_tall);
 
 	const bool active = context.window.blocking == hash(id);
+	const bool hovered = mouse_in_region(draw_pos.x, draw_pos.y, text_width, text_tall);
 
-	context.window.render.emplace_back(zgui_control_render_t{ { draw_pos.x, draw_pos.y}, zgui_render_type::zgui_text, global_colors.color_text, id_split[0] });
+	context.window.render.emplace_back(zgui_control_render_t{ { draw_pos.x, draw_pos.y}, zgui_render_type::zgui_text, (hovered || context.window.blocking == hash(id)) ? global_colors.control_active_or_clicked : global_colors.color_text, id_split[0] });
 
 	push_cursor_pos(vec2{ cursor_pos.x + text_width + global_config.item_spacing, cursor_pos.y });
 	push_cursor_pos(vec2{ cursor_pos.x, cursor_pos.y + text_tall / 2 + global_config.item_spacing });
 
 	bool result = false;
 
-	if (const bool hovered = mouse_in_region(draw_pos.x, draw_pos.y, text_width, text_tall); !active && hovered && key_pressed(VK_LBUTTON))
+	if (!active && hovered && key_pressed(VK_LBUTTON))
 	{
 		context.window.blocking = hash(id);
 	}
