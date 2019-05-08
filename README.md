@@ -16,7 +16,7 @@ Guide on embedding zgui in your project as well as code examples are on the bott
 
 See below gif for preview.
 
-<img src="https://i.imgur.com/Y9KWXLf.gif" width="500" height="350">
+<img src="https://i.imgur.com/jH2lcDl.gif" width="380" height="350">
 
 
 ## How to use & example
