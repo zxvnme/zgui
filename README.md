@@ -4,6 +4,11 @@
 
 [![forthebadge](https://forthebadge.com/images/badges/made-with-c-plus-plus.svg)](https://forthebadge.com)
 [![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
+<div>
+ 
+[![discord](https://discordapp.com/api/guilds/583423779988832445/widget.png?style=shield)](https://discord.gg/gJVGg7u)
+</div>
+
 </div>
 
 #
@@ -65,6 +70,11 @@ if (zgui::begin_window("zgui example window", { 500, 350 }, g::Tahoma, zgui::zgu
     zgui::end_window();
 }
 ```
+
+### Donators
+Huge thanks to [vocan](https://github.com/vocan) for finance support of the project :)
+
+If you want to be here and give donation to `zgui`, write to me on [official zgui discord](https://discord.gg/gJVGg7u).
 
 ### Acknowledgments
 Special thanks to [cyanidee](https://github.com/cyanidee) for explaining me loads of things.
