@@ -148,12 +148,9 @@ std::vector<std::string> split_str(const char* str, const char separator) noexce
 	return output;
 }
 
-static constexpr auto hash(const char* str) noexcept
+static constexpr uint32_t hash(const char* str, const uint32_t value = 0x811c9dc5) noexcept
 {
-	uint32_t hash = 2166136261;
-	for (; *str; str++)
-		hash = (hash ^ *str) * 16777619;
-	return hash;
+	return *str ? hash(str + 1, (value ^ *str) * 0x1000193ull) : value;
 }
 
 // Names for each of VKs
