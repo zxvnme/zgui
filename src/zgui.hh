@@ -11,7 +11,7 @@
 #define ZGUI_API __declspec(dllexport)
 
 // zgui by zxvnme (https://github.com/zxvnme) and all the community contributors
-#define ZGUI_VER "1.4.7" // the number after second dot is snapshot version.
+#define ZGUI_VER "1.4.8" // the number after second dot is snapshot version.
 /* =============================[general]===============================
  *
  * zgui is an simple framework created to help people with GUI rendering during their game hacking (but not only) journey.
@@ -183,18 +183,19 @@ namespace zgui {
 		color color;
 		std::string text;
 		vec2 size;
+		int font = 0;
 	};
 
 	struct gui_window_context_t
 	{
 		uint32_t blocking;
 		std::stack<vec2> cursor_pos;
+		std::stack<unsigned long> fonts;
 		std::vector<zgui_control_render_t> render;
 		vec2 position, size;
 		vec2 next_cursor_pos;
 		bool dragging;
 		bool opened;
-		int font;
 		int alpha;
 	};
 
@@ -206,6 +207,11 @@ namespace zgui {
 	ZGUI_API void push_cursor_pos(vec2 pos) noexcept;
 	// Pop cursor position from the stack defined in window context
 	ZGUI_API vec2 pop_cursor_pos() noexcept;
+
+	// Push font to the stack defined in window context
+	ZGUI_API void push_font(unsigned long font) noexcept;
+	// Pop font from the stack defined in window context
+	ZGUI_API unsigned long pop_font();
 
 	ZGUI_API bool begin_window(std::string_view title, vec2 default_size, unsigned long font, int flags = 0);
 	ZGUI_API void end_window() noexcept;
