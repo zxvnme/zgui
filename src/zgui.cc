@@ -888,13 +888,13 @@ void zgui::multi_combobox(const char* id, std::vector<multi_select_item> items) 
 		for (int i = 1; i <= items.size(); i++)
 		{
 			bool hovered = mouse_in_region(draw_pos.x, draw_pos.y + (control_height - 1) * i, control_width, control_height);
-
+			bool outofbounds = mouse_in_region(draw_pos.x, draw_pos.y + (control_height - 1), control_width, control_height * i);
 			if (hovered && key_pressed(VK_LBUTTON))
 			{
-				context.window.blocking = 0;
+				context.window.blocking = hash(id);
 				*items[i - 1].value = !*items[i - 1].value;
 			}
-			if (!hovered && key_pressed(VK_LBUTTON))
+			if (!outofbounds && key_pressed(VK_LBUTTON))
 			{
 				context.window.blocking = 0;
 			}
