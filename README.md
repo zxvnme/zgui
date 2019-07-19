@@ -17,9 +17,11 @@ Simple, two file immediate mode gui framework written in **C++17**, mainly aimed
 Its main goals are to be **universal** (it works on all graphics APIs; DirectX, OpenGL, Vulkan etc.) and **dependency free**. Therefore zgui is really **easy to use** and it has simple but aesthetic UI that can be extended or modified easily too.
 
 All functions of framework are described in [header file](zgui.hh).  
-Dont forget to check out [official zgui wiki](https://github.com/zxvnme/zgui/wiki), you will find there documentation of zgui and guide how to use zgui.
+Dont forget to check out [official zgui wiki](https://github.com/zxvnme/zgui/wiki), you will find there documentation of zgui and guide how to use zgui.  
 
-See below gif for preview.
+Also shoutout to [alphauc](https://github.com/alphauc) for example zgui implementation in his [SDK](https://github.com/alphauc/sdk)
+
+See gif for preview.
 
 <img src="https://i.imgur.com/jH2lcDl.gif" width="380" height="350">
 
