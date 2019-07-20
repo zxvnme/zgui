@@ -19,12 +19,12 @@ void zgui::slider_int(const char* id, const int min, const int max, int& value) 
 
 	if (!inlined)
 	{
-		int text_wide, text_tall;
-		functions.get_text_size(font, id_split[0].c_str(), text_wide, text_tall);
+		int text_width, text_height;
+		functions.get_text_size(font, id_split[0].c_str(), text_width, text_height);
 
 		context.window.render.emplace_back(zgui_control_render_t{ { draw_pos.x, draw_pos.y - 4 }, zgui_render_type::zgui_text, global_colors.color_text, id_split[0], vec2{0,0}, font });
 
-		draw_pos.y += text_tall;
+		draw_pos.y += text_height;
 	}
 
 	if (context.window.blocking == 0 && utils::input::mouse_in_region(draw_pos.x - (control_height - 2), draw_pos.y, 8, 10) && utils::input::key_pressed(VK_LBUTTON))
@@ -50,11 +50,11 @@ void zgui::slider_int(const char* id, const int min, const int max, int& value) 
 
 	const int dynamic_width = (static_cast<float>(value) - min) / (max - min) * control_width - 2;
 
-	int text_wide, text_tall;
+	int text_width, text_height;
 	std::string value_str = std::to_string(value);
-	functions.get_text_size(font, value_str.c_str(), text_wide, text_tall);
+	functions.get_text_size(font, value_str.c_str(), text_width, text_height);
 
-	int text_x = dynamic_width - text_wide;
+	int text_x = dynamic_width - text_width;
 
 	if (text_x < 0)
 		text_x = 0;
@@ -90,12 +90,12 @@ void zgui::slider_float(const char* id, const float min, const float max, float&
 
 	if (!inlined)
 	{
-		int text_wide, text_tall;
-		functions.get_text_size(font, id_split[0].c_str(), text_wide, text_tall);
+		int text_width, text_height;
+		functions.get_text_size(font, id_split[0].c_str(), text_width, text_height);
 
 		context.window.render.emplace_back(zgui_control_render_t{ { draw_pos.x, draw_pos.y - 4 }, zgui_render_type::zgui_text, global_colors.color_text, id_split[0], vec2{0,0}, font });
 
-		draw_pos.y += text_tall;
+		draw_pos.y += text_height;
 	}
 
 	if (context.window.blocking == 0 && utils::input::mouse_in_region(draw_pos.x - (control_height - 2), draw_pos.y, 8, 10) && utils::input::key_pressed(VK_LBUTTON))
@@ -121,13 +121,13 @@ void zgui::slider_float(const char* id, const float min, const float max, float&
 
 	const float dynamic_width = (static_cast<float>(value) - min) / (max - min) * control_width - 2;
 
-	int text_wide, text_tall;
+	int text_width, text_height;
 	std::stringstream ss;
 	ss << std::fixed << std::setprecision(2) << value;
 	std::string value_str = ss.str();
-	functions.get_text_size(font, value_str.c_str(), text_wide, text_tall);
+	functions.get_text_size(font, value_str.c_str(), text_width, text_height);
 
-	int text_x = dynamic_width - text_wide;
+	int text_x = dynamic_width - text_width;
 
 	if (text_x < 0)
 		text_x = 0;

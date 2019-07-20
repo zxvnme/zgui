@@ -21,9 +21,9 @@ void zgui::begin_groupbox(std::string_view title, const vec2 size, const int fla
 		}
 		else
 		{
-			int text_wide, text_tall;
-			functions.get_text_size(font, title.data(), text_wide, text_tall);
-			functions.draw_text(draw_pos.x + size.x / 2 - text_wide / 2, draw_pos.y - 8, global_colors.color_text, font, false, title.data());
+			int text_width, text_height;
+			functions.get_text_size(font, title.data(), text_width, text_height);
+			functions.draw_text(draw_pos.x + size.x / 2 - text_width / 2, draw_pos.y - 8, global_colors.color_text, font, false, title.data());
 		}
 	}
 

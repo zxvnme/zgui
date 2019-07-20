@@ -21,12 +21,12 @@ void zgui::key_bind(const char* id, int& value) noexcept
 
 	if (!inlined)
 	{
-		int text_wide, text_tall;
-		functions.get_text_size(font, id_split[0].c_str(), text_wide, text_tall);
+		int text_width, text_height;
+		functions.get_text_size(font, id_split[0].c_str(), text_width, text_height);
 
 		context.window.render.emplace_back(zgui_control_render_t{ { draw_pos.x, draw_pos.y - 4 }, zgui_render_type::zgui_text, global_colors.color_text, id_split[0], vec2{0,0}, font });
 
-		draw_pos.y += text_tall;
+		draw_pos.y += text_height;
 	}
 
 	const bool active = context.window.blocking == utils::hash::hash(id);

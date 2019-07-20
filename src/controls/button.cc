@@ -25,10 +25,10 @@ bool zgui::button(const char* id, const vec2 size) noexcept
 		result = hovered;
 	}
 
-	int text_wide, text_tall;
-	functions.get_text_size(font, id_split[0].c_str(), text_wide, text_tall);
+	int text_width, text_height;
+	functions.get_text_size(font, id_split[0].c_str(), text_width, text_height);
 
-	context.window.render.emplace_back(zgui_control_render_t{ { draw_pos.x + size.x / 2 - text_wide / 2, draw_pos.y + size.y / 2 - text_tall / 2 }, zgui_render_type::zgui_text, global_colors.color_text, id_split[0], vec2{0,0}, font });
+	context.window.render.emplace_back(zgui_control_render_t{ { draw_pos.x + size.x / 2 - text_width / 2, draw_pos.y + size.y / 2 - text_height / 2 }, zgui_render_type::zgui_text, global_colors.color_text, id_split[0], vec2{0,0}, font });
 	context.window.render.emplace_back(zgui_control_render_t{ { draw_pos.x + 1, draw_pos.y + 1 }, zgui_render_type::zgui_filled_rect,  active ? global_colors.control_active_or_clicked : global_colors.control_idle, "", {size.x - 2, size.y - 2} });
 	context.window.render.emplace_back(zgui_control_render_t{ { draw_pos.x, draw_pos.y }, zgui_render_type::zgui_filled_rect, global_colors.control_outline, "", size });
 

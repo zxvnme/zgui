@@ -131,7 +131,7 @@ namespace zgui
 	using rect_t = std::add_pointer_t<void(int x, int y, int x2, int y2, color color) noexcept>;
 	using filled_rect_t = std::add_pointer_t<void(int x, int y, int x2, int y2, color color) noexcept>;
 	using text_t = std::add_pointer_t<void(int x, int y, color color, int font, bool center, const char* text) noexcept>;
-	using get_text_size_t = std::add_pointer_t<void(unsigned long font, const char* text, int& wide, int& tall) noexcept>;
+	using get_text_size_t = std::add_pointer_t<void(unsigned long font, const char* text, int& width, int& height) noexcept>;
 	using get_frametime = std::add_pointer_t<float() noexcept>;
 	///
 

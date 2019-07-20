@@ -21,13 +21,13 @@ void zgui::combobox(const char* id, std::vector<std::string>items, int& value) n
 
 	if (!inlined)
 	{
-		int text_wide, text_tall;
+		int text_width, text_height;
 
-		functions.get_text_size(font, id_split[0].c_str(), text_wide, text_tall);
+		functions.get_text_size(font, id_split[0].c_str(), text_width, text_height);
 
 		context.window.render.emplace_back(zgui_control_render_t{ { draw_pos.x, draw_pos.y - 4 }, zgui_render_type::zgui_text, global_colors.color_text, id_split[0], vec2{0,0}, font });
 
-		draw_pos.y += text_tall;
+		draw_pos.y += text_height;
 	}
 
 	context.window.render.emplace_back(zgui_control_render_t{ { draw_pos.x + control_width - 10, draw_pos.y + 4 }, zgui_render_type::zgui_text, global_colors.color_text,  "+", vec2{0,0}, font });
@@ -85,16 +85,16 @@ void zgui::multi_combobox(const char* id, std::vector<multi_select_item> items) 
 
 	if (!inlined)
 	{
-		int text_wide, text_tall;
-		functions.get_text_size(font, id_split[0].c_str(), text_wide, text_tall);
+		int text_width, text_height;
+		functions.get_text_size(font, id_split[0].c_str(), text_width, text_height);
 
 		context.window.render.emplace_back(zgui_control_render_t{ { draw_pos.x, draw_pos.y - 4 }, zgui_render_type::zgui_text, global_colors.color_text, id_split[0], vec2{0,0}, font });
 
-		draw_pos.y += text_tall;
+		draw_pos.y += text_height;
 	}
 
 	std::string value_str;
-	int text_wide, text_tall;
+	int text_width, text_height;
 
 	for (auto &item_t : items) {
 		if (*item_t.value) {
@@ -105,8 +105,8 @@ void zgui::multi_combobox(const char* id, std::vector<multi_select_item> items) 
 		}
 	}
 
-	functions.get_text_size(font, value_str.c_str(), text_wide, text_tall);
-	if (text_wide > control_width - 18)
+	functions.get_text_size(font, value_str.c_str(), text_width, text_height);
+	if (text_width > control_width - 18)
 	{
 		value_str.resize(control_width / 10);
 		value_str += " ...";
