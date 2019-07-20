@@ -18,7 +18,49 @@
     <ClCompile Include="src\dllmain.cc">
       <Filter>source files</Filter>
     </ClCompile>
-    <ClCompile Include="src\zgui.cc">
+    <ClCompile Include="src\controls\groupbox.cc">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\controls\checkbox.cc">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utils\input_utils.cc">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utils\hash_utils.cc">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utils\misc_utils.cc">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\controls\window.cc">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\controls\toggle_button.cc">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\controls\button.cc">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\controls\key_bind.cc">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\controls\text_input.cc">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\controls\slider.cc">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\controls\combobox.cc">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\controls\listbox.cc">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\controls\text.cc">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\misc\positioning.cc">
       <Filter>source files</Filter>
     </ClCompile>
   </ItemGroup>
