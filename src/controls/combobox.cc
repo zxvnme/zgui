@@ -59,8 +59,8 @@ void zgui::combobox(const char* id, std::vector<std::string>items, int& value) n
 			{
 				context.window.blocking = 0;
 			}
-
-			context.window.render.emplace_back(zgui_control_render_t{ { draw_pos.x + 4, draw_pos.y + (control_height - 1) * i + 4 }, zgui_render_type::zgui_text, global_colors.color_text, items.at(i - 1), vec2{0,0}, font });
+			bool selected = value == i - 1;
+			context.window.render.emplace_back(zgui_control_render_t{ { draw_pos.x + 4, draw_pos.y + (control_height - 1) * i + 4 }, zgui_render_type::zgui_text, selected ? global_colors.control_active_or_clicked : global_colors.color_text, items.at(i - 1), vec2{0,0}, font });
 			context.window.render.emplace_back(zgui_control_render_t{ { draw_pos.x + 1, draw_pos.y + (19 * i) + 1 }, zgui_render_type::zgui_filled_rect, hovered ? global_colors.color_combo_bg : global_colors.control_idle, "", { control_width - 2, control_height - 2 } });
 			context.window.render.emplace_back(zgui_control_render_t{ { draw_pos.x, draw_pos.y + 19 * i }, zgui_render_type::zgui_filled_rect, global_colors.control_outline, "", { control_width, control_height } });
 		}
@@ -131,19 +131,19 @@ void zgui::multi_combobox(const char* id, std::vector<multi_select_item> items) 
 	{
 		for (int i = 1; i <= items.size(); i++)
 		{
-			bool hovered = utils::input::mouse_in_region(draw_pos.x, draw_pos.y + (control_height - 1) * i, control_width, control_height);
-
+			bool hovered = mouse_in_region(draw_pos.x, draw_pos.y + (control_height - 1) * i, control_width, control_height);
+			bool outofbounds = mouse_in_region(draw_pos.x, draw_pos.y + (control_height - 1), control_width, control_height * i);
 			if (hovered && utils::input::key_pressed(VK_LBUTTON))
 			{
-				context.window.blocking = 0;
+				context.window.blocking = hash(id);
 				*items[i - 1].value = !*items[i - 1].value;
 			}
-			if (!hovered && utils::input::key_pressed(VK_LBUTTON))
+			if (!outofbounds && utils::input::key_pressed(VK_LBUTTON))
 			{
 				context.window.blocking = 0;
 			}
-
-			context.window.render.emplace_back(zgui_control_render_t{ { draw_pos.x + 4, draw_pos.y + (control_height - 1) * i + 4 }, zgui_render_type::zgui_text, global_colors.color_text, items[i - 1].name.data(), vec2{0,0}, font });
+			bool selected = *items[i - 1].value >= 1;
+			context.window.render.emplace_back(zgui_control_render_t{ { draw_pos.x + 4, draw_pos.y + (control_height - 1) * i + 4 }, zgui_render_type::zgui_text, selected ? global_colors.control_active_or_clicked : global_colors.color_text, items[i - 1].name.data(), vec2{0,0}, font });
 			context.window.render.emplace_back(zgui_control_render_t{ { draw_pos.x + 1, draw_pos.y + (19 * i) + 1 }, zgui_render_type::zgui_filled_rect, hovered ? global_colors.color_combo_bg : global_colors.control_idle, "", { control_width - 2, control_height - 2 } });
 			context.window.render.emplace_back(zgui_control_render_t{ { draw_pos.x, draw_pos.y + 19 * i }, zgui_render_type::zgui_filled_rect, global_colors.control_outline, "", { control_width, control_height } });
 		}
