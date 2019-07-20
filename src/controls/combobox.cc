@@ -131,11 +131,11 @@ void zgui::multi_combobox(const char* id, std::vector<multi_select_item> items) 
 	{
 		for (int i = 1; i <= items.size(); i++)
 		{
-			bool hovered = mouse_in_region(draw_pos.x, draw_pos.y + (control_height - 1) * i, control_width, control_height);
-			bool outofbounds = mouse_in_region(draw_pos.x, draw_pos.y + (control_height - 1), control_width, control_height * i);
+			bool hovered = utils::input::mouse_in_region(draw_pos.x, draw_pos.y + (control_height - 1) * i, control_width, control_height);
+			const bool outofbounds = utils::input::mouse_in_region(draw_pos.x, draw_pos.y + (control_height - 1), control_width, control_height * i);
 			if (hovered && utils::input::key_pressed(VK_LBUTTON))
 			{
-				context.window.blocking = hash(id);
+				context.window.blocking = utils::hash::hash(id);
 				*items[i - 1].value = !*items[i - 1].value;
 			}
 			if (!outofbounds && utils::input::key_pressed(VK_LBUTTON))
