@@ -151,13 +151,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\controls\button.cc" />
+    <ClCompile Include="src\controls\checkbox.cc" />
+    <ClCompile Include="src\controls\combobox.cc" />
+    <ClCompile Include="src\controls\groupbox.cc" />
+    <ClCompile Include="src\controls\key_bind.cc" />
+    <ClCompile Include="src\controls\listbox.cc" />
+    <ClCompile Include="src\controls\slider.cc" />
+    <ClCompile Include="src\controls\text.cc" />
+    <ClCompile Include="src\controls\text_input.cc" />
+    <ClCompile Include="src\controls\toggle_button.cc" />
+    <ClCompile Include="src\controls\window.cc" />
     <ClCompile Include="src\dllmain.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\zgui.cc" />
+    <ClCompile Include="src\misc\positioning.cc" />
+    <ClCompile Include="src\utils\hash_utils.cc" />
+    <ClCompile Include="src\utils\input_utils.cc" />
+    <ClCompile Include="src\utils\misc_utils.cc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\zgui.hh" />
