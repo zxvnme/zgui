@@ -10,7 +10,7 @@ void zgui::text_input(const char* id, std::string& value, const int max_length, 
 	const int control_width = 80;
 	const int control_height = 20;
 
-	const int font = utils::misc::pop_font();
+	const unsigned long font = utils::misc::pop_font();
 
 	const vec2 cursor_pos = utils::misc::pop_cursor_pos();
 	vec2 draw_pos{ context.window.position.x + cursor_pos.x + 14, context.window.position.y + cursor_pos.y };

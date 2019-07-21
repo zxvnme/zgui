@@ -113,6 +113,5 @@ void zgui::end_window() noexcept
 
 	while (!context.window.cursor_pos.empty())
 		context.window.cursor_pos.pop();
-
 }
 // ========================================================================

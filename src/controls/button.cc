@@ -7,7 +7,7 @@ bool zgui::button(const char* id, const vec2 size) noexcept
 {
 	std::vector<std::string> id_split = utils::hash::split_str(id, '#');
 
-	const int font = utils::misc::pop_font();
+	const unsigned long font = utils::misc::pop_font();
 
 	const vec2 cursor_pos = utils::misc::pop_cursor_pos();
 	const vec2 draw_pos{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };

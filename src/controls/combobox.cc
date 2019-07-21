@@ -12,7 +12,7 @@ void zgui::combobox(const char* id, std::vector<std::string>items, int& value) n
 
 	value = std::clamp(value, 0, static_cast<int>(items.size()) - 1);
 
-	const int font = utils::misc::pop_font();
+	const unsigned long font = utils::misc::pop_font();
 
 	const vec2 cursor_pos = utils::misc::pop_cursor_pos();
 	vec2 draw_pos{ context.window.position.x + cursor_pos.x + 14, context.window.position.y + cursor_pos.y };

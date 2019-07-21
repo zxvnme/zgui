@@ -7,7 +7,7 @@ void zgui::slider_int(const char* id, const int min, const int max, int& value) 
 {
 	std::vector<std::string> id_split = utils::hash::split_str(id, '#');
 
-	const int font = utils::misc::pop_font();
+	const unsigned long font = utils::misc::pop_font();
 
 	const int control_width = 120;
 	const int control_height = 10;
