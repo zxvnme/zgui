@@ -3,7 +3,7 @@
 using namespace zgui::globals;
 //@zgui_packer:resume
 // ========================================================================
-bool zgui::clickable_text(const char* id) noexcept
+bool zgui::clickable_text(const char* id)
 {
 	std::vector<std::string> id_split = utils::hash::split_str(id, '#');
 
@@ -40,7 +40,7 @@ bool zgui::clickable_text(const char* id) noexcept
 	return result;
 }
 // ========================================================================
-void zgui::text(const char* text) noexcept
+void zgui::text(const char* text)
 {
 	const unsigned long font = utils::misc::pop_font();
 

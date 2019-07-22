@@ -3,7 +3,7 @@
 using namespace zgui::globals;
 //@zgui_packer:resume
 // ========================================================================
-void zgui::begin_groupbox(std::string_view title, const vec2 size, const int flags) noexcept
+void zgui::begin_groupbox(std::string_view title, const vec2 size, const int flags)
 {
 	const unsigned long font = utils::misc::pop_font();
 
@@ -34,7 +34,7 @@ void zgui::begin_groupbox(std::string_view title, const vec2 size, const int fla
 	utils::misc::push_font(font);
 }
 // ========================================================================
-void zgui::end_groupbox() noexcept
+void zgui::end_groupbox()
 {
 	utils::misc::push_cursor_pos(context.window.next_cursor_pos);
 	context.window.next_cursor_pos = { };

@@ -116,9 +116,6 @@
 // For examples and function descriptions see zgui header file.
 namespace zgui
 {
-
-
-
 	// Multi selectable item.
 	struct multi_select_item { std::string_view name; bool *value; };
 	// Two dimensional vector.
@@ -322,26 +319,26 @@ namespace zgui
 	{
 		namespace input
 		{
-			bool key_pressed(int key) noexcept;
-			bool key_down(int key) noexcept;
-			bool key_released(int key) noexcept;
-			bool mouse_in_region(int x, int y, int w, int h) noexcept;
+			bool key_pressed(int key);
+			bool key_down(int key);
+			bool key_released(int key);
+			bool mouse_in_region(int x, int y, int w, int h);
 
 		}
 
 		namespace hash
 		{
-			std::vector<std::string> split_str(const char* str, char separator) noexcept;
-			uint32_t hash(const char* str, uint32_t value = 0x811c9dc5) noexcept;
+			std::vector<std::string> split_str(const char* str, char separator);
+			uint32_t hash(const char* str, uint32_t value = 0x811c9dc5);
 
 		}
 
 		namespace misc
 		{
-			ZGUI_API void push_cursor_pos(vec2 pos) noexcept;
-			ZGUI_API vec2 pop_cursor_pos() noexcept;
+			ZGUI_API void push_cursor_pos(vec2 pos);
+			ZGUI_API vec2 pop_cursor_pos();
 
-			ZGUI_API void push_font(unsigned long font) noexcept;
+			ZGUI_API void push_font(unsigned long font);
 			ZGUI_API unsigned long pop_font();
 		}
 
@@ -349,40 +346,40 @@ namespace zgui
 
 
 	ZGUI_API bool begin_window(std::string_view title, vec2 default_size, unsigned long font, int flags = 0);
-	ZGUI_API void end_window() noexcept;
+	ZGUI_API void end_window();
 
-	ZGUI_API void begin_groupbox(std::string_view title, vec2 size, int flags = 0) noexcept;
-	ZGUI_API void end_groupbox() noexcept;
+	ZGUI_API void begin_groupbox(std::string_view title, vec2 size, int flags = 0);
+	ZGUI_API void end_groupbox();
 
-	ZGUI_API void checkbox(const char* id, bool& value) noexcept;
+	ZGUI_API void checkbox(const char* id, bool& value);
 
-	ZGUI_API void toggle_button(const char* id, vec2 size, bool& value) noexcept;
+	ZGUI_API void toggle_button(const char* id, vec2 size, bool& value);
 
-	ZGUI_API bool button(const char* id, vec2 size) noexcept;
+	ZGUI_API bool button(const char* id, vec2 size);
 
-	ZGUI_API void key_bind(const char* id, int& value) noexcept;
+	ZGUI_API void key_bind(const char* id, int& value);
 
-	ZGUI_API void text_input(const char* id, std::string& value, int max_length = 16, int flags = 0) noexcept;
+	ZGUI_API void text_input(const char* id, std::string& value, int max_length = 16, int flags = 0);
 
-	ZGUI_API void slider_int(const char* id, int min, int max, int& value) noexcept;
+	ZGUI_API void slider_int(const char* id, int min, int max, int& value);
 
-	ZGUI_API void slider_float(const char* id, float min, float max, float& value) noexcept;
+	ZGUI_API void slider_float(const char* id, float min, float max, float& value);
 
-	ZGUI_API void combobox(const char*, std::vector<std::string> items, int& value) noexcept;
+	ZGUI_API void combobox(const char*, std::vector<std::string> items, int& value);
 
-	ZGUI_API void multi_combobox(const char* id, std::vector<multi_select_item> items) noexcept;
+	ZGUI_API void multi_combobox(const char* id, std::vector<multi_select_item> items);
 
-	ZGUI_API void listbox(const char* id, std::vector<multi_select_item> items) noexcept;
+	ZGUI_API void listbox(const char* id, std::vector<multi_select_item> items);
 
-	ZGUI_API bool clickable_text(const char* id) noexcept;
+	ZGUI_API bool clickable_text(const char* id);
 
-	ZGUI_API void text(const char* text) noexcept;
+	ZGUI_API void text(const char* text);
 
-	ZGUI_API void dummy() noexcept;
+	ZGUI_API void dummy();
 
-	ZGUI_API void next_column(int pusher_x = 174, int pusher_y = 14) noexcept;
+	ZGUI_API void next_column(int pusher_x = 174, int pusher_y = 14);
 
-	ZGUI_API void same_line(float x_axis = -1) noexcept;
+	ZGUI_API void same_line(float x_axis = -1);
 
-	ZGUI_API void backup_line() noexcept;
+	ZGUI_API void backup_line();
 }

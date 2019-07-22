@@ -3,7 +3,7 @@
 using namespace zgui::globals;
 //@zgui_packer:resume
 // ========================================================================
-void zgui::text_input(const char* id, std::string& value, const int max_length, const int flags) noexcept
+void zgui::text_input(const char* id, std::string& value, const int max_length, const int flags)
 {
 	std::vector<std::string> id_split = utils::hash::split_str(id, '#');
 

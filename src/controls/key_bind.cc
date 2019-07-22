@@ -3,7 +3,7 @@
 using namespace zgui::globals;
 //@zgui_packer:resume
 // ========================================================================
-void zgui::key_bind(const char* id, int& value) noexcept
+void zgui::key_bind(const char* id, int& value)
 {
 	std::vector<std::string> id_split = utils::hash::split_str(id, '#');
 

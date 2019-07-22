@@ -3,7 +3,7 @@
 using namespace zgui::globals;
 //@zgui_packer:resume
 // ========================================================================
-bool zgui::button(const char* id, const vec2 size) noexcept
+bool zgui::button(const char* id, const vec2 size)
 {
 	std::vector<std::string> id_split = utils::hash::split_str(id, '#');
 

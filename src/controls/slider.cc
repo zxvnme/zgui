@@ -3,7 +3,7 @@
 using namespace zgui::globals;
 //@zgui_packer:resume
 // ========================================================================
-void zgui::slider_int(const char* id, const int min, const int max, int& value) noexcept
+void zgui::slider_int(const char* id, const int min, const int max, int& value)
 {
 	std::vector<std::string> id_split = utils::hash::split_str(id, '#');
 
@@ -74,7 +74,7 @@ void zgui::slider_int(const char* id, const int min, const int max, int& value) 
 	utils::misc::push_font(font);
 }
 // ========================================================================
-void zgui::slider_float(const char* id, const float min, const float max, float& value) noexcept
+void zgui::slider_float(const char* id, const float min, const float max, float& value)
 {
 	std::vector<std::string> id_split = utils::hash::split_str(id, '#');
 

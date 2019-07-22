@@ -4,13 +4,13 @@ using namespace zgui::globals;
 //@zgui_packer:resume
 // ========================================================================
 // Push cursor position to the stack defined in window context.
-void zgui::utils::misc::push_cursor_pos(const vec2 pos) noexcept
+void zgui::utils::misc::push_cursor_pos(const vec2 pos)
 {
 	context.window.cursor_pos.push(pos);
 }
 // ========================================================================
 // Pop cursor position from the stack defined in window context.
-zgui::vec2 zgui::utils::misc::pop_cursor_pos() noexcept
+zgui::vec2 zgui::utils::misc::pop_cursor_pos()
 {
 	const vec2 pos = context.window.cursor_pos.top();
 	context.window.cursor_pos.pop();
@@ -18,7 +18,7 @@ zgui::vec2 zgui::utils::misc::pop_cursor_pos() noexcept
 }
 // ========================================================================
 // Pop font from the stack defined in window context.
-void zgui::utils::misc::push_font(const unsigned long font) noexcept
+void zgui::utils::misc::push_font(const unsigned long font)
 {
 	context.window.fonts.push(font);
 }

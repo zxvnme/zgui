@@ -3,7 +3,7 @@
 using namespace zgui::globals;
 //@zgui_packer:resume
 // ========================================================================
-void zgui::checkbox(const char* id, bool& value) noexcept
+void zgui::checkbox(const char* id, bool& value)
 {
 	std::vector<std::string> id_split = utils::hash::split_str(id, '#');
 
