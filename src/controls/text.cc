@@ -42,7 +42,7 @@ bool zgui::clickable_text(const char* id) noexcept
 // ========================================================================
 void zgui::text(const char* text) noexcept
 {
-	const int font = utils::misc::pop_font();
+	const unsigned long font = utils::misc::pop_font();
 
 	const vec2 cursor_pos = utils::misc::pop_cursor_pos();
 	const vec2 draw_pos{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };

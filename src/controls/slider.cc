@@ -81,7 +81,7 @@ void zgui::slider_float(const char* id, const float min, const float max, float&
 	const int control_width = 120;
 	const int control_height = 10;
 
-	const int font = utils::misc::pop_font();
+	const unsigned long font = utils::misc::pop_font();
 
 	const vec2 cursor_pos = utils::misc::pop_cursor_pos();
 	vec2 draw_pos{ context.window.position.x + cursor_pos.x + 14, context.window.position.y + cursor_pos.y };

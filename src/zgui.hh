@@ -190,7 +190,7 @@ namespace zgui
 		color color;
 		std::string text;
 		vec2 size;
-		int font = 0;
+		unsigned long font = 0;
 	};
 
 	struct gui_window_context_t
