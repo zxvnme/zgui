@@ -45,23 +45,24 @@ void zgui::poll_input(HWND hwnd)
 		input_loop_started = true;
 }
 // ========================================================================
-bool zgui::utils::input::key_pressed(const int key) noexcept
+bool zgui::utils::input::key_pressed(const int key)
 {
 	return key_state[key] && !prev_key_state[key];
 }
 // ========================================================================
-bool zgui::utils::input::key_down(const int key) noexcept
+bool zgui::utils::input::key_down(const int key)
 {
 	return key_state[key];
 }
 // ========================================================================
-bool zgui::utils::input::key_released(const int key) noexcept
+bool zgui::utils::input::key_released(const int key)
 {
 	return !key_state[key] && prev_key_state[key];
 }
 // ========================================================================
 // Check if mouse is hovered over specified region.
-bool zgui::utils::input::mouse_in_region(const int x, const int y, const int w, const int h) noexcept
+bool zgui::utils::input::mouse_in_region(const int x, const int y, const int w, const int h)
 {
 	return mouse_pos.x > x && mouse_pos.y > y && mouse_pos.x < w + x && mouse_pos.y < h + y;
 }
+// ========================================================================

@@ -3,9 +3,9 @@
 using namespace zgui::globals;
 //@zgui_packer:resume
 // ========================================================================
-void zgui::begin_groupbox(std::string_view title, const vec2 size, const int flags) noexcept
+void zgui::begin_groupbox(std::string_view title, const vec2 size, const int flags)
 {
-	const int font = utils::misc::pop_font();
+	const unsigned long font = utils::misc::pop_font();
 
 	const vec2 cursor_pos = utils::misc::pop_cursor_pos();
 	const vec2 draw_pos{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
@@ -21,9 +21,9 @@ void zgui::begin_groupbox(std::string_view title, const vec2 size, const int fla
 		}
 		else
 		{
-			int text_wide, text_tall;
-			functions.get_text_size(font, title.data(), text_wide, text_tall);
-			functions.draw_text(draw_pos.x + size.x / 2 - text_wide / 2, draw_pos.y - 8, global_colors.color_text, font, false, title.data());
+			int text_width, text_height;
+			functions.get_text_size(font, title.data(), text_width, text_height);
+			functions.draw_text(draw_pos.x + size.x / 2 - text_width / 2, draw_pos.y - 8, global_colors.color_text, font, false, title.data());
 		}
 	}
 
@@ -34,7 +34,7 @@ void zgui::begin_groupbox(std::string_view title, const vec2 size, const int fla
 	utils::misc::push_font(font);
 }
 // ========================================================================
-void zgui::end_groupbox() noexcept
+void zgui::end_groupbox()
 {
 	utils::misc::push_cursor_pos(context.window.next_cursor_pos);
 	context.window.next_cursor_pos = { };

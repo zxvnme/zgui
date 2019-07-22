@@ -3,14 +3,14 @@
 using namespace zgui::globals;
 //@zgui_packer:resume
 // ========================================================================
-void zgui::listbox(const char* id, std::vector<multi_select_item> items) noexcept
+void zgui::listbox(const char* id, std::vector<multi_select_item> items)
 {
 	std::vector<std::string> id_split = utils::hash::split_str(id, '#');
 
 	const int control_width = 100;
 	const int control_height = 20;
 
-	const int font = utils::misc::pop_font();
+	const unsigned long font = utils::misc::pop_font();
 
 	const vec2 cursor_pos = utils::misc::pop_cursor_pos();
 	vec2 draw_pos{ context.window.position.x + cursor_pos.x, context.window.position.y + cursor_pos.y };
@@ -19,12 +19,12 @@ void zgui::listbox(const char* id, std::vector<multi_select_item> items) noexcep
 
 	if (!inlined)
 	{
-		int text_wide, text_tall;
-		functions.get_text_size(font, id_split[0].c_str(), text_wide, text_tall);
+		int text_width, text_height;
+		functions.get_text_size(font, id_split[0].c_str(), text_width, text_height);
 
 		context.window.render.emplace_back(zgui_control_render_t{ { draw_pos.x, draw_pos.y - 4 }, zgui_render_type::zgui_text, global_colors.color_text, id_split[0], vec2{0,0}, font });
 
-		draw_pos.y += text_tall;
+		draw_pos.y += text_height;
 	}
 
 	for (int i = 1; i <= items.size(); i++)
