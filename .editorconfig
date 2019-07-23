@@ -1,0 +1,16 @@
+# top-most EditorConfig file
+root = true
+
+# Unix-style newlines with a newline ending every file
+# Also, spaces instead of tabs with indent size of 2 spaces
+[*]
+charset = utf-8
+trim_trailing_whitespace = true
+end_of_line = lf
+indent_style = space
+indent_size = 2
+max_line_length = 160
+
+# Indent size of 4 spaces for C/C++ files
+[*.{c,h,cc,hh,cpp,hpp}]
+indent_size = 2
