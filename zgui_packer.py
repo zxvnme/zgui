@@ -50,6 +50,7 @@ if proceed:
   output_contents.append("#include \"./zgui.hh\"")
   output_contents.append("using namespace zgui::globals;")
   output_contents.append("zgui::functions_t zgui::functions;")
+  output_contents.append("zgui::gui_window_context_t zgui::globals::window_ctx;")
 
   for filename in glob.iglob('src/**/*.cc', recursive=True):
       if os.path.split(filename)[1] not in ignored_files:
