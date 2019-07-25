@@ -70,6 +70,7 @@ void zgui::slider_int(const char *id, const int min, const int max, int &value) 
 
     utils::misc::push_font(font);
 }
+
 // ========================================================================
 void zgui::slider_float(const char *id, const float min, const float max, float &value) {
     std::vector<std::string> id_split = utils::hash::split_str(id, '#');

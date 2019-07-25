@@ -79,6 +79,7 @@ bool zgui::begin_window(std::string_view title, const vec2 default_size, const u
 
     return window_ctx.opened || window_ctx.alpha > 0;
 }
+
 // ========================================================================
 void zgui::end_window() {
     for (int i = window_ctx.render.size() - 1; i >= 0; i--) {

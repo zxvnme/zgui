@@ -24,6 +24,7 @@ void zgui::poll_input(std::string_view window_name) {
     if (!input_loop_started)
         input_loop_started = true;
 }
+
 // ========================================================================
 // Function for starting our input loop.
 void zgui::poll_input(HWND hwnd) {
@@ -45,18 +46,22 @@ void zgui::poll_input(HWND hwnd) {
     if (!input_loop_started)
         input_loop_started = true;
 }
+
 // ========================================================================
 bool zgui::utils::input::key_pressed(const int key) {
     return key_state[key] && !prev_key_state[key];
 }
+
 // ========================================================================
 bool zgui::utils::input::key_down(const int key) {
     return key_state[key];
 }
+
 // ========================================================================
 bool zgui::utils::input::key_released(const int key) {
     return !key_state[key] && prev_key_state[key];
 }
+
 // ========================================================================
 // Check if mouse is hovered over specified region.
 bool zgui::utils::input::mouse_in_region(const int x, const int y, const int w, const int h) {

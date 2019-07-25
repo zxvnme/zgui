@@ -171,7 +171,7 @@ namespace zgui {
     // ex: (zgui_groupbox_flags_title_centered) will center align title of groupbox.
     enum zgui_groupbox_flags {
       zgui_groupbox_flags_none = 0,
-      zgui_groupbox_flags_title_centered = 1 << 0,
+      zgui_groupbox_flags_legacy_design = 1 << 0,
     };
 
     enum class zgui_render_type {
@@ -278,6 +278,7 @@ namespace zgui {
           color color_text_dimmer{99, 110, 114, 255};
           color color_slider{108, 92, 231, 255};
           color color_combo_bg{108, 92, 231, 255};
+          color color_groupbox_header{26, 26, 26, 150};
         } global_colors;
 
         static struct {

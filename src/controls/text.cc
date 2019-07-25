@@ -38,6 +38,7 @@ bool zgui::clickable_text(const char *id) {
 
     return result;
 }
+
 // ========================================================================
 void zgui::text(const char *text) {
     const unsigned long font = utils::misc::pop_font();

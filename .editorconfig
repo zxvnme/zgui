@@ -9,5 +9,5 @@ end_of_line = lf
 indent_style = space
 indent_size = 2
 
-[*.{c,h,cc,hh,cpp,hpp}]
+[*.{c, h, cc, hh, cpp, hpp}]
 indent_size = 2

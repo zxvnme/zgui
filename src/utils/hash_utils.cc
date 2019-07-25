@@ -15,6 +15,7 @@ std::vector<std::string> zgui::utils::hash::split_str(const char *str, const cha
 
     return output;
 }
+
 // ========================================================================
 uint32_t zgui::utils::hash::hash(const char *str, const uint32_t value) {
     return *str ? hash(str + 1, (value ^ *str) * 0x1000193ull) : value;
