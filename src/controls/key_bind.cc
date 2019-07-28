@@ -42,6 +42,8 @@ void zgui::key_bind(const char *id, int &value) {
 
                 window_ctx.blocking = 0;
             }
+            if (utils::input::key_pressed(VK_ESCAPE))
+              value = 0;
         }
     }
 

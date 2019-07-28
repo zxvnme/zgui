@@ -30,7 +30,10 @@ void zgui::combobox(const char *id, std::vector<std::string> items, int &value) 
         draw_pos.y += text_height;
     }
 
-    window_ctx.render.emplace_back(zgui_control_render_t{{draw_pos.x + control_width - 10, draw_pos.y + 4}, zgui_render_type::zgui_text, global_colors.color_text, "+", vec2{0, 0}, font});
+    bool active = window_ctx.blocking == utils::hash::hash(id);
+    window_ctx.render.emplace_back(zgui_control_render_t{ {draw_pos.x + control_width - 10, draw_pos.y + 8}, zgui_render_type::zgui_filled_rect, active ? global_colors.color_text : global_colors.color_text_dimmer, "", { 4, 1 } });
+    window_ctx.render.emplace_back(zgui_control_render_t{ {draw_pos.x + control_width - 10, draw_pos.y + 10}, zgui_render_type::zgui_filled_rect, active ? global_colors.color_text : global_colors.color_text_dimmer, "", { 4, 1 } });
+    window_ctx.render.emplace_back(zgui_control_render_t{ {draw_pos.x + control_width - 10, draw_pos.y + 12}, zgui_render_type::zgui_filled_rect, active ? global_colors.color_text : global_colors.color_text_dimmer, "", { 4, 1 } });
     window_ctx.render.emplace_back(zgui_control_render_t{{draw_pos.x + 4, draw_pos.y + 4}, zgui_render_type::zgui_text, global_colors.color_text, items.at(value), vec2{0, 0}, font});
     window_ctx.render.emplace_back(zgui_control_render_t{{draw_pos.x + 1, draw_pos.y + 1}, zgui_render_type::zgui_filled_rect, global_colors.control_idle, "", {control_width - 2, control_height - 2}});
     window_ctx.render.emplace_back(zgui_control_render_t{{draw_pos.x, draw_pos.y}, zgui_render_type::zgui_filled_rect, global_colors.control_outline, "", {control_width, control_height}});
@@ -107,7 +110,10 @@ void zgui::multi_combobox(const char *id, std::vector<multi_select_item> items) 
     if (!value_str.length())
         value_str += "None";
 
-    window_ctx.render.emplace_back(zgui_control_render_t{{draw_pos.x + control_width - 10, draw_pos.y + 4}, zgui_render_type::zgui_text, global_colors.color_text, "+", vec2{0, 0}, font});
+    bool active = window_ctx.blocking == utils::hash::hash(id);
+    window_ctx.render.emplace_back(zgui_control_render_t{ {draw_pos.x + control_width - 10, draw_pos.y + 8}, zgui_render_type::zgui_filled_rect, active ? global_colors.color_text : global_colors.color_text_dimmer, "", { 4, 1 } });
+    window_ctx.render.emplace_back(zgui_control_render_t{ {draw_pos.x + control_width - 10, draw_pos.y + 10}, zgui_render_type::zgui_filled_rect, active ? global_colors.color_text : global_colors.color_text_dimmer, "", { 4, 1 } });
+    window_ctx.render.emplace_back(zgui_control_render_t{ {draw_pos.x + control_width - 10, draw_pos.y + 12}, zgui_render_type::zgui_filled_rect, active ? global_colors.color_text : global_colors.color_text_dimmer, "", { 4, 1 } });
     window_ctx.render.emplace_back(zgui_control_render_t{{draw_pos.x + 4, draw_pos.y + 4}, zgui_render_type::zgui_text, global_colors.color_text, value_str, vec2{0, 0}, font});
     window_ctx.render.emplace_back(zgui_control_render_t{{draw_pos.x + 1, draw_pos.y + 1}, zgui_render_type::zgui_filled_rect, global_colors.control_idle, "", {control_width - 2, control_height - 2}});
     window_ctx.render.emplace_back(zgui_control_render_t{{draw_pos.x, draw_pos.y}, zgui_render_type::zgui_filled_rect, global_colors.control_outline, "", {control_width, control_height}});
