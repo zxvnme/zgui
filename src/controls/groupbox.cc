@@ -40,7 +40,7 @@ void zgui::begin_groupbox(std::string_view title, const vec2 size, const int fla
 
     window_ctx.next_cursor_pos = vec2{cursor_pos.x, cursor_pos.y + size.y + 10};
 
-    utils::misc::push_cursor_pos(vec2{cursor_pos.x + 8, cursor_pos.y + header_height + 8});
+    utils::misc::push_cursor_pos(vec2{ cursor_pos.x + 8, cursor_pos.y + ((flags & zgui_groupbox_flags_legacy_design) ? 0 : header_height) + 8 });
 
     utils::misc::push_font(font);
 }
