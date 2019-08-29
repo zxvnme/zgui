@@ -4,6 +4,9 @@ project(zgui_sfml_graphics CXX)
 add_executable(zgui_sfml_graphics
         ../../../src/graphics.hpp
         ../../../src/graphics.cpp
+        ../../../src/input.hpp
+        sfml_input.hpp
+        sfml_input.cpp
         sfml_graphics.hpp
         sfml_graphics.cpp
         main.cpp)
