@@ -11,3 +11,4 @@ indent_size = 2
 
 [*.{c, h, cc, hh, cpp, hpp}]
 indent_size = 2
+continuation_indent_size = 4
