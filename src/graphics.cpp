@@ -20,7 +20,7 @@ void zgui::Graphics::draw_line(Point start, Point end, Color color) {
   this->append_geometry(vertices, 2);
 }
 
-void zgui::Graphics::fill_rect(zgui::Point position, zgui::Point size, zgui::Color color) {
+void zgui::Graphics::fill_rect(Point position, Point size, zgui::Color color) {
   const std::vector<Vertex> vertices = {
       Vertex(position, Point(0.f, 0.f), color),
       Vertex(Point(position.x + size.x, position.y), Point(0.f, 0.f), color),
