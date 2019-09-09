@@ -1,29 +1,21 @@
-<div align="center">
-<img width="258" src="resources/zgui.png" alt="zgui logo">
-<h4>Simple immediate mode gui framework</h4>
-
-[![forthebadge](https://forthebadge.com/images/badges/made-with-c-plus-plus.svg)](https://forthebadge.com)
-[![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
+ <div style="float: left;">
+<img width="258" src="./zgui_logo.png" alt="zgui logo">
+ 
 <div>
  
-[![discord](https://discordapp.com/api/guilds/583423779988832445/widget.png?style=shield)](https://discord.gg/gJVGg7u)
+![zgui_version](https://img.shields.io/endpoint?url=https%3A%2F%2Fshields.zxvn.me%2Fzgui%2Fversion)
+![zgui_version_type](https://img.shields.io/endpoint?url=https%3A%2F%2Fshields.zxvn.me%2Fzgui%2Fversion_type)
+[![zgui_discord](https://img.shields.io/endpoint?url=https%3A%2F%2Fshields.zxvn.me%2Fzgui%2Fdiscord)](https://discord.gg/gJVGg7u)
 </div>
 
 </div>
-
+ 
 #
 
-Simple, two file immediate mode gui framework written in **C++17**, mainly aimed for people beginning their journey with game hacking (but not limited to).
-Its main goals are to be **universal** (it works on all graphics APIs; DirectX, OpenGL, Vulkan etc.) and **dependency free**. Therefore zgui is really **easy to use** and it has simple but aesthetic UI that can be extended or modified easily too.
-
-All functions of framework are described in [header file](zgui.hh).  
-Dont forget to check out [official zgui wiki](https://github.com/zxvnme/zgui/wiki), you will find there documentation of zgui and guide how to use zgui.  
-
-Also shoutout to [alphauc](https://github.com/alphauc) for example zgui implementation in his [SDK](https://github.com/alphauc/sdk)
-
-See gif for preview.
-
-<img src="https://i.imgur.com/jH2lcDl.gif" width="380" height="350">
+Yet another GUI framework written in **C++17**.
+Its main goal is to **provide** simple but powerful API for creating user inferface. Also `zgui` **dependency free** and its really easy to use. **Code scalability** makes it highly extensible library. 
+  
+__NOTE__: 2.0 version is recode of the base `zgui`, if you want to use old version, you will find it on `legacy` branch.
 
 ### Donators
 Huge thanks to [vocan](https://github.com/vocan) for finance support of the project :)
