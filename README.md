@@ -1,5 +1,5 @@
  <div style="float: left;">
-<img width="258" src="./zgui.png" alt="zgui logo">
+<img width="258" src="./resources/zgui.png" alt="zgui logo">
  
 <div>
  
